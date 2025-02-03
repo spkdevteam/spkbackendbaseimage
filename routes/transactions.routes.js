@@ -4,14 +4,16 @@ const postCreateReceiptEntry = require('../controller/transactions/postCreateRec
 const deleteTransaction = require('../controller/transactions/deleteTransaction')
 const getTransactionByPartyId = require('../controller/transactions/getTransactionByPartyId')
 const getInvoiceBasedSettlement = require('../controller/transactions/getInvoiceBasedSettlement')
+const getPartyOutStanding = require('../controller/transactions/getPartyOutStanding')
 
 const transRoutes = express.Router()
 
 transRoutes
-    .post('/createInvoiceEntry', postCreateCreditEntry)
+    .post('/addOrUpdateTransaction', postCreateReceiptEntry)
     .post('/createReceiptEntry', postCreateReceiptEntry)
     .delete('/deleteTransaction/:clientId/:transactionId', deleteTransaction)
     .get('/transactionByPartyId/:clientId/:partyId/:fromDate/:toDate/:keyWord/:page/:perPage', getTransactionByPartyId)
-    .get('/getInvoiceTransactions/:clientId/:invoiceId',(req,res,next)=>{ console.log('hai') ;next()} , getInvoiceBasedSettlement)
+    .get('/getInvoiceTransactions/:clientId/:invoiceId', getInvoiceBasedSettlement)
+    .get('/partyOutStanding/:partyId/:clientId', (req,res,next)=>{console.log('request received on partyOutStanding end point '),next()},getPartyOutStanding)
 
 module.exports = transRoutes

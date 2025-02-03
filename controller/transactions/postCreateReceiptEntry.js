@@ -9,7 +9,7 @@ const postCreateReceiptEntry = async (req, res, next) => {
         // Generate a unique ID if necessary
         const transactionData = {
             ...data,
-            date: new Date(data.date), // Ensure the date is a valid Date object
+
         };
 
         // Insert the transaction into the database
@@ -17,9 +17,9 @@ const postCreateReceiptEntry = async (req, res, next) => {
 
         // Send the success response
         return res.status(200).json({
-            status: true,
-            message: 'Entry created successfully',
-            data: savedTransaction,
+            status: savedTransaction.status,
+            message: savedTransaction.message,
+            data: savedTransaction.data,
         });
     } catch (error) {
         console.error('Error creating receipt entry:', error.message);

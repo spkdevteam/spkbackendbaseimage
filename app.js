@@ -19,7 +19,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json())
-app.use('/',mainRouter)
+app.use('/',(req,res,next)=>{console.log('request received on server '),next()},mainRouter)
 app.use(errorHandler)
 
 

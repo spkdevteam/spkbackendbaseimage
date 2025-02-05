@@ -20,7 +20,8 @@ const transactionSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     type: { type: String, enum: ['credit', 'debit'], required: true },
     clientId: { type: String, default: '' },
-    invoice: [invoiceSchema]  
+    invoice: [invoiceSchema],  
+    createdAt: { type: Date }
 },{ timestamps: true });
 
 // Create the model

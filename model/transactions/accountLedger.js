@@ -1,93 +1,67 @@
 const { getClientDatabaseConnection } = require("../connection");
 const transactionSchema = require("../transactions");
 
-const accountLedger = async ({ clientId, partyId, fromDate, toDate,page=0,perPage=10,keyWord='' }) => {
+const accountLedger = async ({ clientId, partyId, fromDate, toDate, page = 0, perPage = 10, keyWord = '', sortField = 'createdAt', sortOrder = -1 }) => {
     try {
         const db = await getClientDatabaseConnection(clientId);
         const Transaction = db.model('Transaction', transactionSchema);
-        const startDate = new Date(`${fromDate}T00:00:00.000Z`);
-        const endDate = new Date(`${toDate}T23:59:59.999Z`);
+
+        // Parse dates only if they are provided
+        const startDate = fromDate ? new Date(`${fromDate}T00:00:00.000Z`) : null;
+        const endDate = toDate ? new Date(`${toDate}T23:59:59.999Z`) : null;
+
+        const matchStage = {
+            partyId: partyId,
+            invoice: {
+                $elemMatch: {
+                    $or: [
+                        { invoiceId: new RegExp(keyWord, 'i') },
+                        { displayId: new RegExp(keyWord, 'i') }
+                    ]
+                }
+            }   
+        };
+
+        // Add date range filter only if fromDate and toDate exist
+        if (startDate && endDate) {
+            matchStage.date = { $gte: startDate, $lte: endDate };
+        }
 
         const result = await Transaction.aggregate([
-            {
-                $match:{
-                    partyId:partyId,
-                    invoice:{
-                        $elemMatch:{ $or: [
-                            { invoiceId: new RegExp(keyWord, 'i') },
-                            { displayId: new RegExp(keyWord, 'i') }
-                        ]
-                    }
-                    } 
-                }
-            },
-            // {
-            //     $setWindowFields: {
-            //         partitionBy: "$partyId",
-            //         sortBy: { date: 1, _id: 1 },
-            //         output: {
-            //             cumulativeBalance: {
-            //                 $sum: {
-            //                     $cond: {
-            //                         if: { $eq: ["$type", "debit"] },
-            //                         then: { $multiply: ["$amount", -1] },  
-            //                         else: "$amount" // Add credit
-            //                     }
-            //                 }
-            //             },
-            //             window: {
-            //                 documents: ["unbounded", "current"] // Running total from start
-            //             }
-            //         }
-            //     }
-            // },
-
+            { $match: matchStage },
             {
                 $facet: {
-                    opening: [
-                        { $match: { date: { $lt: startDate } } },
-                        { $group: { _id: null, total: { $sum: "$amount" } } }
-                    ],
+                    opening: startDate
+                        ? [
+                              { $match: { date: { $lt: startDate } } },
+                              { $group: { _id: null, total: { $sum: "$amount" } } }
+                          ]
+                        : [], // If no fromDate, skip opening balance
                     transaction: [
-                        { $match: { date: { $gte: startDate, $lte: endDate } } },
-                        // {$unwind:'$invoice'},
-                        { $project: { _id: 0, transactionId: 1, amount: 1, date: 1,type:1,invoice:1 } },
-                        {$skip:parseInt(page) *parseInt(perPage)  },
-                        {$limit:parseInt(perPage)}
+                        { $project: { _id: 0, transactionId: 1, amount: 1, date: 1, type: 1, invoice: 1 } },
+                        { $sort: { [sortField]: sortOrder } },
+                        { $skip: parseInt(page) * parseInt(perPage) },
+                        { $limit: parseInt(perPage) }
                     ],
-                    closing: [
-                        { $match: { date: { $gt: endDate } } },
-                        { $group: { _id: null, total: { $sum: "$amount" } } }
-                    ],
+                    closing: endDate
+                        ? [
+                              { $match: { date: { $gt: endDate } } },
+                              { $group: { _id: null, total: { $sum: "$amount" } } }
+                          ]
+                        : [], // If no toDate, skip closing balance
                     totalDataCount: [
-                        { $match: { date: { $gte: startDate, $lte: endDate } } },
-                        { $count: "type" } // Count total number of matching records
+                        { $count: "type" } // Count total records
                     ]
-                     
                 }
             }
         ]);
+
         console.log(result[0], 'result');
-        const data = [
-        //     {
-        //     type: "",
-        //     amount: result[0]?.opening?.length ? result[0]?.opening[0]?.total:0,
-        //     date: fromDate,
-        //     invoice: "" ,
-        //     transactionId: "Opening"
-        // },
-        ...result[0]?.transaction ,
-        // {
-        //     type: "",
-        //     amount: result[0]?.closing?.length ? result[0]?.closing[0]?.total:0,
-        //     date: toDate,
-        //     invoice: "" ,
-        //     transactionId: "Closing"
-        // }
-    ]
-        
-        const totalDataCount = result[0]?.totalDataCount[0]?.type
-        return { status: true, message: 'Transaction fetched', data: {data,totalDataCount} };
+
+        const data = [...result[0]?.transaction];
+
+        const totalDataCount = result[0]?.totalDataCount[0]?.type || 0;
+        return { status: true, message: 'Transaction fetched', data: { data, totalDataCount } };
     } catch (error) {
         return { status: false, message: error.message };
     }

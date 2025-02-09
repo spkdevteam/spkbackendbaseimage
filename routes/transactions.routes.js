@@ -6,6 +6,7 @@ const getTransactionByPartyId = require('../controller/transactions/getTransacti
 const getInvoiceBasedSettlement = require('../controller/transactions/getInvoiceBasedSettlement')
 const getPartyOutStanding = require('../controller/transactions/getPartyOutStanding')
 const getAccountLedger = require('../controller/transactions/getAccountLedger')
+const getPartBillwiseOutStanding = require('../controller/transactions/getPartBillwiseOutStanding')
 
 const transRoutes = express.Router()
 
@@ -17,5 +18,6 @@ transRoutes
     .get('/getInvoiceTransactions/:clientId/:invoiceId', getInvoiceBasedSettlement)
     .get('/partyOutStanding/:partyId/:clientId',getPartyOutStanding)
     .get('/accountledger',getAccountLedger)
+    .get('/invoiceWiseOutStanding/:clientId/:partyId',getPartBillwiseOutStanding)
 
 module.exports = transRoutes

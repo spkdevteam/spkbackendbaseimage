@@ -25,6 +25,9 @@ jobs:
       - name: Build the Docker image
         run: docker build -t spkbackend/spkbackend:latest .
 
+      - name: tagging the docker image
+        run: docker tag repoaccounts-app spkdevteam/repoaccounts-app:latest
+
       - name: Push the Docker image
-        run: docker push spkbackend/spkbackend:latest 
-        
+        run: docker push spkbackend/repoaccounts-app:latest 
+

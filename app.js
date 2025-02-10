@@ -7,7 +7,7 @@ const errorHandler = require('./errorHandler/globalErrorHandler.js');
 dotenv.config();
 
 const app = express();
-const port = 8091;
+const port = 8092;
 
 const corsOptions = {
     origin: "*", // Allows requests from all origins

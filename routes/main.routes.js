@@ -5,8 +5,10 @@ const swaggerRouter = require('./swagger.routes')
 
 const mainRouter = express.Router()
 mainRouter
-.use('/transaction',(req,res,next)=>{console.log('request received on transaction route '),next()},transRoutes)
 .use('/api-docs',swaggerRouter)
+.use('/',(req,res)=>{
+    res.json({message:'Request received From '+ req.hostname + req.originalUrl})
+})
 
 module.exports = mainRouter
 

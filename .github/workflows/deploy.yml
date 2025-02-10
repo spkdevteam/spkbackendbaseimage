@@ -1,0 +1,29 @@
+name: Push to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push_to_dockerhub:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Wait for Docker Daemon to be ready
+        run: |
+          until docker info; do 
+            echo "Waiting for Docker to start..."
+            sleep 1
+          done
+
+      - name: Build the Docker image
+        run: docker build -t spkbackend/spkbackend:latest .
+
+      - name: Push the Docker image
+        run: docker push spkbackend/spkbackend:latest

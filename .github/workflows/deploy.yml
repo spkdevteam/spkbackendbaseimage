@@ -26,4 +26,5 @@ jobs:
         run: docker build -t spkbackend/spkbackend:latest .
 
       - name: Push the Docker image
-        run: docker push spkbackend/spkbackend:latest
+        run: docker push spkbackend/spkbackend:latest 
+        

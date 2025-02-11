@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', mainRouter);
-app.use("/test", (req, res)=>{
+app.get("/test", (req, res)=>{
     res.json({ success: true, message: "checking wheather branching is working or not"})
 })
 app.use(errorHandler);

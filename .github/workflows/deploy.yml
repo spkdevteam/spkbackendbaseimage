@@ -29,6 +29,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/spkbackend:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/spkbackend:cache
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spkbackend:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/spkbackend:cache
           cache-to: type=inline

@@ -27,6 +27,14 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/test", async(req, res) =>{
+    try {
+        res.send({message: "hello world.."})
+    } catch (error) {
+        console.error("error", error)
+    }
+})
+
 app.use('/', mainRouter);
 app.use(errorHandler);
 

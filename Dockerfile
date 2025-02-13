@@ -14,4 +14,5 @@ RUN npm install
 COPY . .
 
 # 7. Set the command to start the app
-CMD ["npm", "start"]
+ENTRYPOINT ["npm"]
+CMD ["start"]

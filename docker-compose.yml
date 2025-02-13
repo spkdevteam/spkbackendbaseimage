@@ -1,0 +1,14 @@
+services:
+  app: 
+    build:
+      context: .
+    ports:
+      - "8092:8092"
+    environment:
+      - DATABASE_URL = "mongodb+srv://shkzayn9832:68GVFfwhIR41oKYf@cluster0.oipmb.mongodb.net/"
+    networks:
+      - my-network
+networks:
+  my-network: 
+    driver: bridge
+    

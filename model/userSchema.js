@@ -14,7 +14,6 @@ const userSchema = new Schema(
             type: String,
             lowercase: true,
             trim: true,
-
         },
         phone: {
             type: String,
@@ -65,5 +64,7 @@ const userSchema = new Schema(
 );
 
 
+
+const userModel = mongoose.model("User", userSchema);
 
 module.exports = userSchema;

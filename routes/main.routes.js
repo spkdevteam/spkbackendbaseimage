@@ -1,30 +1,15 @@
-
-const express = require('express')
-const transRoutes = require('./transactions.routes')
-const swaggerRouter = require('./swagger.routes')
-<<<<<<< HEAD
+require('dotenv').config();
+const express = require('express');
+const transRoutes = require('./transactions.routes');
+const swaggerRouter = require('./swagger.routes');
+const { getClientDatabaseConnection } = require('../model/connection');
+const userRouter = require('./user.routes');
+const userSchema = require('../model/userSchema');
 
 const mainRouter = express.Router()
-mainRouter
-.use('/api-docs',swaggerRouter)
-.use('/',(req,res)=>{
-    res.json({message:'Request received From '+ req.hostname + req.originalUrl})
-})
-
-module.exports = mainRouter
-
-
- 
-=======
- 
-const mainRouter = express.Router()
-
 
 mainRouter
     .use('/api-docs', swaggerRouter)
+    .use('/users', userRouter);
 
-     
-
-module.exports = mainRouter
-
->>>>>>> 7118d2d (initial commit)
+module.exports = { mainRouter };

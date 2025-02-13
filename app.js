@@ -28,9 +28,12 @@ app.use((req, res, next) => {
 });
 
 app.use('/', mainRouter);
+<<<<<<< HEAD
 app.get("/test", (req, res)=>{
     res.json({ success: true, message: "checking wheather branching is working or not"})
 })
+=======
+>>>>>>> 7118d2d (initial commit)
 app.use(errorHandler);
 
 app.listen(port, () => {

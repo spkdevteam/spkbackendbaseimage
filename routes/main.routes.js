@@ -2,6 +2,7 @@
 const express = require('express')
 const transRoutes = require('./transactions.routes')
 const swaggerRouter = require('./swagger.routes')
+<<<<<<< HEAD
 
 const mainRouter = express.Router()
 mainRouter
@@ -14,3 +15,16 @@ module.exports = mainRouter
 
 
  
+=======
+ 
+const mainRouter = express.Router()
+
+
+mainRouter
+    .use('/api-docs', swaggerRouter)
+
+     
+
+module.exports = mainRouter
+
+>>>>>>> 7118d2d (initial commit)

@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "spkaccounts",
+=======
+  "name": "spkhumanresource",
+>>>>>>> 7118d2d (initial commit)
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {

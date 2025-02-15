@@ -24,7 +24,7 @@ const signin = async({clientId, req}) =>{
         }
 
         //compare password
-        if(!user || !(await user.comaprePassword(password))){
+        if(!user || !(await user.comparePassword(password))){
             return {status: false, message: "Invalid credentials"}
         }
 

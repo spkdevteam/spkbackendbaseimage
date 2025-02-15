@@ -1,4 +1,6 @@
-const {getUserAll, getUserId} = require("../../model/services/user/getUser");
+const {getUserAll} = require("../../model/services/user/getUser");
+const getUserId = require("../../model/services/user/getUserById");
+
 const userSchema = require("../../model/userSchema");
 const sanitizeBody = require("../../utils/sanitizeBody");
 require("dotenv").config()

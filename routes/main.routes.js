@@ -11,6 +11,7 @@ const mainRouter = express.Router()
 
 mainRouter
     .use('/api-docs', swaggerRouter)
+    
     .use("/users", userRouter)
     .use("/company", companyRouter)
     

@@ -3,8 +3,9 @@ const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, passwordValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation } = require("../validation/validation")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
+require("dotenv").config()
 
-const createUser =async ({ firstName, lastName, profileImage, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId })=>{
+const createUser =async ({ firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId })=>{
     try {
         if(!clientId) return {status:false,message:'Some network credential are missing '}
 
@@ -32,9 +33,10 @@ const createUser =async ({ firstName, lastName, profileImage, email, phone, pass
         const db =await getClientDatabaseConnection(clientId)
         const User =await db.model('user',userSchema)
 
-        const displayId = await getserialNumber("user", process.env.CLIENTID_FOR_USER, "")
+        const displayId = Math.abs(await getserialNumber("user", process.env.CLIENTID_FOR_USER, ""))
         const user = new User({
             displayId,
+            companyId,
             firstName, 
             lastName, 
             profileImage, 
@@ -52,6 +54,8 @@ const createUser =async ({ firstName, lastName, profileImage, email, phone, pass
         })
 
         const result = await user.save()
+        console.log("user save result:", result);
+        
         return {status:true,message:'User created successfully',data:{_id:result._id}}
 
         

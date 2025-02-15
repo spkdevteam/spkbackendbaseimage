@@ -2,8 +2,6 @@ const createUser = require("../../model/services/user/createUser")
 const signin = require("../../model/services/user/signInUser")
 const sanitizeBody = require("../../utils/sanitizeBody")
 
-
-
 require("dotenv").config()
 
 const signup = async (req, res, next) => {

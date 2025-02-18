@@ -1,9 +1,5 @@
 const firstNameValidation = ({firstName}) => {
-<<<<<<< HEAD
     if (!firstName || typeof firstName !== 'string' || firstName.length < 2 || firstName > 40 || !/^[A-Za-z]+$/.test(firstName)) {
-=======
-    if (!firstName || typeof firstName !== 'string' || firstName.length < 3 || firstName > 40 || !/^[A-Za-z]+$/.test(firstName)) {
->>>>>>> new_pragya
         return { status: false, message: "Invalid First Name" };
     }
 }
@@ -26,15 +22,6 @@ const phoneNumberValidation = ({phone}) => {
     }
 }
 
-<<<<<<< HEAD
-=======
-const passwordValidation = ({password}) =>{
-    if(!password || typeof password !== 'string' || password.length < 6 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{6,}$/.test(password)){
-        return { status: false, message: "Invalid Password" };
-    }  
-}
-
->>>>>>> new_pragya
 const genderValidation = ({gender}) => {
     if (!gender || typeof gender !== 'string' || gender.length > 17 || gender.length < 4 
         || !["Male", "Female", "Other", "Prefer not to say"].includes(gender)) {
@@ -44,11 +31,7 @@ const genderValidation = ({gender}) => {
 
 const ageValidation = ({age}) => {
     if (!age || typeof age !== 'number' || age < 0 || age > 120) {
-<<<<<<< HEAD
         return { status: false, message: "Invalid Age Try again" };
-=======
-        return { status: false, message: "Invalid Age Try again" }
->>>>>>> new_pragya
     }
 }
 
@@ -65,11 +48,7 @@ const cityValidation = ({city}) => {
 }
 
 const stateValidation = ({state}) => {
-<<<<<<< HEAD
     if (!state || typeof state !== 'string' || state.length < 3 || state.length > 20 || !/^[A-Za-z]+$/.test(state)) {
-=======
-    if (!state || typeof state !== 'string' || state.length < 3 || state.length > 20 || !/^[A-Za-z\s]+$/.test(state)) {
->>>>>>> new_pragya
         return { status: false, message: "Invalid state name" };
     }       
 }
@@ -80,17 +59,12 @@ const countryValidation = ({country}) => {
     }
 }
 const zipCodeValidation = ({ZipCode}) => {
-<<<<<<< HEAD
     if (!ZipCode || typeof ZipCode !== 'number' || ZipCode.length < 3 || ZipCode.length > 10 || !/^[a-zA-Z0-9\s,'-]*$/.test(ZipCode)) {
-=======
-    if (!ZipCode || typeof ZipCode !== 'string' || ZipCode.length < 3 || ZipCode.length > 10 || !/^[a-zA-Z0-9\s,'-]*$/.test(ZipCode)) {
->>>>>>> new_pragya
         return { status: false, message: "Invalid zipcode" };
     }
 }
 
 
-<<<<<<< HEAD
 module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation };
 
 
@@ -99,6 +73,3 @@ module.exports = { firstNameValidation, lastNameValidation, emailValidation, pho
 
 
 
-=======
-module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, passwordValidation };
->>>>>>> new_pragya

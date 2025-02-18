@@ -24,4 +24,4 @@ const getUserById = async(req, res, next) =>{
 }
 
 
-module.exports = {getAllUser, getUserById}
+module.exports = { getAllUser, getUserById }

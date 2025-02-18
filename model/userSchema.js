@@ -61,6 +61,15 @@ const userSchema = new Schema(
             type: String,
             trim: true,
         },
+        otp: {
+            type: String,
+            trim: true,
+            default: null
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        },
         isActive: { type: Boolean, default: true },
         createdBy: { type: ObjectId, ref: "user", index: true },
         deletedAt: { type: Date, default: null, index: true },

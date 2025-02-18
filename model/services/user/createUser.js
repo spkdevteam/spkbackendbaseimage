@@ -3,7 +3,7 @@ const userSchema = require("../../userSchema")
 const { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation } = require("../validation/validation")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
 
-const createUser =async ({ firstName, lastName, profileImage="https://demo.jpg", email, phone, gender, age, bloodGroup, city, state, country, ZipCode, address="address",clientId })=>{
+const createUser = async ({ firstName, lastName, profileImage="https://demo.jpg", email, phone, gender, age, bloodGroup, city, state, country, ZipCode, address="address",clientId })=>{
     try {
         if(!clientId) return {status:false,message:'Some network credential are missing '}
 

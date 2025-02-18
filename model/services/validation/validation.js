@@ -1,4 +1,3 @@
-
 const firstNameValidation = ({firstName}) => {
     if (!firstName || typeof firstName !== 'string' || firstName.length < 2 || firstName > 40 || !/^[A-Za-z]+$/.test(firstName)) {
         return { status: false, message: "Invalid First Name" };

@@ -5,7 +5,7 @@ const generatejwtToken = async (userId) =>{
     try {
         //generate token
         const token =  jwt.sign(
-            {userId},
+            { userId},
             process.env.JWT_SECRET_KEY,
             {expiresIn: "7d"}
         )

@@ -9,5 +9,4 @@ router.get("/:id", getUserById)
 router.post("/", signup)
 router.post("/signin", signInUser)
 
-
 module.exports = router

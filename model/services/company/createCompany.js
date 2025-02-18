@@ -1,7 +1,7 @@
 const companySchema = require("../../company")
 const { getClientDatabaseConnection } = require("../../connection")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
-const {nameValidation, incorporationNameValidation, cinNumberValidation, gstNumberValidation, cityValidation, stateValidation, countryValidation,zipCodeValidation, addressValidation} = require("../validation/companyValidation")
+const {nameValidation, incorporationNameValidation, cinNumberValidation, gstNumberValidation, cityValidation, stateValidation, countryValidation,zipCodeValidation, addressValidation, clientIdValidation} = require("../validation/companyValidation")
 require("dotenv").config()
 
 const createCompany = async ({name, incorporationName, cinNumber, gstNumber, prefix, Logo, email, contactNumber, city, state, country, ZipCode, address, clientId}) => {
@@ -19,7 +19,8 @@ const createCompany = async ({name, incorporationName, cinNumber, gstNumber, pre
             stateValidation({state}),
             cityValidation({city}),
             zipCodeValidation({ZipCode}),
-            addressValidation({address})
+            addressValidation({address}),
+            // clientIdValidation({clientId})
         ]
 
         //check the validation error
@@ -51,7 +52,8 @@ const createCompany = async ({name, incorporationName, cinNumber, gstNumber, pre
             state, 
             country, 
             ZipCode, 
-            address
+            address,
+            clientId
         })
 
         const result = await company.save()

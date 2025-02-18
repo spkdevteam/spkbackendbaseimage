@@ -1,7 +1,7 @@
 const companySchema = require("../../company")
 const { getClientDatabaseConnection } = require("../../connection")
 
-const getCompanyId = async({clientId, req}) =>{
+const getCompanyId = async({req, clientId}) =>{
     try {
         if(!clientId) return {status: false, message: "Client ID is required"}
 

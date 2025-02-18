@@ -1,3 +1,12 @@
+const clientIdValidation = ({ clientId }) => {
+    if (!clientId || typeof clientId !== "string" || !/^[A-Za-z0-9]+$/.test(clientId)) {
+        return { status: false, message: "Some networking problem" };
+    }
+    console.log(clientId, );
+    
+    // return { status: true, message:"Success"}
+}
+
 const firstNameValidation = ({firstName}) => {
     if (!firstName || typeof firstName !== 'string' || firstName.length < 3 || firstName > 40 || !/^[A-Za-z]+$/.test(firstName)) {
         return { status: false, message: "Invalid First Name" };
@@ -71,4 +80,4 @@ const zipCodeValidation = ({ZipCode}) => {
 }
 
 
-module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, passwordValidation };
+module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, passwordValidation, clientIdValidation };

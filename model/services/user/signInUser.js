@@ -1,11 +1,12 @@
 const generatejwtToken = require("../../../middleware/token/createToken")
+const setTokenCookie = require("../../../utils/generateToken")
 const companySchema = require("../../company")
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 
 require("dotenv").config()
 
-const signin = async({clientId, req}) =>{
+const signin = async({req, res, clientId}) =>{
     try {
         if (!clientId) return {status: false, message: "Client ID is required"}
 
@@ -43,11 +44,13 @@ const signin = async({clientId, req}) =>{
         }
 
         const token = await generatejwtToken(user._id)
+
+        setTokenCookie(res, token)
+
         return {status: true, message: "User signed in successfully", data: {
             email: user.email,
             phone: user.phone,
-            companyId: user.companyId._id,
-            token
+            companyId: user.companyId._id
             // password: user.password
         }}
     } catch (error) {

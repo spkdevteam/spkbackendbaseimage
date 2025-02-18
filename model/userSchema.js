@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcryptjs")
 const { Schema } = mongoose;
 const ObjectId = Schema.ObjectId;
 
@@ -14,11 +14,16 @@ const userSchema = new Schema(
             type: String,
             lowercase: true,
             trim: true,
+
         },
         phone: {
             type: String,
             trim: true,
             required: true
+        },
+        password:{
+            type: String,
+            required: true, 
         },
         gender: {
             type: String,
@@ -63,8 +68,26 @@ const userSchema = new Schema(
     { timestamps: true }
 );
 
+//using pre save hook to hash the pasword
+userSchema.pre("save", async function(next) {
+    if(!this.isModified("password")){
+        return next()
+    }
 
+    try {
+        const salt = await bcrypt.genSalt(10)
+        this.password = await bcrypt.hash(this.password, salt)
+        next()
+    } catch (error) {
+        next(error)
+    }
+})
 
-const userModel = mongoose.model("User", userSchema);
+//method to comapre password
+userSchema.methods.comparePassword = async function (password){
+    return bcrypt.compare(password, this.password)
+}
 
+const userModel = mongoose.model("User", userSchema)
 module.exports = userSchema;
+

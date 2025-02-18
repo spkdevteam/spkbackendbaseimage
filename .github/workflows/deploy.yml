@@ -4,10 +4,14 @@ on:
   push:
     branches:
 <<<<<<< HEAD
+<<<<<<< HEAD
       - main
 =======
       - docker
 >>>>>>> 7118d2d (initial commit)
+=======
+      - docker
+>>>>>>> new_pragya
   pull_request:
     branches:
       - main

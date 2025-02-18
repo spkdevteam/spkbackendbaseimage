@@ -1,5 +1,9 @@
 const express = require('express');
+<<<<<<< HEAD
 const { mainRouter } = require('./routes/main.routes.js');
+=======
+const {mainRouter} = require('./routes/main.routes.js');
+>>>>>>> new_pragya
 const dotenv = require("dotenv");
 const cors = require("cors");
 const errorHandler = require('./errorHandler/globalErrorHandler.js');
@@ -10,7 +14,11 @@ const app = express();
 const port = 8092;
 
 const corsOptions = {
+<<<<<<< HEAD
     origin: "*",
+=======
+    origin: "*", // Allows requests from all origins
+>>>>>>> new_pragya
     credentials: true,
     methods: ['GET', 'PATCH', 'PUT', 'POST', 'DELETE'],
     allowedHeaders: ['X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'x-refresh-token', 'x-user-role', 'x-verify-token'],
@@ -28,11 +36,14 @@ app.use((req, res, next) => {
 });
 
 app.use('/', mainRouter);
+<<<<<<< HEAD
 
 app.get("/test", (req, res)=>{
     res.json({ success: true, message: "checking wheather branching is working or not"})
 })
 
+=======
+>>>>>>> new_pragya
 app.use(errorHandler);
 
 app.listen(port, () => {

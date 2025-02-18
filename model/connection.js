@@ -54,7 +54,6 @@ const getClientDatabaseConnection = async (clientId) => {
 
     const clientConnection = mongoose.createConnection(clientDatabaseUrl, {});
 
-
     // Store the connection in the pool
     connectionPool.set(clientId, clientConnection);
 
@@ -67,6 +66,7 @@ const getClientDatabaseConnection = async (clientId) => {
     // }, 10 * 60 * 1000); // Close after 10 minutes of inactivity
 
     return clientConnection;
+
 };
 
 module.exports = { ConnectDb, createClientDatabase, getClientDatabaseConnection };

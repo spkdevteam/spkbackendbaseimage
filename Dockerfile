@@ -14,9 +14,6 @@ RUN npm install
 COPY . .
 
 # 7. Set the command to start the app
-<<<<<<< HEAD
-CMD ["npm", "start"]
-=======
 ENTRYPOINT ["npm"]
 CMD ["start"]
->>>>>>> 7118d2d (initial commit)
+

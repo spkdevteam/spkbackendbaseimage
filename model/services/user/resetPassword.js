@@ -1,6 +1,7 @@
 const { getClientDatabaseConnection } = require("../../connection");
 const userSchema = require("../../userSchema");
 const { clientIdValidation } = require("../validation/validation");
+const bcryptjs = require("bcryptjs");
 
 const resetPassword = async ({ _id, password, clientId }) => {
     try {
@@ -23,8 +24,10 @@ const resetPassword = async ({ _id, password, clientId }) => {
         //checking if user is there
         if(!user) return { status: false, message: "Some networking problem"}
 
+        const hashedPassword = await bcryptjs.hash(password, 10);
+
         //changing the password
-        user.password = password;
+        user.password = hashedPassword;
 
         //saving the user
         await user.save();

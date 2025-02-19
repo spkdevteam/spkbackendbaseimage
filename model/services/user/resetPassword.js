@@ -2,6 +2,9 @@ const { getClientDatabaseConnection } = require("../../connection");
 const userSchema = require("../../userSchema");
 const { clientIdValidation } = require("../validation/validation");
 const bcryptjs = require("bcryptjs");
+const mailingOptions = require("../mailing/mailingOptions"); 
+const textResponseForMailing = require("../mailing/textResponseForMailing"); 
+const transporter = require("../mailing/nodemailerTransporter");
 
 const resetPassword = async ({ _id, password, clientId }) => {
     try {
@@ -30,7 +33,14 @@ const resetPassword = async ({ _id, password, clientId }) => {
         user.password = hashedPassword;
 
         //saving the user
-        await user.save();
+        const savedUser = await user.save();
+
+
+        if(savedUser){
+            await transporter.sendMail(mailingOptions({ toEmail: user.email, subject: "Your password is changed successfully", text: textResponseForMailing({ option: "reset"})}));
+        }else{
+            return {status: false, message: "Failed to change the password try again"};
+        }
 
         return { status: true, message: "Password has succesfully changed", _id: user._id }
     } catch (error) {

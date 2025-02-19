@@ -26,8 +26,8 @@ const verify_otp = async (req, res, next)=> {
 const reset_password = async (req, res, next)=> {
     try {
         //const { token } = req.cookies;
-        const { id, password, clientId } = await sanitizeBody(req.body);
-        const result = await resetPassword({ _id: id , password, clientId });
+        const { id, otp, password, clientId } = await sanitizeBody(req.body);
+        const result = await resetPassword({ _id: id, otp, password, clientId });
         return res.status(200).json({ status: result?.status, message: result?.message, _id: result?._id});
     } catch (error) {
         next(error);

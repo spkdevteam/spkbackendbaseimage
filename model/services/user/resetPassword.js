@@ -6,9 +6,10 @@ const mailingOptions = require("../mailing/mailingOptions");
 const textResponseForMailing = require("../mailing/textResponseForMailing"); 
 const transporter = require("../mailing/nodemailerTransporter");
 
-const resetPassword = async ({ _id, password, clientId }) => {
+const resetPassword = async ({ _id, otp, password, clientId }) => {
     try {
         if (!password) return { status: false, message: "Invalid password" };
+        if(!otp) return { status: false, message: "Invalid Otp"};
 
         const validating = [
             clientIdValidation({ clientId })
@@ -26,17 +27,20 @@ const resetPassword = async ({ _id, password, clientId }) => {
 
         //checking if user is there
         if(!user) return { status: false, message: "Some networking problem"}
-
-        const hashedPassword = await bcryptjs.hash(password, 10);
+        const salt = await bcryptjs.genSalt(10)
+        const hashedPassword = await bcryptjs.hash(password, salt);
 
         //changing the password
         user.password = hashedPassword;
+        if(user.otp === null) return { status:false, message: "Invalid Operation"};
+        if(user.otp !== otp) return { status: false, message: "Invalid OTP"};
+        user.otp = null;
 
         //saving the user
         const savedUser = await user.save();
 
 
-        if(savedUser){
+        if(savedUser.otp === null){
             await transporter.sendMail(mailingOptions({ toEmail: user.email, subject: "Your password is changed successfully", text: textResponseForMailing({ option: "reset"})}));
         }else{
             return {status: false, message: "Failed to change the password try again"};

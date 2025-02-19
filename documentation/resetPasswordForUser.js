@@ -3,7 +3,7 @@
  * /users/reset-password:
  *   post: 
  *     summary: Reset user password
- *     description: Resets the password for a user by providing the user ID, new password, and associated client ID. 
+ *     description: Resets the password for a user by providing the user ID, new password, associated client ID, and OTP for verification.
  *     tags:
  *       - Authentication
  *     requestBody:
@@ -16,6 +16,7 @@
  *               - id
  *               - password
  *               - clientId
+ *               - otp
  *             properties:
  *               id:
  *                 type: string
@@ -29,6 +30,10 @@
  *                 type: string
  *                 description: Associated client ID
  *                 example: "6788abe40db7c3b61ed93c70"
+ *               otp:
+ *                 type: string
+ *                 description: One-time password for password reset verification
+ *                 example: "123456"
  *     responses:
  *       200:
  *         description: Password successfully changed

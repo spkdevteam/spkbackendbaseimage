@@ -35,7 +35,6 @@ const verifyOtp = async ({ _id, otp, clientId }) => {
 
         //changing the otp from db
         user.isVerified = true;
-        user.otp = null;
 
         //saving the user object in mongodb
         const savedUser = await user.save();

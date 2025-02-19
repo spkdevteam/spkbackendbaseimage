@@ -50,7 +50,7 @@ const createUser = async ({ firstName, lastName, profileImage="https://demo.jpg"
         const result = await user.save();
         return {status:true,message:'User created successFully',data:{_id:result?._id}};
     } catch (error) {
-        return { status: false, message: error.message }
+        return { status: false, message: error.message };
     }
 }
 

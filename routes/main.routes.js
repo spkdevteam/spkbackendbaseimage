@@ -9,6 +9,6 @@ const mainRouter = express.Router()
 
 mainRouter
     .use('/api-docs', swaggerRouter)
-    .use('/users', userRouter);
-.use("/api-master", apiMasterRouter)
+    .use('/users', userRouter)
+    .use("/api-master", apiMasterRouter)
 module.exports = { mainRouter };

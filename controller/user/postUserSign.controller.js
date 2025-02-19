@@ -7,11 +7,6 @@ require("dotenv").config()
 const signup = async (req, res, next) => {
 
     try {
-<<<<<<< HEAD
-        const data =await sanitizeBody(req.body);
-        const result =await createUser(data);
-        return res.status(201).json({ status: result?.status, message:result?.message, data:result?.data });
-=======
         console.log("Original request body:", req.body);
         // const { firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId} =await sanitizeBody(req.body)
         const data =await sanitizeBody(req.body)
@@ -20,7 +15,6 @@ const signup = async (req, res, next) => {
         console.log("the result:", result);
         return res.status(201).json({ status: result?.status, message:result?.message, data:result?.data })
 
->>>>>>> origin/new_pragya
     } catch (error) {
         next(error);
     }
@@ -29,15 +23,10 @@ const signup = async (req, res, next) => {
 
 const signInUser = async(req, res, next) =>{
     try {
-<<<<<<< HEAD
-        const result = await signin({clientId: process.env.CLIENTID_FOR_USER, req});
-        return res.status(200).json({status: result?.status, message: result?.message, data: result?.data });
-=======
         const data = await sanitizeBody(req.body)
         const result = await signin({data })
         return res.status(200).json({status: result.status, message: result.message, data: result.data })
 
->>>>>>> origin/new_pragya
     } catch (error) {
         next(error)
     }

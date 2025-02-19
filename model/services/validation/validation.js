@@ -1,18 +1,8 @@
-<<<<<<< HEAD
-//validation for client id
-=======
->>>>>>> origin/new_pragya
 const clientIdValidation = ({ clientId }) => {
     if (!clientId || typeof clientId !== "string" || !/^[A-Za-z0-9]+$/.test(clientId)) {
         return { status: false, message: "Some networking problem" };
     }
-<<<<<<< HEAD
     return { status: true, message: "Success" }
-=======
-    console.log(clientId, );
-    
-    // return { status: true, message:"Success"}
->>>>>>> origin/new_pragya
 }
 
 const firstNameValidation = ({firstName}) => {
@@ -94,15 +84,4 @@ const zipCodeValidation = ({ZipCode}) => {
 }
 
 
-<<<<<<< HEAD
-module.exports = { clientIdValidation, firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation };
-
-
-
-
-
-
-
-=======
-module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, passwordValidation, clientIdValidation };
->>>>>>> origin/new_pragya
+module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation };

@@ -84,4 +84,4 @@ const zipCodeValidation = ({ZipCode}) => {
 }
 
 
-module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation };
+module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, passwordValidation, clientIdValidation };

@@ -15,5 +15,9 @@ router.get("/", getAllUser)
 .post("/verify-otp", verify_otp)
 .post("/reset-password", reset_password);
 
+<<<<<<< HEAD
 
 module.exports = router;
+=======
+module.exports = router
+>>>>>>> origin/new_pragya

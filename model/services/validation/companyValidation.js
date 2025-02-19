@@ -1,3 +1,10 @@
+const clientIdValidation = ({ clientId }) => {
+    if (!clientId || typeof clientId !== "string" || !/^[A-Za-z0-9]+$/.test(clientId)) {
+        return { status: false, message: "Some networking problem" };
+    }
+    return { status: true, message:"Success"}
+}
+
 const nameValidation = ({ name }) => {
     if (!name || typeof name !== 'string' || name.length < 3 || name.length > 40 || !/^[A-Za-z0-9\s&.,'-]+$/.test(name)) {
         console.log("Validation Failed for:", name);
@@ -53,4 +60,4 @@ const addressValidation = ({ address }) => {
     }
 }
 
-module.exports = {nameValidation, incorporationNameValidation, cinNumberValidation, gstNumberValidation,addressValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation}
+module.exports = {nameValidation, incorporationNameValidation, cinNumberValidation, gstNumberValidation,addressValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation}

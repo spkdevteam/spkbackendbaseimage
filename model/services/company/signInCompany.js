@@ -3,7 +3,7 @@ const { getClientDatabaseConnection } = require("../../connection")
 
 require("dotenv").config()
 
-const signInCompany = async({clientId, req}) =>{
+const signInCompany = async({ req, clientId}) =>{
     try {
         if(!clientId) return {status: false, message: "Client ID is required"}
 

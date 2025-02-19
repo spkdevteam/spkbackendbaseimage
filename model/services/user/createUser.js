@@ -41,6 +41,12 @@ const createUser =async ({ firstName, lastName, profileImage, companyId, email, 
         const db =await getClientDatabaseConnection(clientId)
         const User =await db.model('user',userSchema)
 
+        const alreadyExists = await User.findOne({email})
+
+        if(alreadyExists){
+            return {status: false, message: "User already exists with this email"}
+        }
+
         const displayId = Math.abs(await getserialNumber("user", clientId , ""))
         const user = new User({
             displayId,

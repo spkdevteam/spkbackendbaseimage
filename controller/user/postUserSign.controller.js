@@ -23,7 +23,8 @@ const signup = async (req, res, next) => {
 
 const signInUser = async(req, res, next) =>{
     try {
-        const result = await signin({clientId: process.env.CLIENTID_FOR_USER, req, res})
+        const data = await sanitizeBody(req.body)
+        const result = await signin({data })
         return res.status(200).json({status: result.status, message: result.message, data: result.data })
 
     } catch (error) {

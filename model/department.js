@@ -7,7 +7,7 @@ const departmentSchema = mongoose.Schema({
     description:{type:String} ,
     deletedAt:{type:Date,default:null},
     isActive:{type:Boolean,default:true},
-    old_Id: {type: String     },
+    old_Id: {type: String},
     createdBy: { type: mongoose.Schema.ObjectId, ref: "users", default:null, index: true } 
 },
 {

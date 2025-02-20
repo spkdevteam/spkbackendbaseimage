@@ -3,7 +3,7 @@
  * /users/signin:
  *   post:
  *     summary: User Sign-In
- *     description: Authenticates a user using email, phone, password, and company ID. Returns an access token upon successful login.
+ *     description: The email will be the userId , the compulsory fields are userId, password and clientId are mandatory field and the companyId can be an optional field.
  *     tags:
  *       - Authentication
  *     security:
@@ -15,20 +15,16 @@
  *           schema:
  *             type: object
  *             required:
- *               - email
- *               - phone
+ *               - userId
  *               - password
  *               - companyId
+ *               - clientId
  *             properties:
- *               email:
+ *               userId:
  *                 type: string
  *                 format: email
- *                 description: The user's email address.
- *                 example: "johndoe@example.com"
- *               phone:
- *                 type: string
- *                 description: The user's phone number.
- *                 example: "+1234567890"
+ *                 description: The user's email address used as an identifier.
+ *                 example: "biswarupghosh529@gmail.com"
  *               password:
  *                 type: string
  *                 format: password
@@ -37,7 +33,11 @@
  *               companyId:
  *                 type: string
  *                 description: The company ID associated with the user.
- *                 example: "67b041cbe8875393e56abbdf"
+ *                 example: "67b037ae038ce3ffbb097924"
+ *               clientId:
+ *                 type: string
+ *                 description: The client ID for authentication.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
  *         description: User signed in successfully.
@@ -47,24 +47,25 @@
  *               status: true
  *               message: "User signed in successfully."
  *               data:
- *                 email: "johndoe@example.com"
- *                 phone: "+1234567890"
- *                 companyId: "67b041cbe8875393e56abbdf"
- *                 token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2IwODNkMjY0MTcwZjMyMDcyYmVmMzgiLCJpYXQiOjE3Mzk4NjMzNzYsImV4cCI6MTc0MDQ2ODE3Nn0.sJBfodYvuiCHzeqAfJN06LXuA_4FfW5m3mLUHbesPaY"
+ *                 _id: "67b6b05a1318925dce77fdea"
+ *                 userName:
+ *                   userId: "biswarupghosh529@gmail.com"
+ *                 clientId: "6788abe40db7c3b61ed93c70"
+ *                 companyId: "67b037ae038ce3ffbb097924"
  *       400:
  *         description: Validation error or missing required fields.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Email, phone, password, or companyId is missing."
+ *               message: "userId, password, companyId, or clientId is missing."
  *       401:
  *         description: Unauthorized, invalid credentials.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid email or password."
+ *               message: "Invalid userId or password."
  *       404:
  *         description: User not found.
  *         content:

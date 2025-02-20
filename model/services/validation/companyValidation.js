@@ -66,7 +66,7 @@ const addressValidation = ({ address }) => {
     if (!address || typeof address !== 'string' || address.length < 5 || address.length > 100) {
         return { status: false, message: "Invalid address" };
     }
-    return { status: true, message:"Success"}
+    
 }
 
 module.exports = {nameValidation, incorporationNameValidation, cinNumberValidation, gstNumberValidation,addressValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation}

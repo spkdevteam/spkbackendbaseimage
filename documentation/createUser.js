@@ -1,6 +1,6 @@
 /** 
 * @swagger 
-* /users: 
+* /users/create: 
 *   post: 
 *     summary: Create a new user
 *     description: Creates a new user with personal details, contact information, and company affiliation. Updates createdBy field based on authenticated user.

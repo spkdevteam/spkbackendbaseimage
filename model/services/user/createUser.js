@@ -3,12 +3,15 @@ const userSchema = require("../../userSchema")
 const { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, passwordValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation } = require("../validation/validation")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
 
-const createUser = async ({ firstName, lastName, profileImage="https://demo.jpg", email, phone, gender, age, bloodGroup, city, state, country, ZipCode, address="address",clientId })=>{
+const createUser =async ({data})=>{
     try {
+        const {firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId} = data
         // console.log(firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,typeof(clientId));
         console.log(clientId);
         
-        if(!clientId) return {status:false,message:'Some network credential are missing '}
+        // if(!clientId) return {status:false,message:'Some network credential are missing '}
+        // if(!email) return {status: false, message: "Email is required"}
+        // if(!phone) return {status: false, message: "Phone is required"}
 
         const validations = [
             firstNameValidation({firstName}),
@@ -28,8 +31,10 @@ const createUser = async ({ firstName, lastName, profileImage="https://demo.jpg"
         //establishing connection to database
          
         //check the validation error
- 
-        const error = validations.find(validate => validate !== undefined)
+
+        console.log(validations,'444444');
+        
+        const error = validations.find(validate => !validate.status)
         console.log(error,'->error');
         
         if(error) return error

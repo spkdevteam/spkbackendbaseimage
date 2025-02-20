@@ -7,7 +7,8 @@ require("dotenv").config()
 
 const getAllUser = async (req, res, next) =>{
     try {
-         const result = await getUserAll({clientId: process.env.CLIENTID_FOR_USER})
+        const getAllUser = await sanitizeBody(req.params)
+         const result = await getUserAll(getAllUser)
          return res.status(200).json({status: result.status, message: result.message, data: result.data })
     } catch (error) {
         next(error)
@@ -16,7 +17,8 @@ const getAllUser = async (req, res, next) =>{
 
 const getUserById = async(req, res, next) =>{
     try {
-        const result = await getUserId({clientId: process.env.CLIENTID_FOR_USER, req})
+        const user = await sanitizeBody(req.params);
+        const result = await getUserId(user)
         return res.status(200).json({status: result.status, message: result.message, data: result.data})
     } catch (error) {
         next(error)

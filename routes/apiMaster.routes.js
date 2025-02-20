@@ -7,8 +7,8 @@ const getAllApiMaster = require("../controller/apiMaster/getApiMaster.controller
 
 const router = express.Router()
 
-router.post("/", createApiMaster)
-router.delete("/:id/:client", deleteApiMaster)
+router.post("/create", createApiMaster)
+router.delete("/delete/:id/:client", deleteApiMaster)
 router.put("/edit", editAPIMaster)
 // router.get("/", getAllApiMaster)
 

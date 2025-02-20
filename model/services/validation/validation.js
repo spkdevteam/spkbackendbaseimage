@@ -3,6 +3,8 @@ const clientIdValidation = ({ clientId }) => {
         return { status: false, message: "Some networking problem" };
     }
     return { status: true, message: "Success" }
+    
+    
 }
 
 const firstNameValidation = ({firstName}) => {
@@ -10,6 +12,7 @@ const firstNameValidation = ({firstName}) => {
         return { status: false, message: "Invalid First Name" };
     }
     return { status: true, message: "Success" }
+     
 }
 
 const lastNameValidation = ({lastName}) => {
@@ -17,6 +20,7 @@ const lastNameValidation = ({lastName}) => {
         return { status: false, message: "Invalid Last Name" };
     }
     return { status: true, message: "Success" }
+     
 }
 
 const emailValidation = ({email}) => {
@@ -40,6 +44,7 @@ const genderValidation = ({gender}) => {
             return { status: false, message: "Invalid Gender" };
     }
     return { status: true, message: "Success" }
+    return { status: true, message:"Success"}
 }
 
 const ageValidation = ({age}) => {
@@ -47,6 +52,7 @@ const ageValidation = ({age}) => {
         return { status: false, message: "Invalid Age Try again" };
     }
     return { status: true, message: "Success" }
+    
 }
 
 const bloodGroupValidation = ({bloodGroup}) => {
@@ -54,33 +60,35 @@ const bloodGroupValidation = ({bloodGroup}) => {
         return { status: false, message: "Invalid blood group" };
     }        
     return { status: true, message: "Success" }
+     
+         
 }
 
 const cityValidation = ({city}) => {
     if (!city || typeof city !== 'string' || city.length < 1 || city.length > 20 || !/^[A-Za-z\s]+$/.test(city)) {
         return { status: false, message: "Invalid city name" };
-    }       
-    return { status: true, message: "Success" }
+    }
+    return { status: true, message:"Success"}       
 }
 
 const stateValidation = ({state}) => {
     if (!state || typeof state !== 'string' || state.length < 3 || state.length > 20 || !/^[A-Za-z]+$/.test(state)) {
         return { status: false, message: "Invalid state name" };
-    }       
-    return { status: true, message: "Success" }
+    }  
+    return { status: true, message:"Success"}     
 }
 
 const countryValidation = ({country}) => {
     if (!country || typeof country !== 'string' || country.length < 3 || country.length > 20 || !/^[A-Za-z]+$/.test(country)) {
         return { status: false, message: "Invalid country name" };
     }
-    return { status: true, message: "Success" }
+    return { status: true, message:"Success"}
 }
 const zipCodeValidation = ({ZipCode}) => {
     if (!ZipCode || typeof ZipCode !== 'number' || ZipCode.length < 3 || ZipCode.length > 10 || !/^[a-zA-Z0-9\s,'-]*$/.test(ZipCode)) {
         return { status: false, message: "Invalid zipcode" };
     }
-    return { status: true, message: "Success" }
+    return { status: true, message:"Success"}
 }
 
 

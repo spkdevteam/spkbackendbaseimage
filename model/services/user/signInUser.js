@@ -31,12 +31,6 @@ const signin = async ({ data, res }) => {  // Added 'res' as a parameter
             return { status: false, message: "User not found" };
         }
 
-        const emailExists = await User.findOne({email})
-
-        if(emailExists){
-            return {status: false, message: "Email already exists"}
-        }
-
         // Compare password
         const isPasswordValid =  bcrypt.compare(password, user.password);
         console.log(isPasswordValid, "Password comparison result");

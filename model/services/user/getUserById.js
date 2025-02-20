@@ -2,21 +2,20 @@ const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 require("dotenv").config()
 
-const getUserId = async ({clientId, req}) =>{
+const getUserId = async ({clientId, id}) =>{
     try {
-        console.log("Received req:", req);
         if(!clientId) return {status: false, message: "Client Id is required"}
-        if (!req || !req.params || !req.params.id) {
-            return { status: false, message: "Request object or ID missing" };
-        }
+        // if (!req || !req.params || !req.params.id) {
+        //     return { status: false, message: "Request object or ID missing" };
+        // }
         
         //extracting the id from params
-        const {id} = req.params
+        // const {id} = req.params
         
         //fetch user by id from the database
         const db = await getClientDatabaseConnection(clientId)
         const User = db.model("User", userSchema)
-        const fetchUserById = await User.findById(id)
+        const fetchUserById = await User.findById(id);
 
         if(fetchUserById){
             return {status: true, message: "Fetch the user by id", data: fetchUserById}

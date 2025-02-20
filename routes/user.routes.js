@@ -7,9 +7,9 @@ const { forgot_password, verify_otp, reset_password } = require('../controller/u
 
 const router = express.Router();
 
-router.get("/", getAllUser)
-.get("/:id", getUserById)
-.post("/", signup)
+router.get("/get-all/:clientId", getAllUser)
+.get("/getId/:clientId/:id", getUserById)
+.post("/create", signup)
 .post("/signin", signInUser)
 .post("/forgot-password", forgot_password)
 .post("/verify-otp", verify_otp)

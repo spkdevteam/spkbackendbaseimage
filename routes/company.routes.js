@@ -4,9 +4,9 @@ const {getAllCompany, getCompanyById} = require("../controller/company/getCompan
 
 const router = express.Router()
 
-router.post("/", signup)
+router.post("/create", signup)
 router.post("/signin", signin)
-router.get("/", getAllCompany)
+router.get("/get-all", getAllCompany)
 router.get("/:id", getCompanyById)
 
 module.exports = router

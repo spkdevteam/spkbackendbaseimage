@@ -1,6 +1,6 @@
 //validation for client id
 const clientIdValidation = ({ clientId }) => {
-    if (!clientId || typeof clientId !== "string" || !/^[A-Za-z0-9]+$/.test(clientId)) {
+    if (!clientId || typeof clientId !== "string" || clientId.length !== 24 || !/^[A-Za-z0-9]+$/.test(clientId)) {
         return { status: false, message: "Some networking problem" };
     }
     return { status: true, message: "Success" }

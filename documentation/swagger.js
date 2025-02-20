@@ -13,6 +13,11 @@ const swaggerOptions = {
           url: 'http://localhost:8092',
           description: 'Local server',
         },
+        {
+          url: 'https://spkbackendbaseimage.onrender.com',
+          description: 'testing server',
+        },
+        
          
       ],
        components: {

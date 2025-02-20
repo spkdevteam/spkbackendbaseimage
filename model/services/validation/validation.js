@@ -90,6 +90,8 @@ const zipCodeValidation = ({ZipCode}) => {
     }
     return { status: true, message:"Success"}
 }
-
+const passwordValidation = ({password})=>{
+   return  { status: true, message:"Success"}
+}
 
 module.exports = { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, passwordValidation, clientIdValidation };

@@ -29,7 +29,7 @@ const signInUser = async(req, res, next) =>{
         const data = await sanitizeBody(req.body)
         const result = await signin({data})
         const user = result.data
-        const token = generatejwtToken(user._id) 
+        const token = generatejwtToken({userId: user?._id}) 
         setTokenCookie(res, token)
 
         return res.status(200).json({status: result.status, message: result.message, data: result.data })

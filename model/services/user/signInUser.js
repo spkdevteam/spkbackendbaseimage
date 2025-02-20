@@ -2,21 +2,33 @@ const generatejwtToken = require("../../../middleware/token/createToken");
 const setTokenCookie = require("../../../utils/generateToken");
 const companySchema = require("../../company");
 const { getClientDatabaseConnection } = require("../../connection");
+const { emailValidation, passwordValidation, clientIdValidation } = require("../validation/validation")
 const userSchema = require("../../userSchema");
 const bcrypt = require("bcryptjs");
 
 require("dotenv").config();
 
-const signin = async ({ data, res }) => {  // Added 'res' as a parameter
+const signin = async ({ data }) => {  // Added 'res' as a parameter
     try {
-        const { email, phone, password, companyId, clientId } = data;
+        const { userId, password, companyId, clientId} = data;
         console.log(data, "data---------------");
 
         // Validate required fields first
-        if (!clientId) return { status: false, message: "Client ID is required" };
-        if (!email || !phone || !password || !companyId) {
-            return { status: false, message: "Email, Phone, Password, and Company ID are required" };
-        }
+        // if (!clientId) return { status: false, message: "Client ID is required" };
+        // if (!email || !password) {
+        //     return { status: false, message: "Email, Password are required" };
+        // }
+
+        const validations = [
+            emailValidation({email: userId}),
+            passwordValidation({password}), 
+            clientIdValidation({clientId})
+
+        ]
+
+        const error = validations.filter((e) => e && e.status === false);
+        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(",")};
+        console.log(error,'->error');
 
         // Get database connection
         const db = await getClientDatabaseConnection(clientId);
@@ -24,7 +36,7 @@ const signin = async ({ data, res }) => {  // Added 'res' as a parameter
         const User = db.model("User", userSchema);
 
         // Check if user exists
-        const user = await User.findOne({ email }).populate("companyId", "_id");
+        const user = await User.findOne({ email: userId }).populate("companyId", "_id");
         console.log(user, "User data retrieved");
 
         if (!user) {
@@ -32,18 +44,21 @@ const signin = async ({ data, res }) => {  // Added 'res' as a parameter
         }
 
         // Compare password
-        const isPasswordValid =  bcrypt.compare(password, user.password);
+        const isPasswordValid = bcrypt.compare(password, user.password);
         console.log(isPasswordValid, "Password comparison result");
 
         if (!isPasswordValid) {
             return { status: false, message: "Invalid credentials" };
         }
 
-        // Verify if the user belongs to the provided company
-        if (!user.companyId || user.companyId._id.toString() !== companyId) {
-            console.log(user, companyId, "Company ID mismatch");
-            return { status: false, message: "User does not belong to this company" };
+        if(companyId){
+            // Verify if the user belongs to the provided company
+            if (!user.companyId || user.companyId?._id.toString() !== companyId) {
+                console.log(user, companyId, "Company ID mismatch");
+                return { status: false, message: "User does not belong to this company" };
+            }
         }
+
 
         // Generate JWT token
  
@@ -53,9 +68,13 @@ const signin = async ({ data, res }) => {  // Added 'res' as a parameter
             status: true,
             message: "User signed in successfully",
             data: {
-                email: user.email,
-                phone: user.phone,
-                companyId: user.companyId._id,
+                _id: user._id,
+                userName: {
+                    userId: user.email
+                },
+                // phone: user.phone,
+                clientId,
+                ...(companyId && user.companyId && {companyId: user.companyId._id})
             },
         };
     } catch (error) {

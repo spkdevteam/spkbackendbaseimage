@@ -36,10 +36,9 @@ const createUser =async ({data})=>{
 
         console.log(validations,'444444');
         
-        const error = validations.find(validate => !validate.status)
+        const error = validations.filter((e) => e && e.status === false);
+        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(",")};
         console.log(error,'->error');
-        
-        if(error) return error
 
         const db =await getClientDatabaseConnection(clientId)
         const User =await db.model('user',userSchema)

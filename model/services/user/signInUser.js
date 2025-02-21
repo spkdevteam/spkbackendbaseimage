@@ -2,7 +2,7 @@ const generatejwtToken = require("../../../middleware/token/createToken");
 const setTokenCookie = require("../../../utils/generateToken");
 const companySchema = require("../../company");
 const { getClientDatabaseConnection } = require("../../connection");
-const { emailValidation, passwordValidation, clientIdValidation } = require("../validation/validation")
+const { emailValidation, passwordValidation, clientIdValidation, stringValidation } = require("../validation/validation")
 const userSchema = require("../../userSchema");
 const bcrypt = require("bcryptjs");
 
@@ -21,7 +21,7 @@ const signin = async ({ data }) => {  // Added 'res' as a parameter
 
         const validations = [
             emailValidation({email: userId}),
-            passwordValidation({password}), 
+            stringValidation({string: password, name: "password: "}), 
             clientIdValidation({clientId})
 
         ]

@@ -5,12 +5,6 @@ require("dotenv").config()
 const getUserId = async ({clientId, id}) =>{
     try {
         if(!clientId) return {status: false, message: "Client Id is required"}
-        // if (!req || !req.params || !req.params.id) {
-        //     return { status: false, message: "Request object or ID missing" };
-        // }
-        
-        //extracting the id from params
-        // const {id} = req.params
         
         //fetch user by id from the database
         const db = await getClientDatabaseConnection(clientId)

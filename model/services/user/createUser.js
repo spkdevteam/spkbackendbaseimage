@@ -1,7 +1,9 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
-const { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, passwordValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation } = require("../validation/validation")
+const { emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace } = require("../validation/validation")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
+const bcrypt = require("bcryptjs")
+require("dotenv").config()
 
 const createUser =async ({data})=>{
     try {
@@ -14,16 +16,16 @@ const createUser =async ({data})=>{
         // if(!phone) return {status: false, message: "Phone is required"}
 
         const validations = [
-            firstNameValidation({firstName}),
-            lastNameValidation({lastName}),
+            stringValidation({string: firstName, name: "firstName: "}),
+            stringValidation({string: lastName, name: "lastName: "}),
             emailValidation({email}),
             phoneNumberValidation({phone}),
-            passwordValidation({password}),
+            stringValidation({string: password, name: "password: "}),
             genderValidation({gender}),
             ageValidation({age}),
             bloodGroupValidation({bloodGroup}),
             cityValidation({city}),
-            stateValidation({state}),
+            stringValidationWithSpace({string: state, name: "state: "}),
             countryValidation({country}),
             zipCodeValidation({ZipCode}), 
             clientIdValidation({clientId})
@@ -47,6 +49,10 @@ const createUser =async ({data})=>{
             return {status: false, message: "User already exists with this email"}
         }
 
+        //hash the password 
+        const salt =await bcrypt.genSalt(10)
+        const newPassword = await bcrypt.hash(password, salt)
+
         const displayId = Math.abs(await getserialNumber("user", clientId , ""))
         const user = new User({
             displayId,
@@ -55,7 +61,7 @@ const createUser =async ({data})=>{
             profileImage,
             email,
             phone,
-            password, 
+            password: newPassword, 
             gender, 
             age, 
             bloodGroup, 

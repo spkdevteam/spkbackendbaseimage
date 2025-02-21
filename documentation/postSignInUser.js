@@ -3,7 +3,7 @@
  * /users/signin:
  *   post:
  *     summary: User Sign-In
- *     description: The email will be the userId , the compulsory fields are userId, password and clientId are mandatory field and the companyId can be an optional field.
+ *     description: The email will be the userId. The compulsory fields are userId, password, clientId, and companyId.
  *     tags:
  *       - Authentication
  *     security:
@@ -24,12 +24,12 @@
  *                 type: string
  *                 format: email
  *                 description: The user's email address used as an identifier.
- *                 example: "biswarupghosh529@gmail.com"
+ *                 example: "biswarup@gmail.com"
  *               password:
  *                 type: string
  *                 format: password
  *                 description: The user's password.
- *                 example: "John@123"
+ *                 example: "hellooo"
  *               companyId:
  *                 type: string
  *                 description: The company ID associated with the user.
@@ -48,8 +48,7 @@
  *               message: "User signed in successfully."
  *               data:
  *                 _id: "67b6b05a1318925dce77fdea"
- *                 userName:
- *                   userId: "biswarupghosh529@gmail.com"
+ *                 userId: "biswarup@gmail.com"
  *                 clientId: "6788abe40db7c3b61ed93c70"
  *                 companyId: "67b037ae038ce3ffbb097924"
  *       400:

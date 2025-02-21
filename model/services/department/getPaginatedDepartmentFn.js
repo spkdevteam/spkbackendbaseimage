@@ -37,8 +37,8 @@ const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", 
                         { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" } },
                     ]
                 };
-            }
-        }
+            };
+        };
 
         //number of total departments
         const totalDocs = await Department.countDocuments(searchQuery);

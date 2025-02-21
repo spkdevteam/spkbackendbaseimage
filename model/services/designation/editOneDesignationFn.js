@@ -33,9 +33,8 @@ const editOneDesignationFn = async ({ id, title, shortName, clientId }) => {
 
         //updating doc
         const designation = await Designation.updateOne({ _id: id, deletedAt: null}, {$set: { title, shortName } });
-        console.log(designation)
+
         
-        if(designation.matchedCount < 1) return { status: false, message: "Oops try again."};
         if(designation.modifiedCount < 1) return { status: false, message: "Updation failed."};
         //getting to doc to show it to the user
         const updatedDesignation = await Designation.findOne({ _id: id, deletedAt: null });

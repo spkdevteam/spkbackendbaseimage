@@ -22,7 +22,6 @@ const deleteDesignationFn = async ({ id, clientId }) => {
 
         const designation = await Designation.updateOne({ _id: id, deletedAt: null }, { deletedAt: Date.now() });
 
-        if(designation.matchedCount < 1) return { status: false, message: "Oops try again."};
         if (designation.modifiedCount < 1) return { status: false, message: "Operation failed!!" };
 
         return { status: true, message: "Designation deleted Succesfully" };

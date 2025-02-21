@@ -2,9 +2,8 @@ const { getClientDatabaseConnection } = require("../../connection");
 const departmentSchema = require("../../department");
 const { clientIdValidation, emptyStringValidation } = require("../validation/validation");
 
-const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", clientId}) => {
+const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", clientId }) => {
     try {
-        console.log(page, perPage, searchKey, clientId)
         const validation = [
             clientIdValidation({clientId}),
             emptyStringValidation({ string: searchKey, name: "Search Key: "})

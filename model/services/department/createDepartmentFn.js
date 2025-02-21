@@ -5,22 +5,11 @@ const { stringValidation, clientIdValidation, booleanValidation, emptyStringVali
 
 const createDepartmentFn = async ({ deptName, reportingDept, description, isActive, clientId }) => {
     try {
-
-        let isActiveBoolean = true;
-
-
-        if(isActive === "false"){
-            isActiveBoolean = false;
-        }
-
-
-        if(isActive !== "false" && isActive !== "true") return { status: false, message: "Oops, try again later."}
-        
         const validation = [
             stringValidation({ string: deptName, name: "Department: " }),
             emptyStringValidation({ string: reportingDept, name: "Reporting department: " }),
             emptyStringValidation({ string: description, name: "Description: " }),
-            booleanValidation({ boolean: isActiveBoolean, name: "Active status: " }),
+            booleanValidation({ boolean: typeof isActive === "string" ? isActive.toLowerCase() : isActive, name: "Active status: " }),
             clientIdValidation({ clientId })
         ];
 
@@ -44,7 +33,7 @@ const createDepartmentFn = async ({ deptName, reportingDept, description, isActi
             companyId: null,
             description,
             deletedAt: null,
-            isActive: isActiveBoolean,
+            isActive: isActive === "true" ? true : false,
             old_Id: null,
             createdBy: null
         })

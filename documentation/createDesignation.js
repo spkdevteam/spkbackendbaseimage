@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /dept/editOneDepartment:
- *   patch:
- *     summary: Update an existing department
- *     description: Updates the department details based on the provided department ID and client ID.
+ * /designation/createDesignation:
+ *   post:
+ *     summary: Create a new designation
+ *     description: Creates a new designation entry with the provided details. Ensures that all required fields are provided and stores the designation under the given client ID.
  *     tags:
- *       - Department Management
+ *       - Designation Management
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -15,50 +15,43 @@
  *           schema:
  *             type: object
  *             required:
- *               - id
- *               - deptName
+ *               - title
  *               - clientId
  *             properties:
- *               id:
+ *               title:
  *                 type: string
- *                 description: The ID of the department to be updated.
- *                 example: "67b700d7befc9b41d31eefa1"
- *               deptName:
+ *                 description: The title of the designation to be created.
+ *                 example: "Developer"
+ *               shortName:
  *                 type: string
- *                 description: The name of the department to be updated.
- *                 example: "IT"
- *               description:
- *                 type: string
- *                 description: A brief description of the department.
- *                 example: "Changing for the testing"
+ *                 description: The short name or abbreviation for the designation.
+ *                 example: "dev"
  *               isActive:
  *                 type: string
- *                 description: Whether the department is active or not.
+ *                 description: Whether the designation is active or not.
  *                 example: "true"
  *               clientId:
  *                 type: string
- *                 description: The client ID associated with the department.
+ *                 description: The client ID associated with the designation.
  *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
- *       200:
- *         description: Department updated successfully.
+ *       201:
+ *         description: Designation successfully created.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "Department updated successfully"
+ *               message: "Designation created successfully"
  *               data:
- *                 _id: "67b700d7befc9b41d31eefa1"
- *                 deptName: "IT"
- *                 displayId: "1000013"
- *                 companyId: null
- *                 description: "Changing for the testing"
+ *                 title: "Developer"
+ *                 shortName: "dev"
+ *                 displayId: "1000011"
+ *                 createdBy: null
  *                 deletedAt: null
  *                 isActive: true
- *                 old_Id: null
- *                 createdBy: null
- *                 createdAt: "2025-02-20T10:15:51.415Z"
- *                 updatedAt: "2025-02-20T11:55:32.183Z"
+ *                 _id: "67b805eac722d5f018e4f688"
+ *                 createdAt: "2025-02-21T04:49:46.577Z"
+ *                 updatedAt: "2025-02-21T04:49:46.577Z"
  *                 __v: 0
  *       400:
  *         description: Validation error or missing required fields.
@@ -67,13 +60,13 @@
  *             example:
  *               status: false
  *               message: "Missing required fields or invalid data."
- *       404:
- *         description: Department not found.
+ *       409:
+ *         description: Conflict, designation already exists.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Department not found."
+ *               message: "Designation already exists."
  *       401:
  *         description: Unauthorized, missing or invalid token.
  *         content:

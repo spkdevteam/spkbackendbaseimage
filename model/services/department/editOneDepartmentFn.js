@@ -33,16 +33,14 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
 
         const department = await Department.findOne({ _id: id, deleted: null });
 
-        if (!department) return { status: false, message: "Oops try again." };
 
 
-        department.deptName = deptName;
-        department.description = description;
-        department.isActive = isActive;
+        const updatedDept = await Department.updateOne({ _id: id, deletedAt: null }, {$set: { deptName, description, isActive} });
 
-        const savedDepartment = await department.save();
+        if (updatedDept.modifiedCount < 1) return { status: false, message: "Oops try again." };
 
-        if (!savedDepartment) return { status: false, message: "Try again, some internal error" };
+
+        const savedDepartment = await Department.findOne({ _id: id, deletedAt: null });
 
         return { status: true, message: "Department updated successfully", data: savedDepartment };
     } catch (error) {

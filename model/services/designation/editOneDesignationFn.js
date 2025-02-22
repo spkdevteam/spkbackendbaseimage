@@ -24,17 +24,32 @@ const editOneDesignationFn = async ({ id, title, shortName, clientId }) => {
         const db = await getClientDatabaseConnection(clientId);
         const Designation = await db.model("Designation", designationSchema);
 
-        //checking wheather provided details are already being used or not
-        const alreadyTitle = await Designation.findOne({ title });
-        if(alreadyTitle) return { status: false, message: "This title is already occupied"};
+        // Check if the document exists and belongs to the user
+        const existingDesignation = await Designation.findOne({ _id: id, deletedAt: null });
+        if (!existingDesignation) {
+            return { status: false, message: "Designation not found" };
+        }
 
-        const alreadyShortName = await Designation.findOne({ shortName });
-        if(alreadyShortName) return { status: false, message: "This short name is already occupied"};
+        // Check if the user is trying to update their own designation
+        // Check title
+        if (existingDesignation.title !== title) {
+            const alreadyTitle = await Designation.findOne({ title });
+            if (alreadyTitle && alreadyTitle._id.toString() !== id) {
+                return { status: false, message: "This title is already occupied by another user" };
+            }
+        }
+
+        // Check short name
+        if (existingDesignation.shortName !== shortName) {
+            const alreadyShortName = await Designation.findOne({ shortName });
+            if (alreadyShortName && alreadyShortName._id.toString() !== id) {
+                return { status: false, message: "This short name is already occupied by another user" };
+            }
+        }
 
         //updating doc
         const designation = await Designation.updateOne({ _id: id, deletedAt: null}, {$set: { title, shortName } });
 
-        
         if(designation.modifiedCount < 1) return { status: false, message: "Updation failed."};
         //getting to doc to show it to the user
         const updatedDesignation = await Designation.findOne({ _id: id, deletedAt: null });

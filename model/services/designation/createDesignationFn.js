@@ -32,12 +32,12 @@ const createDesignationFn = async ({ title, shortName, isActive, clientId }) => 
             shortName,
             displayId: absSerialNumber,
             isActive: isActive === "true" ? true : false,
-        })
+        });
 
         const savedDesignation = await designation.save();
 
 
-        if(!savedDesignation) return { status: false, message: "Oops try again." }
+        if(!savedDesignation) return { status: false, message: "Oops try again." };
 
         return { status: true, message: "Designation created successfully", data: savedDesignation };
     } catch (error) {

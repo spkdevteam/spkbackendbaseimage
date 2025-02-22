@@ -15,7 +15,7 @@ const getOneDepartmentFn = async ({ id, clientId }) => {
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return { status: false, message: "Invalid designation ID" };
-        }
+        };
 
 
         const db = await getClientDatabaseConnection(clientId);
@@ -25,7 +25,7 @@ const getOneDepartmentFn = async ({ id, clientId }) => {
 
         if (!department) return { status: false, message: "Try again!!", data: {} };
 
-        return { status: true, message: "User is here", data: department }
+        return { status: true, message: "User is here", data: department };
     } catch (error) {
         return { status: false, message: error.message };
     }

@@ -36,7 +36,7 @@ const createDepartmentFn = async ({ deptName, reportingDept, description, isActi
             isActive: isActive === "true" ? true : false,
             old_Id: null,
             createdBy: null
-        })
+        });
 
         const savedDepartment = await department.save();
 
@@ -45,7 +45,7 @@ const createDepartmentFn = async ({ deptName, reportingDept, description, isActi
 
         return { status: true, message: "New department is created", data: savedDepartment};
     } catch (error) {
-        return { status: false, message: error.message }
+        return { status: false, message: error.message };
     }
 }
 

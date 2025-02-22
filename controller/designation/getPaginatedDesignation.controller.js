@@ -15,7 +15,8 @@ const getPaginatedDesignation = async (req, res, next)=> {
         cleanQuery.perPage = parseInt(cleanQuery.perPage, 10);
         const { page, perPage, searchKey } = cleanQuery;
         const result = await getPaginatedDesignationFn({ page, perPage, searchKey, clientId });
-        return res.status(200).json({ status: result?.status,
+        return res.status(200).json({ 
+            status: result?.status,
             message: result?.message,
             totalDocs: result?.totalDocs,
             totalPages: result?.totalPages,

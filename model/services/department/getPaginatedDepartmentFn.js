@@ -35,13 +35,14 @@ const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", 
                         { description: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
                         { deptName: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
                         { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                    ]
+                    ],
+                    deletedAt: null
                 };
             };
         };
 
         //number of total departments
-        const totalDocs = await Department.countDocuments(searchQuery);
+        const totalDocs = await Department.countDocuments({...searchQuery, deletedAt: null});
 
         //fetch paginated data
         const Departments = await Department.find({...searchQuery,deletedAt:null}).limit(perPageNumber).skip(skip).lean();
@@ -49,7 +50,7 @@ const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", 
 
         if (Departments.length === 0) {
             return { status: false, message: "No departments found", totalDocs: 0, totalPages: 0, data: [] };
-        }
+        };
 
         //checking number of total pages
         const totalPages = Math.ceil(totalDocs / perPageNumber);

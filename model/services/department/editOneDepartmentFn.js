@@ -18,14 +18,14 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
             emptyStringValidation({ string: description, name: "Description: " }),
             clientIdValidation({ clientId }),
             booleanValidation({ boolean: isActiveBoolean, name: "Active status: " })
-        ]
+        ];
 
         const error = validation.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return { status: false, message: "Invalid designation ID" };
-        }
+        };
 
 
         const db = await getClientDatabaseConnection(clientId);
@@ -33,7 +33,7 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
 
         const department = await Department.findOne({ _id: id, deleted: null });
 
-        if (!department) return { status: false, message: "Oops try again." }
+        if (!department) return { status: false, message: "Oops try again." };
 
 
         department.deptName = deptName;
@@ -46,7 +46,7 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
 
         return { status: true, message: "Department updated successfully", data: savedDepartment };
     } catch (error) {
-        return { status: false, message: error.message }
+        return { status: false, message: error.message };
     }
 }
 

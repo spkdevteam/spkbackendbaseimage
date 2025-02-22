@@ -18,7 +18,7 @@ const editOneDesignationFn = async ({ id, title, shortName, clientId }) => {
         //checking authenticity of passed document id
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return { status: false, message: "Invalid designation ID" };
-        }
+        };
 
         //getting db connection
         const db = await getClientDatabaseConnection(clientId);

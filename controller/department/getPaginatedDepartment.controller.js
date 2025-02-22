@@ -14,8 +14,8 @@ const getPaginatedDepartment = async (req, res, next) => {
         // convert page and perPage to numbers
         cleanQuery.page = parseInt(cleanQuery.page, 10);
         cleanQuery.perPage = parseInt(cleanQuery.perPage, 10);
-
-        const result = await getPaginatedDepartmentFn({ ...cleanQuery, clientId });
+        const { page, perPage, searchKey } = cleanQuery;
+        const result = await getPaginatedDepartmentFn({ page, perPage, searchKey, clientId });
         return res.status(200).json({
             status: result?.status,
             message: result?.message,

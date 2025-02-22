@@ -3,8 +3,8 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const createDesignation = async (req, res, next) => {
     try {
-        const designation = await sanitizeBody(req.body);
-        const result = await createDesignationFn(designation);
+        const { title, shortName, isActive, clientId } = await sanitizeBody(req.body);
+        const result = await createDesignationFn({ title, shortName, isActive, clientId });
         return res.status(201).json({ status: result?.status, message: result?.message, data: result?.data });
     } catch (error) {
         next(error);

@@ -2,28 +2,25 @@ const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, zipCodeValidation } = require("../validation/validation")
 
-const editUser = async ({data}) =>{
+const editUser = async ({id,
+    clientId, 
+    firstName,
+    lastName,
+    profileImage,
+    email,
+    phone,
+    password,
+    gender,
+    age,
+    bloodGroup,
+    city,
+    state,
+    country,
+    ZipCode,
+    address,
+    isVerified,
+    isActive}) =>{
     try {
-
-        const {
-            id,
-            clientId, 
-            firstName,
-            lastName,
-            profileImage,
-            email,
-            phone,
-            password,
-            gender,
-            age,
-            bloodGroup,
-            city,
-            state,
-            country,
-            ZipCode,
-            address,
-            isVerified,
-            isActive} = data
 
         const validations = [
             clientIdValidation({clientId}),
@@ -50,14 +47,14 @@ const editUser = async ({data}) =>{
         const User = await db.model("user", userSchema)
 
         //checking whether user exists or not if exists then they can update else not
-        const userMail = await User.findOne({email})
-        if(userMail){
-            return {status: false, message: "User with this email already exists"}
-        }
-        const userPhone = await User.findOne({phone})
-        if(userPhone){
-            return {status: false, message: "User with this phone number already exists"}
-        }
+        // const userMail = await User.findOne({email})
+        // if(userMail){
+        //     return {status: false, message: "User with this email already exists"}
+        // }
+        // const userPhone = await User.findOne({phone})
+        // if(userPhone){
+        //     return {status: false, message: "User with this phone number already exists"}
+        // }
         const updateUser = await User.updateOne({ _id: id, deletedAt: null}, {$set: { 
             firstName,
             lastName,
@@ -75,8 +72,6 @@ const editUser = async ({data}) =>{
             address,
             isVerified,
             isActive}})
-            console.log(updateUser, "=================================");
-            
             //checking if the update is 
             if(updateUser.matchedCount < 1){
                 return {status: false, message: "Oops try again"};

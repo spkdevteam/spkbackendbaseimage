@@ -10,11 +10,9 @@ require("dotenv").config()
 const signup = async (req, res, next) => {
 
     try {
-        console.log("Original request body:", req.body);
-        // const { firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId} =await sanitizeBody(req.body)
-        const data =await sanitizeBody(req.body)
-        // console.log("After sanitization:", data);
-        const result =await createUser({data})
+        const data =await sanitizeBody(req.body) || {}
+        const { firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId} = data
+        const result =await createUser({ firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId})
         console.log("the result:", result);
         return res.status(201).json({ status: result?.status, message:result?.message, data:result?.data })
 
@@ -26,8 +24,10 @@ const signup = async (req, res, next) => {
 
 const signInUser = async(req, res, next) =>{
     try {
-        const data = await sanitizeBody(req.body)
-        const result = await signin({data})
+        const data = await sanitizeBody(req.body) || {}
+        const email = data?.email || data?.userId
+        const { password, companyId, clientId} = data
+        const result = await signin({userId: email, password, companyId, clientId})
         const user = result.data
         const token = generatejwtToken({userId: user?._id}) 
         setTokenCookie(res, token)

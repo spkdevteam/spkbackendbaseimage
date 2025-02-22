@@ -6,24 +6,13 @@ const { emailValidation, passwordValidation, clientIdValidation, stringValidatio
 const userSchema = require("../../userSchema");
 const bcrypt = require("bcryptjs");
 
-require("dotenv").config();
 
-const signin = async ({ data }) => {  // Added 'res' as a parameter
+const signin = async ( { userId, password, companyId, clientId} ) => {  // Added 'res' as a parameter
     try {
-        const { userId, password, companyId, clientId} = data;
-        console.log(data, "data---------------");
-
-        // Validate required fields first
-        // if (!clientId) return { status: false, message: "Client ID is required" };
-        // if (!email || !password) {
-        //     return { status: false, message: "Email, Password are required" };
-        // }
-
         const validations = [
             emailValidation({email: userId}),
             stringValidation({string: password, name: "password: "}), 
             clientIdValidation({clientId})
-
         ]
 
         const error = validations.filter((e) => e && e.status === false);
@@ -72,7 +61,6 @@ const signin = async ({ data }) => {  // Added 'res' as a parameter
                 userName: {
                     userId: user.email
                 },
-                // phone: user.phone,
                 clientId,
                 ...(companyId && user.companyId && {companyId: user.companyId._id})
             },

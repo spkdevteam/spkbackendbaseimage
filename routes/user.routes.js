@@ -6,11 +6,12 @@ const deleteUser = require("../controller/user/deleteUser.controller")
 
 const router = express.Router()
 
-router.get("/get-all/:clientId", getAllUser)
-router.get("/getId/:clientId/:id", getUserById)
-router.post("/create", signup)
-router.post("/signin", signInUser)
-router.patch("/edit", updateUser)
-router.delete("/delete/:clientId/:id", deleteUser)
+router
+    .get("/get-all/:clientId", getAllUser)
+    .get("/getId/:clientId/:id", getUserById)
+    .post("/create", signup)
+    .post("/signin", signInUser)
+    .patch("/edit", updateUser)
+    .delete("/delete/:clientId/:id", deleteUser)
 
 module.exports = router

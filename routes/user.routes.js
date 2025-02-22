@@ -3,7 +3,7 @@ const {getAllUser, getUserById } = require("../controller/user/getUser.controlle
 const {signInUser, signup} = require("../controller/user/postUserSign.controller")
 const updateUser = require("../controller/user/updateUser.controller")
 const deleteUser = require("../controller/user/deleteUser.controller")
-
+const {forgot_password,verify_otp,reset_password} = require('../controller/user/postPasswordFunctionality.controller')
 const router = express.Router();
 
 router.get("/get-all/:clientId", getAllUser)

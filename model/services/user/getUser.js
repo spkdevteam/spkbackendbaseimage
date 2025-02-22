@@ -9,9 +9,6 @@ const getUserAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
         clientIdValidation({clientId}),
         stringValidationWithSpace({string: searchKey, name: "searchKey: " })
        ]
-
-       
-       console.log(searchKey, "======================================");
        const error = validations.filter((e) => e && e.status === false)
        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(", ")}
         

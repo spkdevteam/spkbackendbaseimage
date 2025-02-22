@@ -3,6 +3,7 @@ const {getAllUser, getUserById } = require("../controller/user/getUser.controlle
 const {signInUser, signup} = require("../controller/user/postUserSign.controller")
 const updateUser = require("../controller/user/updateUser.controller")
 const deleteUser = require("../controller/user/deleteUser.controller")
+const logOutUser = require("../controller/user/logOutUser.controller")
 
 const router = express.Router()
 
@@ -13,5 +14,6 @@ router
     .post("/signin", signInUser)
     .patch("/edit", updateUser)
     .delete("/delete/:clientId/:id", deleteUser)
+    .post("/logout", logOutUser)
 
 module.exports = router

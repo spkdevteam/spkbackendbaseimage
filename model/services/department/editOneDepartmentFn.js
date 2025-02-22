@@ -31,9 +31,6 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
         const db = await getClientDatabaseConnection(clientId);
         const Department = await db.model("Department", departmentSchema);
 
-        const department = await Department.findOne({ _id: id, deleted: null });
-
-
 
         const updatedDept = await Department.updateOne({ _id: id, deletedAt: null }, {$set: { deptName, description, isActive} });
 

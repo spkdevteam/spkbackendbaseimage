@@ -11,7 +11,7 @@ const signin = async ( { userId, password, companyId, clientId} ) => {  // Added
     try {
         const validations = [
             emailValidation({email: userId}),
-            stringValidation({string: password, name: "password: "}), 
+            passwordValidation({password: String(password)}), 
             clientIdValidation({clientId})
         ]
 

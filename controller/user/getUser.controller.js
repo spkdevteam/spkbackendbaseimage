@@ -28,7 +28,8 @@ const getAllUser = async (req, res, next) =>{
 const getUserById = async(req, res, next) =>{
     try {
         const user = await sanitizeBody(req.params);
-        const result = await getUserId(user)
+        const {clientId, id} = user
+        const result = await getUserId({clientId, id})
         return res.status(200).json({status: result.status, message: result.message, data: result.data})
     } catch (error) {
         next(error)

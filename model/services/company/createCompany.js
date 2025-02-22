@@ -1,32 +1,36 @@
 const companySchema = require("../../company")
 const { getClientDatabaseConnection } = require("../../connection")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
-const {nameValidation, incorporationNameValidation, cinNumberValidation, gstNumberValidation, cityValidation, stateValidation, countryValidation,zipCodeValidation, addressValidation, clientIdValidation} = require("../validation/companyValidation")
+const {incorporationNameValidation, cinNumberValidation, gstNumberValidation} = require("../validation/companyValidation")
+const { stringValidationWithSpace, clientIdValidation, countryValidation, stateValidation, cityValidation, zipCodeValidation, emailValidation, phoneNumberValidation  } = require("../validation/validation")
 require("dotenv").config()
 
 const createCompany = async ({name, incorporationName, cinNumber, gstNumber, prefix, Logo, email, contactNumber, city, state, country, ZipCode, address, clientId}) => {
+    // const {name, incorporationName, cinNumber, gstNumber, prefix, Logo, email, contactNumber, city, state, country, ZipCode, address, clientId} = data
     console.log(name,'rrrr');
 
     try {
-        if(!clientId) return {status:false,message:'Some network credential are missing '}
-
         const validations = [
-            nameValidation({name}),
+            stringValidationWithSpace({string: name, name: "name: "}),
             incorporationNameValidation({incorporationName}),
             cinNumberValidation({cinNumber}),
+            emailValidation({email}),
             gstNumberValidation({gstNumber}),
             countryValidation({country}),
+            phoneNumberValidation({phone: contactNumber}),
             stateValidation({state}),
             cityValidation({city}),
             zipCodeValidation({ZipCode}),
-            addressValidation({address}),
-            // clientIdValidation({clientId})
+            stringValidationWithSpace({string: address, address: "address: "}),
+            clientIdValidation({clientId})
         ]
 
-        //check the validation error
-        const error = validations.find(validate => validate !== undefined)
+        console.log(validations, "rrrrrrrr");
+        
 
-        if(error) return error
+        //check the validation error
+        const error = validations.filter((e) => e && e.status == false)
+        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(",")}
 
         //connecting to db to store company data
         const db =await getClientDatabaseConnection(clientId)
@@ -34,9 +38,14 @@ const createCompany = async ({name, incorporationName, cinNumber, gstNumber, pre
         
         const Company =await db.model('company',companySchema)
         console.log("log the company", Company);
+
+        const companyExists = await Company.findOne({gstNumber})
+        if(companyExists){
+            return {status: false, message: "Company already exists"}
+        }
         
         //generating the displayId
-        const displayId = Math.abs(await getserialNumber("company", process.env.CLIENTID_FOR_USER, ""))
+        const displayId = Math.abs(await getserialNumber("company", clientId, ""))
         //creat company
         const company = new Company({
             displayId,

@@ -5,16 +5,8 @@ const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
 const bcrypt = require("bcryptjs")
 require("dotenv").config()
 
-const createUser =async ({data})=>{
+const createUser =async ({firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId})=>{
     try {
-        const {firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId} = data
-        // console.log(firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,typeof(clientId));
-        console.log(clientId);
-        
-        // if(!clientId) return {status:false,message:'Some network credential are missing '}
-        // if(!email) return {status: false, message: "Email is required"}
-        // if(!phone) return {status: false, message: "Phone is required"}
-
         const validations = [
             stringValidation({string: firstName, name: "firstName: "}),
             stringValidation({string: lastName, name: "lastName: "}),
@@ -30,12 +22,7 @@ const createUser =async ({data})=>{
             zipCodeValidation({ZipCode}), 
             clientIdValidation({clientId})
         ]
-        //establishing connection to database
-         
-        //check the validation error
-
-        console.log(validations,'444444');
-        
+        //check the validation error        
         const error = validations.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(",")};
         console.log(error,'->error');
@@ -48,12 +35,12 @@ const createUser =async ({data})=>{
         if(alreadyExists){
             return {status: false, message: "User already exists with this email"}
         }
-
-        //hash the password 
+       //hash the password 
         const salt =await bcrypt.genSalt(10)
         const newPassword = await bcrypt.hash(password, salt)
 
         const displayId = Math.abs(await getserialNumber("user", clientId , ""))
+
         const user = new User({
             displayId,
             firstName,
@@ -70,19 +57,15 @@ const createUser =async ({data})=>{
             country, 
             ZipCode, 
             address,
-            // clientId
         })
         console.log("user logged:",user);
         
         const result = await user.save()
-        console.log("user save result:", result);
-        
-        return {status:true,message:'User created successfully', data:{_id:result._id}}
-
-        
+        console.log("user save result:", result);      
+        return {status:true,message:'User created successfully', data:{_id:result._id}}        
     } catch (error) {
         return { status: false, message: error.message };
     }
 }
 
-module.exports = createUser;
+module.exports = createUser

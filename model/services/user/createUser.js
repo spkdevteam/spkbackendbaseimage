@@ -1,7 +1,7 @@
 const { status } = require("express/lib/response")
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
-const { emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace } = require("../validation/validation")
+const { emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace, passwordValidation } = require("../validation/validation")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
 const bcrypt = require("bcryptjs")
 require("dotenv").config()
@@ -13,7 +13,7 @@ const createUser =async ({firstName, lastName, profileImage, companyId, email, p
             stringValidation({string: lastName, name: "lastName: "}),
             emailValidation({email}),
             phoneNumberValidation({phone}),
-            stringValidation({string: password, name: "password: "}),
+            passwordValidation({password: String(password)}),
             genderValidation({gender}),
             ageValidation({age}),
             bloodGroupValidation({bloodGroup}),

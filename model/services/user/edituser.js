@@ -1,6 +1,6 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
-const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, zipCodeValidation } = require("../validation/validation")
+const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, zipCodeValidation, passwordValidation } = require("../validation/validation")
 
 const editUser = async ({id,
     clientId, 
@@ -28,7 +28,7 @@ const editUser = async ({id,
             stringValidation({string: lastName, name: "lastName: "}),
             emailValidation({email}),
             phoneNumberValidation({phone}),
-            stringValidation({string: password, name: "password: "}),
+            passwordValidation({password: String(password)}),
             genderValidation({gender}),
             ageValidation({age}),
             bloodGroupValidation({bloodGroup}),

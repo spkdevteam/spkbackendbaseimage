@@ -13,14 +13,14 @@ const emailValidation = ({ email }) => {
         console.log(email)
         return { status: false, message: "Invalid Email" };
     }
-    return { status: true, message: "Success" }
+    return { status: true, message: "Success" };
 }
 
 const phoneNumberValidation = ({ phone }) => {
     if (!phone || typeof phone !== 'string' || phone.length < 10 || phone.length > 25 || !/^\+?(\d{1,3})?[-. ]?\(?(\d{3})\)?[-. ]?(\d{3})[-. ]?(\d{4})$/.test(phone)) {
         return { status: false, message: "Invalid Phone" };
     }
-    return { status: true, message: "Success" }
+    return { status: true, message: "Success" };
 }
 
 const genderValidation = ({ gender }) => {
@@ -28,8 +28,7 @@ const genderValidation = ({ gender }) => {
         || !["Male", "Female", "Other", "Prefer not to say"].includes(gender)) {
         return { status: false, message: "Invalid Gender" };
     }
-    return { status: true, message: "Success" }
-    return { status: true, message:"Success"}
+    return { status: true, message: "Success" };
 }
 
 const ageValidation = ({ age }) => {
@@ -86,7 +85,6 @@ const stringValidation = ({ string, name = "" }) => {
 }
 
 const emptyStringValidation = ({ string, name = "" }) => {
-    console.log(typeof string !== "string", string.length > 500 , !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string))
     if (typeof string !== "string"|| string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
         return { status: false, message: `Invalid ${name}${string}` };
     }
@@ -94,7 +92,7 @@ const emptyStringValidation = ({ string, name = "" }) => {
 }
 
 const booleanValidation = ({ boolean, name = "" }) => {
-    if (typeof boolean !== "boolean") {
+    if ((boolean !== "true" && boolean !== "false") && (boolean !== true && boolean !== false)) {
         return { status: false, message: `Invalid ${name}${boolean}` };
     }
 }

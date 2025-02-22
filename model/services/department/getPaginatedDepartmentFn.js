@@ -2,9 +2,8 @@ const { getClientDatabaseConnection } = require("../../connection");
 const departmentSchema = require("../../department");
 const { clientIdValidation, emptyStringValidation } = require("../validation/validation");
 
-const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", clientId}) => {
+const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", clientId }) => {
     try {
-        console.log(page, perPage, searchKey, clientId)
         const validation = [
             clientIdValidation({clientId}),
             emptyStringValidation({ string: searchKey, name: "Search Key: "})
@@ -33,13 +32,13 @@ const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", 
             if (isNaN(searchKey)) {
                 searchQuery = {
                     $or: [
-                        { description: { $regex: `^${escapedSearchKey}`, $options: "i" } },
-                        { deptName: { $regex: `^${escapedSearchKey}`, $options: "i" } },
-                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" } },
+                        { description: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
+                        { deptName: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
+                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
                     ]
                 };
-            }
-        }
+            };
+        };
 
         //number of total departments
         const totalDocs = await Department.countDocuments(searchQuery);

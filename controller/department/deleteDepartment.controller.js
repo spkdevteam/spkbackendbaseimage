@@ -1,14 +1,14 @@
 const deleteDepartmentFn = require("../../model/services/department/deleteDepartmentFn");
 const sanitizeBody = require("../../utils/sanitizeBody");
 
-const deleteController = async (req, res, next) => {
+const deleteDepartment = async (req, res, next) => {
     try {
-        const department = await sanitizeBody(req.params);
-        const result = await deleteDepartmentFn(department);
+        const { id, clientId } = await sanitizeBody(req.params);
+        const result = await deleteDepartmentFn({ id, clientId });
         return res.status(200).json({ status: result?.status, message: result?.message});
     } catch (error) {
         next(error);
     }
 }
 
-module.exports = deleteController;
+module.exports = deleteDepartment;

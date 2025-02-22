@@ -1,10 +1,11 @@
 const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
-const departmentSchema = require("../../department");
+const designationSchema = require("../../designation");
 const { clientIdValidation } = require("../validation/validation");
 
-const deleteDepartmentFn = async ({ id, clientId }) => {
+const deleteDesignationFn = async ({ id, clientId }) => {
     try {
+        console.log(id, clientId)
         const validation = [
             clientIdValidation({ clientId })
         ];
@@ -16,21 +17,17 @@ const deleteDepartmentFn = async ({ id, clientId }) => {
             return { status: false, message: "Invalid designation ID" };
         }
 
-
         const db = await getClientDatabaseConnection(clientId);
-        const Department = await db.model("Department", departmentSchema);
+        const Designation = db.model("Designation", designationSchema);
 
+        const designation = await Designation.updateOne({ _id: id, deletedAt: null }, { deletedAt: Date.now() });
 
-        const department = await Department.findOneAndUpdate({ _id: id, deletedAt: null }, { deletedAt: Date.now() }, { new: true });
+        if (designation.modifiedCount < 1) return { status: false, message: "Operation failed!!" };
 
-
-        if (!department) return { status: false, message: "Error occurred, try again." };
-
-        return { status: true, message: "Department is deleted" };
+        return { status: true, message: "Designation deleted Succesfully" };
     } catch (error) {
         return { status: false, message: error.message };
     }
 }
 
-
-module.exports = deleteDepartmentFn;
+module.exports = deleteDesignationFn;

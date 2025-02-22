@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
 const departmentSchema = require("../../department");
 const { stringValidation, emptyStringValidation, clientIdValidation, booleanValidation } = require("../validation/validation");
@@ -7,23 +8,24 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
         let isActiveBoolean = true;
 
 
-        if(isActive === "false"){
+        if (isActive === "false") {
             isActiveBoolean = false;
         }
 
 
-        if(isActive !== "false" && isActive !== "true") return { status: false, message: "Oops, try again later."}
-
-
         const validation = [
-            stringValidation({ string: deptName, name: "Department name: "}),
-            emptyStringValidation({ string: description, name: "Description: "}),
+            stringValidation({ string: deptName, name: "Department name: " }),
+            emptyStringValidation({ string: description, name: "Description: " }),
             clientIdValidation({ clientId }),
-            booleanValidation({ boolean: isActiveBoolean, name: "Active status: "})
+            booleanValidation({ boolean: isActiveBoolean, name: "Active status: " })
         ]
 
         const error = validation.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return { status: false, message: "Invalid designation ID" };
+        }
 
 
         const db = await getClientDatabaseConnection(clientId);
@@ -31,7 +33,7 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
 
         const department = await Department.findOne({ _id: id, deleted: null });
 
-        if(!department) return { status: false, message: "Oops try again."}
+        if (!department) return { status: false, message: "Oops try again." }
 
 
         department.deptName = deptName;
@@ -40,9 +42,9 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
 
         const savedDepartment = await department.save();
 
-        if(!savedDepartment) return { status: false, message: "Try again, some internal error"};
+        if (!savedDepartment) return { status: false, message: "Try again, some internal error" };
 
-        return { status: true, message: "Department updated successfully", data: savedDepartment};
+        return { status: true, message: "Department updated successfully", data: savedDepartment };
     } catch (error) {
         return { status: false, message: error.message }
     }

@@ -1,12 +1,27 @@
 const editAPI = require("../../model/services/apiMaster/editApiMaster")
+const toggleApiStatus = require("../../model/services/apiMaster/toggleApiStatus")
+const sanitizeBody = require("../../utils/sanitizeBody")
 
-const editAPIMaster = async (req, res) =>{
+const editAPIMaster = async (req, res, next) =>{
     try {
-        const result =await editAPI({req})
+        const data = await sanitizeBody(req.body)
+        const {id, APIName, path, clientId} = data
+        const result =await editAPI({id, APIName, path, clientId})
         return res.status(200).json({status: result.status, message: result.message})
     } catch (error) {
         next(error)
     }
 }
 
-module.exports = editAPIMaster
+const toggleApiMaster = async (req, res, next) =>{
+    try {
+        const data = await sanitizeBody(req.body)
+        const {clientId, id} = data
+        const result = await toggleApiStatus({clientId, id})
+        return res.status(200).json({status: result?.status, message: result?.message, data: result?.data})
+    } catch (error) {
+        next(error)
+    }
+}
+
+module.exports = {editAPIMaster, toggleApiMaster}

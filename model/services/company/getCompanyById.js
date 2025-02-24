@@ -8,9 +8,6 @@ const getCompanyId = async({clientId, id}) =>{
             clientIdValidation({clientId})
 
         ]
-        //check the validation error
-        console.log(validations,'444444');
-        
         const error = validations.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(",")};
         console.log(error,'->error');
@@ -20,12 +17,12 @@ const getCompanyId = async({clientId, id}) =>{
         const Company = await db.model("company", companySchema)
 
         //fetching the data by id
-        const companyId = await Company.findById(id)
+        const companyId = await Company.findOne({_id: id, $or: [{deletedAt: null}]})
 
         if(companyId){
             return {status: true, message: "Company fetched by id", data: companyId}
         }else{
-            return {status: false, message: "Could not fetched company by id", data: []}
+            return {status: false, message: "Company not found or may have been deleted", data: []}
         }
     } catch (error) {
         console.log("Error fetching company by id", error);

@@ -1,17 +1,22 @@
 const apiSchema = require("../../apiMaster")
 const { getClientDatabaseConnection } = require("../../connection")
-const userSchema = require("../../userSchema")
+const userSchema = require("../../userSchema");
+const { clientIdValidation } = require("../validation/validation");
 
-const createAPI = async ({APIName, path, clientId}) =>{
+const createAPI = async ({APIName, path, menu, clientId}) =>{
     console.log("client id:", clientId);
     
     try {
-        if(!clientId) return {status: false, message: "Some network credential are missing"}
+        const validations = [
+            clientIdValidation({clientId})
+        ]
+        const error = validations.filter((e) => e && e.status === false)
+        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(", ")}
 
         //connect to the db
-        const db = await getClientDatabaseConnection(clientId)
+        const db = await getClientDatabaseConnection(clientId) 
+
         const API = await db.model("api", apiSchema)
-        const User = await db.model("user", userSchema)
 
         //handel error
         if(!APIName || !path){
@@ -27,11 +32,12 @@ const createAPI = async ({APIName, path, clientId}) =>{
         }
         const apiMaster = new API({
             APIName,
-            path
+            path,
+            menu
         })
 
         const result = await apiMaster.save()
-        console.log(result._id);
+        // console.log(result._id);
         
 
         return {status: true, message: "API created successfully", data:{_id:result._id}}

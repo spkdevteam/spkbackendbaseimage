@@ -1,13 +1,13 @@
 const companySchema = require("../../company")
 const { getClientDatabaseConnection } = require("../../connection")
 const paginate = require("../pagination")
-const { clientIdValidation, stringValidationWithSpace } = require("../validation/validation")
+const { clientIdValidation, stringValidationWithSpace, stringValidation } = require("../validation/validation")
 
 const getCompanyAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
     try {
         const validations = [
             clientIdValidation({clientId}),
-            stringValidationWithSpace({string: searchKey, name: "searchKey: " })
+            stringValidation({string: searchKey, name: "searchKey: " })
         ]
         //check the validation error
         console.log(validations,'444444');

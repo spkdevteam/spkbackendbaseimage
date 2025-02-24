@@ -1,14 +1,16 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const paginate = require("../pagination")
-const { clientIdValidation, stringValidationWithSpace } = require("../validation/validation")
+const { clientIdValidation, stringValidation, } = require("../validation/validation")
 
 const getUserAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
+
     try {
        const validations = [
         clientIdValidation({clientId}),
-        stringValidationWithSpace({string: searchKey, name: "searchKey: " })
+        stringValidation({ string: searchKey, name: "searchKey: " })
        ]
+       
        const error = validations.filter((e) => e && e.status === false)
        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(", ")}
         

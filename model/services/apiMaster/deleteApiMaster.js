@@ -1,12 +1,17 @@
 const apiSchema = require("../../apiMaster")
-const { getClientDatabaseConnection } = require("../../connection")
+const { getClientDatabaseConnection } = require("../../connection");
+const { clientIdValidation } = require("../validation/validation");
 
-const softDeleteAPI = async ({req, clientId}) =>{
+const softDeleteAPI = async ({id, clientId}) =>{
     try {
         console.log("client id:", clientId);
         
-        const {id} = req.params
-        if(!clientId) return {status: false, message: "Client ID is required"}
+        const validations = [
+            clientIdValidation({clientId})
+        ]
+
+        const error = validations.filter((e) => e && e.status == false)
+        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(",")}
 
         const db = await getClientDatabaseConnection(clientId)
         const API = await db.model("api", apiSchema)
@@ -24,7 +29,7 @@ const softDeleteAPI = async ({req, clientId}) =>{
         return {status: true, message: "API deleted successfully", data: api}
     } catch (error) {
         console.log("Error deleting the apiMaster", error);
-        return {status: false, message: "Internal Server Error", error: error.message}
+        return {status: false, message: "Fail to delete api master", error: error.message}
     }
 }
 

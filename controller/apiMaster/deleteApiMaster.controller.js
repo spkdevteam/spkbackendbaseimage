@@ -3,13 +3,9 @@ const sanitizeBody = require("../../utils/sanitizeBody")
 
 const deleteApiMaster = async (req, res, next) =>{
     try {
-        const data = await sanitizeBody(req.body)
-
-        const {client: clientId} = req.params 
-        if(!clientId){
-            return res.status(400).json({status: false, message: "clientId is required"})
-        }
-        const result = await softDeleteAPI({clientId,req})
+        const data = await sanitizeBody(req.params)
+        const {id, clientId} = data
+        const result = await softDeleteAPI({id, clientId})
         
         return res.status(200).json({status: result.status, message: result.message, data: result.data})
     } catch (error) {

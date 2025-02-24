@@ -6,9 +6,7 @@ const { stringValidationWithSpace, clientIdValidation, countryValidation, stateV
 require("dotenv").config()
 
 const createCompany = async ({name, incorporationName, cinNumber, gstNumber, prefix, Logo, email, contactNumber, city, state, country, ZipCode, address, clientId}) => {
-    // const {name, incorporationName, cinNumber, gstNumber, prefix, Logo, email, contactNumber, city, state, country, ZipCode, address, clientId} = data
-    console.log(name,'rrrr');
-
+    
     try {
         const validations = [
             stringValidationWithSpace({string: name, name: "name: "}),

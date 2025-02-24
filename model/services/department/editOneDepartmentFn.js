@@ -3,21 +3,12 @@ const { getClientDatabaseConnection } = require("../../connection");
 const departmentSchema = require("../../department");
 const { stringValidation, emptyStringValidation, clientIdValidation, booleanValidation } = require("../validation/validation");
 
-const editOneDepartmentFn = async ({ id, deptName, description, isActive, clientId }) => {
+const editOneDepartmentFn = async ({ id, deptName, description, clientId }) => {
     try {
-        let isActiveBoolean = true;
-
-
-        if (isActive === "false") {
-            isActiveBoolean = false;
-        }
-
-
         const validation = [
             stringValidation({ string: deptName, name: "Department name: " }),
             emptyStringValidation({ string: description, name: "Description: " }),
             clientIdValidation({ clientId }),
-            booleanValidation({ boolean: isActiveBoolean, name: "Active status: " })
         ];
 
         const error = validation.filter((e) => e && e.status === false);
@@ -32,14 +23,22 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
         const Department = await db.model("Department", departmentSchema);
 
 
-        const updatedDept = await Department.updateOne({ _id: id, deletedAt: null }, { $set: { deptName, description, isActive} });
+        // Check if the document exists and belongs to the user
+        const existingDepartment = await Department.findOne({ _id: id, deletedAt: null });
 
-        if (updatedDept.modifiedCount < 1) return { status: false, message: "Oops try again." };
+        if (!existingDepartment) {
+            return { status: false, message: "Designation not found" };
+        }
 
 
-        const savedDepartment = await Department.findOne({ _id: id, deletedAt: null });
+        if(existingDepartment.deptName === deptName && existingDepartment.description === description) return { status: false, message: "No change done."};
 
-        return { status: true, message: "Department updated successfully", data: savedDepartment };
+
+        const updatedDept = await Department.updateOne({ _id: id, deletedAt: null }, { $set: { deptName, description } });
+
+        if (updatedDept.modifiedCount > 0) return { status: true, message: "Successfully updated department." };
+
+        return { status: false, message: "Department updation failed."};
     } catch (error) {
         return { status: false, message: error.message };
     }

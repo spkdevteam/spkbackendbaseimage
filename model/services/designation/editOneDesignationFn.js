@@ -26,9 +26,12 @@ const editOneDesignationFn = async ({ id, title, shortName, clientId }) => {
 
         // Check if the document exists and belongs to the user
         const existingDesignation = await Designation.findOne({ _id: id, deletedAt: null });
+        
         if (!existingDesignation) {
             return { status: false, message: "Designation not found" };
         }
+
+        if(existingDesignation.title === title && existingDesignation.shortName === shortName) return { status: false, message: "No change done."};
 
         // Check if the user is trying to update their own designation
         // Check title
@@ -50,11 +53,10 @@ const editOneDesignationFn = async ({ id, title, shortName, clientId }) => {
         //updating doc
         const designation = await Designation.updateOne({ _id: id, deletedAt: null}, {$set: { title, shortName } });
 
-        if(designation.modifiedCount < 1) return { status: false, message: "Updation failed."};
-        //getting to doc to show it to the user
-        const updatedDesignation = await Designation.findOne({ _id: id, deletedAt: null });
+        if(designation.modifiedCount > 0) return { status: true, message: "Successfully updated designation"};
+
         //returning the doc
-        return {staus: true, message: `Designation is updated`, data: updatedDesignation };
+        return {staus: true, message: `Designation is updation failed`};
     } catch (error) {
         return { status: false, message: error.message };
     }

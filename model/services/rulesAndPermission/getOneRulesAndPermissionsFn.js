@@ -1,10 +1,11 @@
 const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
-const designationSchema = require("../../designation");
+const rulesSchema = require("../../rules");
 const { clientIdValidation } = require("../validation/validation");
 
-const getOneDesignationFn = async ({ id, clientId }) => {
+const getOneRulesAndPermissionsFn = async ({ id, clientId }) => {
     try {
+
         const validation = [
             clientIdValidation({ clientId })
         ];
@@ -14,23 +15,24 @@ const getOneDesignationFn = async ({ id, clientId }) => {
         if(error.length > 0) return { status: false, message: error.map(e=>e.message).join(", ")};
 
 
+
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return { status: false, message: "Invalid rule ID" };
+            return { status: false, message: "Invalid designation ID" };
         };
 
-
         const db = await getClientDatabaseConnection(clientId);
-        const Designation = await db.model("Designation", designationSchema);
+        const RulesAndPermission = await db.model("Rule", rulesSchema);
 
 
-        const designation = await Designation.findOne({ _id: id, deletedAt: null });
+        const consistingRulesAndPermission = await RulesAndPermission.findOne({ _id: id, deletedAt: null });
 
-        if(!designation) return { status: false, message: "Error occurred" };
 
-        return { status: true, message: "Designation is here", data: designation };
+        if(!consistingRulesAndPermission) return { status: false, message: "No rule exists with this ID."};
+
+        return { status: true, message: "Your rule is here", data: consistingRulesAndPermission };
     } catch (error) {
         return { status: false, message: error.message };
     }
 }
 
-module.exports = getOneDesignationFn;
+module.exports = getOneRulesAndPermissionsFn;

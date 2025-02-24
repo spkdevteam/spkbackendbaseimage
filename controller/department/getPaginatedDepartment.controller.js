@@ -19,10 +19,8 @@ const getPaginatedDepartment = async (req, res, next) => {
         return res.status(200).json({
             status: result?.status,
             message: result?.message,
-            totalDocs: result?.totalDocs,
-            totalPages: result?.totalPages,
-            currentPage: result?.currentPage,
-            data: result?.data
+            data: result?.data,
+            metaData: result?.metaData
         });
     } catch (error) {
         next(error);

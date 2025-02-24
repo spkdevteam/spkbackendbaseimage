@@ -13,7 +13,7 @@ router
     .delete("/deleteDesignation/:id/:clientId", deleteDesignation)
     .patch("/editOneDesignation", editOneDesignation)
     .get("/getOneDesignation/:id/:clientId", getOneDesignation)
-    .get("/getPaginatedDesignation/:clientId", getPaginatedDesignation)
+    .get("/getPaginated/:clientId", getPaginatedDesignation)
 
 
 module.exports = router;

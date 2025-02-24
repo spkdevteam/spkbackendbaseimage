@@ -57,10 +57,14 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
             return {
                 status: true,
                 message: "Successfully fetched departments",
-                totalDocs,
-                totalPages,
-                currentPage: pageNumber,
-                data: Designations
+                data: Designations,
+                metaData: {
+                    currentPage: pageNumber,
+                    perPage: perPageNumber,
+                    searchKey,
+                    totalDocs,
+                    totalPages,
+                }
             };
     } catch (error) {
         return { status: false, message: error.message };

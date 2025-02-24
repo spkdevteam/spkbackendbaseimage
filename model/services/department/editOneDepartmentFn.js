@@ -32,7 +32,7 @@ const editOneDepartmentFn = async ({ id, deptName, description, isActive, client
         const Department = await db.model("Department", departmentSchema);
 
 
-        const updatedDept = await Department.updateOne({ _id: id, deletedAt: null }, {$set: { deptName, description, isActive} });
+        const updatedDept = await Department.updateOne({ _id: id, deletedAt: null }, { $set: { deptName, description, isActive} });
 
         if (updatedDept.modifiedCount < 1) return { status: false, message: "Oops try again." };
 

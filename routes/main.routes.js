@@ -4,7 +4,8 @@ const swaggerRouter = require('./swagger.routes');
 const userRouter = require('./user.routes');
 const deptRouter = require("./department.routes");
 const desigRouter = require("./designation.routes");
-const rulesAndDesignationRouter = require("./rulesAndPermission.routes");
+const rulesAndPermissionRouter = require("./rulesAndPermission.routes");
+const dutiesAndResponsibilityRouter = require("./dutiesAndResponsibility.routes");
 
 
 const mainRouter = express.Router()
@@ -14,6 +15,8 @@ mainRouter
     .use('/users', userRouter)
     .use('/dept', deptRouter)
     .use('/designation', desigRouter)
-    .use('/rules', rulesAndDesignationRouter)
+    .use('/rules', rulesAndPermissionRouter)
+    .use('/duties', dutiesAndResponsibilityRouter)
+    
 
 module.exports = { mainRouter };

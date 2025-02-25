@@ -51,7 +51,7 @@ const updateCompany = async ({id, clientId ,name, incorporationName, cinNumber, 
         if(!editedCompany){
             return {status: false, message: "Trouble in updating the company"}
         }
-        return {status: true, message: "Company updated successfully", data: editedCompany}
+        return {status: true, message: "Company updated successfully"}
     } catch (error) {
         console.log("Error in editing Company",error);
         return {status: false, message: "Fail to edit company"}

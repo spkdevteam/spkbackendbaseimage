@@ -58,7 +58,7 @@ const editAPI = async ({id, APIName, path, clientId}) =>{
             return {status: false, message: "API Id has not been updated"}
         }
 
-        return {status: true, message: "API has been updated successfully", data: updateData}
+        return {status: true, message: "API has been updated successfully"}
 
     } catch (error) {
         console.log("Error in editing APIMaster",error);

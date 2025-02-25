@@ -83,7 +83,7 @@ const editUser = async ({id,
             return { status: false, message: "Oops, try again" }
           }
       
-          return { status: true, message: "User updated successfully", data: updateUser }
+          return { status: true, message: "User updated successfully" }
         
     } catch (error) {
         console.log("Error in updating user", error);

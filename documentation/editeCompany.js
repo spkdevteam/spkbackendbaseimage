@@ -99,30 +99,6 @@
  *             example:
  *               status: true
  *               message: "Company updated successfully"
- *               data:
- *                 _id: "67b6fd3b47723f1361136f16"
- *                 displayId: "1000008"
- *                 parentCompany: null
- *                 name: "Tech Innovations"
- *                 incorporationName: "Tech Innovations Private Limited"
- *                 cinNumber: "U12345MH2023PTC12345"
- *                 gstNumber: "27ABCDE1234F1Z"
- *                 prefix: "TI"
- *                 Logo: "https://example.com/logo.png"
- *                 email: "contact@techinnovations.com"
- *                 contactNumber: "+918765432109"
- *                 city: "Mumbai"
- *                 state: "Maharashtra"
- *                 country: "India"
- *                 ZipCode: "400001"
- *                 address: "123, Tech Park, Mumbai, India"
- *                 isActive: false
- *                 createdBy: null
- *                 deletedBy: null
- *                 deletedAt: null
- *                 createdAt: "2025-02-20T10:00:27.936Z"
- *                 updatedAt: "2025-02-24T04:02:24.654Z"
- *                 __v: 0
  *       400:
  *         description: Validation error or missing required fields
  *         content:

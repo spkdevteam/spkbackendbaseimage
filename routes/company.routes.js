@@ -1,5 +1,5 @@
 const express = require("express")
-const {signup} = require("../controller/company/postCompanySign.controller")
+const signup = require("../controller/company/postCompanySign.controller")
 const {getAllCompany, getCompanyById} = require("../controller/company/getCompany.controller")
 const editCompany = require("../controller/company/editCompany.controller")
 const deleteCompany = require("../controller/company/deleteCompany.controller")

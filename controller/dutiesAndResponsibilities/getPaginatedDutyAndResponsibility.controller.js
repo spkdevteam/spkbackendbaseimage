@@ -15,7 +15,7 @@ const getPaginatedDutyAndResponsibility = async (req, res, next) => {
         cleanQuery.perPage = parseInt(cleanQuery.perPage, 10);
         const { page, perPage, searchKey } = cleanQuery;
         const result = await getPaginatedDutyAndResponsibilityFn({ page, perPage, searchKey, clientId });
-        return res.status(200).json({ status: result?.status, message: result?.message, data: result?.data, metadata: result?.metadata });
+        return res.status(200).json({ status: result?.status, message: result?.message, data: result?.data, metadata: result?.metaData });
     } catch (error) {
         next(error);
     }

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /duties/deleteDutyAndResponsibility/{id}/{clientId}:
+ * /demoDuties/deleteDutyAndResponsibility/{id}/{clientId}:
  *   delete:
  *     summary: Delete a specific duty and responsibility
  *     description: This API deletes a specific duty and responsibility by its ID and the associated client ID.

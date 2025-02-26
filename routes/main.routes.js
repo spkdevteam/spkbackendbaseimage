@@ -6,6 +6,8 @@ const deptRouter = require("./department.routes");
 const desigRouter = require("./designation.routes");
 const rulesAndPermissionRouter = require("./rulesAndPermission.routes");
 const dutiesAndResponsibilityRouter = require("./dutiesAndResponsibility.routes");
+const rolesRouter = require("./roles.routes");
+
 
 
 const mainRouter = express.Router()
@@ -16,7 +18,8 @@ mainRouter
     .use('/dept', deptRouter)
     .use('/designation', desigRouter)
     .use('/rules', rulesAndPermissionRouter)
-    .use('/duties', dutiesAndResponsibilityRouter)
+    .use('/demoDuties', dutiesAndResponsibilityRouter)
+    .use('/demoRoles', rolesRouter)
     
 
 module.exports = { mainRouter };

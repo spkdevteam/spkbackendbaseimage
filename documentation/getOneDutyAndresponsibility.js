@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /duties/getOneDutyAndResponsibility/{id}/{clientId}:
+ * /demoDuties/getOneDutyAndResponsibility/{id}/{clientId}:
  *   get:
  *     summary: Get a specific duty and responsibility
  *     description: This API retrieves the details of a specific duty and responsibility by its ID and the associated client ID.

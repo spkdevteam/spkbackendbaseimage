@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /duties/createDuty:
+ * /demoDuties/createDuty:
  *   post:
  *     summary: Create a new duty
  *     description: This API creates a new duty entry with detailed information about the department, designation, rules, and documents.

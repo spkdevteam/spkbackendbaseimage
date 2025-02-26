@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /duties/editOneDutyAndResponsibility/:
+ * /demoDuties/editOneDutyAndResponsibility/:
  *   patch:
  *     summary: Edit a duty and responsibility
  *     description: This API updates the details of an existing duty and responsibility with the provided information.

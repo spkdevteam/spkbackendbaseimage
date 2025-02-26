@@ -1,0 +1,13 @@
+const getByRoleIdFn = async ({ roleId, clientId }) => {
+    try {
+        return { status: true, message: "All the permissions and docs of that role", data: {
+            roleId,
+            permissions: ["read", "write", "execute"],
+            document: ["aadhar card", "pan card"]
+        }}
+    } catch (error) {
+        return { status: false, message: error.message}
+    }
+}
+
+module.exports = getByRoleIdFn;

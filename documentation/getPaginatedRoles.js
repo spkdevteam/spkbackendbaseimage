@@ -1,52 +1,54 @@
 /**
  * @swagger
- * /demoDuties/getDutyAndResponsibilityPaginated/{clientid}:
+ * /demoRoles/getPaginatedRoles/{clientId}:
  *   get:
- *     summary: Get paginated duties and responsibilities
- *     description: This API retrieves a paginated list of duties and responsibilities by the given ID, with optional search and pagination parameters.
+ *     summary: Get paginated roles
+ *     description: Retrieves a paginated list of roles for a given client ID with an optional search key. Supports pagination through `page` and `perPage` query parameters.
  *     tags:
- *       - Duties
+ *       - Role Management
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
- *       - in: path
- *         name: clientId
+ *       - name: clientId
+ *         in: path
  *         required: true
- *         description: The unique ID associated with the duties and responsibilities.
+ *         description: The client ID associated with the roles.
  *         schema:
  *           type: string
- *           example: "123456"
- *       - in: query
- *         name: page
+ *           example: "6788abe40db7c3b61ed93c70"
+ *       - name: page
+ *         in: query
  *         required: false
- *         description: The page number for pagination.
+ *         description: The page number for pagination (defaults to 1).
  *         schema:
  *           type: integer
  *           example: 1
- *       - in: query
- *         name: perPage
+ *       - name: perPage
+ *         in: query
  *         required: false
- *         description: The number of results per page.
+ *         description: The number of roles per page (defaults to 10).
  *         schema:
  *           type: integer
  *           example: 10
- *       - in: query
- *         name: searchKey
+ *       - name: searchKey
+ *         in: query
  *         required: false
- *         description: A search key to filter the duties.
+ *         description: A search key to filter the roles.
  *         schema:
  *           type: string
  *           example: ""
  *     responses:
  *       200:
- *         description: Duties and responsibilities fetched successfully.
+ *         description: Successfully retrieved paginated roles.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "Successfully fetched the duties"
+ *               message: "All the roles are here."
  *               data:
- *                 - _id: "67bc3c3fd0fc20776adab0b6"
- *                   rulesName: "firstDuty"
- *                   apiId: "67b32661425c6067035df2f7"
+ *                 - roleId: "67bc3c3fd0fc20776adab0b6"
+ *                   rulesName: "firstRole"
+ *                   designationId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
  *                   deletedAt: null
  *                   deletedBy: null
@@ -57,9 +59,9 @@
  *                   createdAt: "2025-02-24T09:30:39.657Z"
  *                   updatedAt: "2025-02-24T10:28:52.398Z"
  *                   __v: 0
- *                 - _id: "67bc3c4dd0fc20776adab0ba"
- *                   rulesName: "secondDuty"
- *                   apiId: "67b32661425c6067035df2f7"
+ *                 - roleId: "67bc3c4dd0fc20776adab0ba"
+ *                   rulesName: "secondRole"
+ *                   designationId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
  *                   deletedAt: null
  *                   deletedBy: null
@@ -70,9 +72,9 @@
  *                   createdAt: "2025-02-24T09:30:53.500Z"
  *                   updatedAt: "2025-02-24T09:30:53.500Z"
  *                   __v: 0
- *                 - _id: "67bc3c58d0fc20776adab0bc"
- *                   rulesName: "thirdDuty"
- *                   apiId: "67b32661425c6067035df2f7"
+ *                 - roleId: "67bc3c58d0fc20776adab0bc"
+ *                   rulesName: "thirdRole"
+ *                   designationId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
  *                   deletedAt: null
  *                   deletedBy: null
@@ -83,13 +85,33 @@
  *                   createdAt: "2025-02-24T09:31:04.896Z"
  *                   updatedAt: "2025-02-24T09:31:04.896Z"
  *                   __v: 0
+ *               metadata:
+ *                 currentPage: 1
+ *                 perPage: 10
+ *                 searchKey: ""
+ *                 totalDocs: 20
+ *                 totalPages: 2
  *       400:
- *         description: Bad request. Missing or invalid parameters.
+ *         description: Invalid query parameters.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid request parameters."
+ *               message: "Invalid query parameters."
+ *       404:
+ *         description: Client not found or no roles available.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "Client not found or no roles available."
+ *       401:
+ *         description: Unauthorized, missing or invalid token.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "Unauthorized access."
  *       500:
  *         description: Internal server error.
  *         content:

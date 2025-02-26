@@ -29,7 +29,7 @@ const getDocumentPropertiesAll = async ({ page, perPage, searchKey="", clientId}
         "metaData": {
             "currentPage": 1,
             "perPage": 10,
-            "searchKey": "Aadhar Card",
+            "searchKey": "",
             "totalData": 10,
             "totalPages": 5
         }

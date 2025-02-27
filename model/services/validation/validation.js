@@ -100,10 +100,25 @@ const booleanValidation = ({ boolean, name="" }) => {
 }
 
 const passwordValidation = ({password}) =>{
-    if(!password || typeof password !== "string" || password.length< 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d\W_]{6,}$/.test(password)){
+    if(!password || typeof password !== "string" || password.length< 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)){
         return {status: false, message: "Invalid password"}
     }
     return {status: true, message: "Success"}
 }
 
-module.exports = { clientIdValidation, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, EmptyStringValidation, stringValidationWithSpace, passwordValidation};
+const stringValidationWithEmptyString = ({ string, name = "" }) => {
+    // Allow empty string
+    if (string === "") {
+        return { status: true, message: "Success" }
+    }
+    
+    // Validate only if string is provided
+    if (!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9\s]+$/.test(string)) {
+        return { status: false, message: `Invalid ${name}${string ? `: ${string}` : ""}` }
+    }
+
+    return { status: true, message: "Success" }
+};
+
+
+module.exports = { clientIdValidation, stringValidationWithEmptyString , stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, EmptyStringValidation, stringValidationWithSpace, passwordValidation};

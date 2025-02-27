@@ -1,5 +1,4 @@
 const clientIdValidation = ({ clientId }) => {
-    console.log(!clientId, typeof clientId !== "string", clientId.length !== 24, !/^[A-Za-z0-9]+$/.test(clientId))
     if (!clientId || typeof clientId !== "string" || clientId.length !== 24 || !/^[A-Za-z0-9]+$/.test(clientId)) {
         return { status: false, message: "Some networking problem" };
     }
@@ -93,7 +92,6 @@ const booleanValidation = ({ boolean, name = "" }) => {
 }
 
 const passwordValidation = ({password}) =>{
-    console.log(!password, typeof password !== "string", password.length< 6, password.length > 100, !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password))
     if(!password || typeof password !== "string" || password.length< 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)){
         return {status: false, message: "Invalid password"};
     }

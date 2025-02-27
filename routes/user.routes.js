@@ -4,6 +4,14 @@ const {signInUser, signup} = require("../controller/user/postUserSign.controller
 const updateUser = require("../controller/user/updateUser.controller")
 const deleteUser = require("../controller/user/deleteUser.controller")
 const logOutUser = require("../controller/user/logOutUser.controller")
+const getUserByDepartment = require("../controller/user/getUserByDepartment.controller")
+const getUserByDesignation = require("../controller/user/getUserByDesignation.controller")
+const getUserByCompanyId = require("../controller/user/getUserByCompanyId.controller")
+const getUserByRoleId = require("../controller/user/getUserByRoleId.controller")
+const getEmployeeByPermission = require("../controller/user/getEmployeeByPermission.controller")
+const updateUserDesignation = require("../controller/user/updateUserDesignation.controller")
+const pendingDocumentSubmissionByUser = require("../controller/user/pendingDocumentSubmissionByUser.controller")
+const verifyUser = require("../controller/user/verifyUser.controller")
 
 const router = express.Router()
 
@@ -15,5 +23,13 @@ router
     .patch("/edit", updateUser)
     .delete("/delete/:clientId/:id", deleteUser)
     .post("/logout", logOutUser)
+    .get("/getByDept/:clientId",getUserByDepartment)
+    .get("/getByDesignation/:clientId/:designationId", getUserByDesignation)
+    .get("/getByCompany/:clientId/:companyId", getUserByCompanyId)
+    .get("/getByRole/:clientId/:roleId", getUserByRoleId)
+    .get("/getByPermission/:clientId/:roleId/:permissionId", getEmployeeByPermission)
+    .put("/updateByDesignation", updateUserDesignation)
+    .get("/pendingDocument/:clientId/:role", pendingDocumentSubmissionByUser)
+    .patch("/isVerify", verifyUser)
 
 module.exports = router

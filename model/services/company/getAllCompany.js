@@ -1,13 +1,13 @@
 const companySchema = require("../../company")
 const { getClientDatabaseConnection } = require("../../connection")
 const paginate = require("../pagination")
-const { clientIdValidation, stringValidationWithSpace, stringValidation } = require("../validation/validation")
+const { clientIdValidation, stringValidationWithSpace, stringValidation, stringValidationWithEmptyString } = require("../validation/validation")
 
 const getCompanyAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
     try {
         const validations = [
             clientIdValidation({clientId}),
-            stringValidation({string: searchKey, name: "searchKey: " })
+            stringValidationWithEmptyString({string: searchKey, name: "searchKey: " })
         ]
         //check the validation error
         console.log(validations,'444444');
@@ -27,7 +27,8 @@ const getCompanyAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>
         if(limit <= 0) return {status: false, message: "Invalid limit"} 
         
         const filter = {deletedAt: null}
-        if(searchKey.trim()){
+        if(searchKey && searchKey.trim()){
+            searchKey = searchKey.replace(/^"|"$/g, "").trim()
             filter["$or"] = [
                 { name: { $regex: searchKey, $options: "i" } },
                 { incorporationName: { $regex: searchKey, $options: "i" } },

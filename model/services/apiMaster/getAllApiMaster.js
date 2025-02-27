@@ -1,7 +1,7 @@
 const apiSchema = require("../../apiMaster")
 const { getClientDatabaseConnection } = require("../../connection")
 const paginate = require("../pagination")
-const { clientIdValidation, stringValidation } = require("../validation/validation")
+const { clientIdValidation, stringValidation, stringValidationWithEmptyString } = require("../validation/validation")
 
 const getAllApi = async ({clientId, searchKey="", page = 1, perPage = 10}) =>{
     try {
@@ -9,7 +9,7 @@ const getAllApi = async ({clientId, searchKey="", page = 1, perPage = 10}) =>{
         
         const validations = [
             clientIdValidation({clientId}),
-            stringValidation({string: searchKey, name: "searchKey: "})
+            stringValidationWithEmptyString({string: searchKey, name: "searchKey: "})
         ]
         //check the validation error
         console.log(validations,'444444');
@@ -29,7 +29,8 @@ const getAllApi = async ({clientId, searchKey="", page = 1, perPage = 10}) =>{
          if(limit <= 0) return {status: false, message: "Invalid limit"} 
 
         const filter = {deletedAt: null};
-        if (searchKey.trim()) {
+        if (searchKey && searchKey.trim()) {
+            searchKey = searchKey.replace(/^"|"$/g, "").trim()
             filter["$or"] = [
                 { APIName: { $regex: searchKey, $options: "i" } },
                 { path: { $regex: searchKey, $options: "i" } }

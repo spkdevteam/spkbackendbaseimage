@@ -1,7 +1,7 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, zipCodeValidation, passwordValidation } = require("../validation/validation")
-
+const bcrypt = require("bcryptjs")
 const editUser = async ({id,
     clientId, 
     firstName,
@@ -60,13 +60,19 @@ const editUser = async ({id,
             return { status: false, message: "User not found or already deleted" }
         }
         console.log("Existing User Found:", existingUser);
+
+        let updatedPassword = existingUser.password
+        if (password) {
+            const salt = await bcrypt.genSalt(10)
+            updatedPassword = await bcrypt.hash(password, salt)
+        }
         const updateUser = await User.findOneAndUpdate({ _id: id, deletedAt: null}, {$set: { 
             firstName,
             lastName,
             profileImage,
             email,
             phone,
-            password,
+            password: updatedPassword,
             gender,
             age,
             bloodGroup,

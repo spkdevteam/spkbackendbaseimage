@@ -7,7 +7,7 @@ const companyRouter = require("./company.routes")
 const apiMasterRouter = require("./apiMaster.routes")
 const documentPropertiesRouter = require("./documentProperties.routes")
 const documentMasterRouter = require("./documentMaster.routes")
-const employeeRouter = require("./employee.routes")
+const userProfileRouter = require("./userProfile.routes")
  
 const mainRouter = express.Router()
 
@@ -19,6 +19,6 @@ mainRouter
     .use("/company", companyRouter)
     .use("/document",documentPropertiesRouter)
     .use("/document-master", documentMasterRouter)
-    .use("/employee", employeeRouter)
+    .use("/users/profile", userProfileRouter)
     
 module.exports = {mainRouter}

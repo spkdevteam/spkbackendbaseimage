@@ -3,19 +3,19 @@ const leaveOfAllLoggedInEmployeesFn = async ({ page = 1, perPage = 10, clientId 
         return {
             status: true, message: "Leave of all the logged in employees", data: [
                 {
-                    "Name": "Peter jones",
-                    "Address": "68/2 Southeast road, London",
-                    "country": "England",
+                    Name: "Peter jones",
+                    Address: "68/2 Southeast road, London",
+                    country: "England",
                 },
                 {
-                    "Name": "Devon james",
-                    "Address": "New gate street, New york",
-                    "country": "United States",
+                    Name: "Devon james",
+                    Address: "New gate street, New york",
+                    country: "United States",
                 },
                 {
-                    "Name": "Adam Park",
-                    "Address": "28 Steve harvey street, Minnesota",
-                    "country": "United States",
+                    Name: "Adam Park",
+                    Address: "28 Steve harvey street, Minnesota",
+                    country: "United States",
                 }
             ],
             metaData: {

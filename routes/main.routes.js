@@ -8,6 +8,7 @@ const rulesAndPermissionRouter = require("./rulesAndPermission.routes");
 const dutiesAndResponsibilityRouter = require("./dutiesAndResponsibility.routes");
 const rolesRouter = require("./roles.routes");
 const leaveApplicationRouter = require("./leaveApplication.routes");
+const payrollRouter = require("./payroll.routes");
 
 
 
@@ -22,6 +23,7 @@ mainRouter
     .use('/demoDuties', dutiesAndResponsibilityRouter)
     .use('/demoRoles', rolesRouter)
     .use('/demoLeaves', leaveApplicationRouter)
+    .use('/demoPayroll', payrollRouter)
     
 
 module.exports = { mainRouter };

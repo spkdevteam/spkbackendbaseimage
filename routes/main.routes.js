@@ -7,6 +7,7 @@ const desigRouter = require("./designation.routes");
 const rulesAndPermissionRouter = require("./rulesAndPermission.routes");
 const dutiesAndResponsibilityRouter = require("./dutiesAndResponsibility.routes");
 const rolesRouter = require("./roles.routes");
+const leaveApplicationRouter = require("./leaveApplication.routes");
 
 
 
@@ -20,6 +21,7 @@ mainRouter
     .use('/rules', rulesAndPermissionRouter)
     .use('/demoDuties', dutiesAndResponsibilityRouter)
     .use('/demoRoles', rolesRouter)
+    .use('/demoLeaves', leaveApplicationRouter)
     
 
 module.exports = { mainRouter };

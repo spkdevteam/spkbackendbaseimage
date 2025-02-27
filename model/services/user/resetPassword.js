@@ -43,6 +43,7 @@ const resetPassword = async ({ _id, otp, password, clientId }) => {
         const savedUser = await user.save();
 
 
+
         if(savedUser.otp === null){
             await transporter.sendMail(mailingOptions({ toEmail: user.email, subject: "Your password is changed successfully", text: textResponseForMailing({ option: "reset"})}));
         }else{

@@ -92,10 +92,10 @@ const booleanValidation = ({ boolean, name = "" }) => {
 }
 
 const passwordValidation = ({password}) =>{
-    if(!password || typeof password !== "string" || password.length< 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)){
-        return {status: false, message: "Invalid password"};
+    if(!password || typeof password !== "string" || password.length< 6 || password.length > 100 || !/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)){
+        return {status: false, message: "Invalid password"}
     }
-    return {status: true, message: "Success"};
+    return {status: true, message: "Success"}
 }
 
 module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation };

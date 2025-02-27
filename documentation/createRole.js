@@ -24,6 +24,10 @@
  *                 type: string
  *                 description: The name of the role to be created.
  *                 example: "john"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the role.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *               designationId:
  *                 type: string
  *                 description: The designation ID associated with the role.

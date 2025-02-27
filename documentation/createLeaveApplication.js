@@ -22,6 +22,10 @@
  *                 type: string
  *                 description: The unique identifier of the user submitting the leave application.
  *                 example: "67b32661425c6067035df2f7"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the leave application.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *               application:
  *                 type: string
  *                 description: The content of the leave application.

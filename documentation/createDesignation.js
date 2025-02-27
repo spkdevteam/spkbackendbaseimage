@@ -22,6 +22,10 @@
  *                 type: string
  *                 description: The title of the designation to be created.
  *                 example: "Developer"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the designation.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *               shortName:
  *                 type: string
  *                 description: The short name or abbreviation for the designation.

@@ -3,7 +3,7 @@ const { getClientDatabaseConnection } = require("../../connection");
 const rulesSchema = require("../../rules");
 const { emptyStringValidation, clientIdValidation } = require("../validation/validation");
 
-const createRulesAndPermissionFn = async ({ rulesName, apiId, departmentId, branchId, createdBy, clientId }) => {
+const createRulesAndPermissionFn = async ({ rulesName, companyId, apiId, departmentId, branchId, createdBy, clientId }) => {
     try {
         //validating the strings
         const validation = [
@@ -19,6 +19,8 @@ const createRulesAndPermissionFn = async ({ rulesName, apiId, departmentId, bran
         switch (true) {
             case !mongoose.Types.ObjectId.isValid(apiId):
                 return { status: false, message: "Invalid api ID" };
+            case !mongoose.Types.ObjectId.isValid(companyId):
+                return { status: false, message: "Invalid company ID" };
             case !mongoose.Types.ObjectId.isValid(departmentId):
                 return { status: false, message: "Invalid department ID" };
             case !mongoose.Types.ObjectId.isValid(branchId):
@@ -39,6 +41,7 @@ const createRulesAndPermissionFn = async ({ rulesName, apiId, departmentId, bran
         //creating a new object
         const newRulesAndPermission = new RulesAndPermission({
             rulesName,
+            companyId,
             apiId: isValidObjectId(apiId),
             departmentId: isValidObjectId(departmentId),
             companyId: isValidObjectId(branchId),

@@ -6,6 +6,12 @@ const designationSchema = mongoose.Schema({
         required: true,
         unique: true
     },
+    companyId:{
+        type: mongoose.Schema.ObjectId,
+        ref: "company",
+        default: null,
+        index: true
+    },
     shortName: {
         type: String,
         unique: true

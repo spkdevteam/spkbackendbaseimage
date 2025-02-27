@@ -3,7 +3,7 @@ const designationSchema = require("../../designation");
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber");
 const { emptyStringValidation, booleanValidation, clientIdValidation } = require("../validation/validation");
 
-const createDesignationFn = async ({ title, shortName, isActive, clientId }) => {
+const createDesignationFn = async ({ title, companyId, shortName, isActive, clientId }) => {
     try {
         const validation = [
             emptyStringValidation({ string: title, name: "Title: "}),
@@ -29,15 +29,13 @@ const createDesignationFn = async ({ title, shortName, isActive, clientId }) => 
 
         const designation = new Department({
             title,
+            companyId,
             shortName,
             displayId: absSerialNumber,
             isActive: isActive === "true" ? true : false,
         });
 
         const savedDesignation = await designation.save();
-
-
-        if(!savedDesignation) return { status: false, message: "Oops try again." };
 
         return { status: true, message: "Designation created successfully", data: savedDesignation };
     } catch (error) {

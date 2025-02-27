@@ -22,6 +22,10 @@
  *                 type: string
  *                 description: The name of the department to be created.
  *                 example: "IT"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the department.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *               reportingDept:
  *                 type: string
  *                 description: The department to which the new department reports.

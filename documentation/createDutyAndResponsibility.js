@@ -29,6 +29,10 @@
  *                 type: string
  *                 description: The documents associated with the duty.
  *                 example: "exampleDocuments"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the duty.
+ *                 example: "examplecompanyId"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the duty.

@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /demoPayroll/createPayroll:
+ * /demoHoliday/createHoliday:
  *   post:
- *     summary: Create a new payroll for an employee
- *     description: Creates a new payroll record for an employee with salary, tax details, and client association.
+ *     summary: Create a new holiday for a company
+ *     description: Creates a new holiday record for a specific company with holiday name, date, and associated client.
  *     tags:
- *       - Payroll Management
+ *       - Holiday Management
  *     requestBody:
  *       required: true
  *       content:
@@ -13,46 +13,39 @@
  *           schema:
  *             type: object
  *             required:
- *               - userId
- *               - salary
- *               - tax
+ *               - companyId
+ *               - holiday
+ *               - holidayName
  *               - clientId
  *             properties:
- *               userId:
- *                 type: string
- *                 description: The unique identifier of the user (employee) for whom the payroll is being created.
- *                 example: "67b32661425c6067035df2f7"
  *               companyId:
  *                 type: string
- *                 description: The company ID associated with the employee.
- *                 example: "6788abe40db7c3b61ed93c70"
- *               salary:
+ *                 description: The unique identifier of the company for which the holiday is being created.
+ *                 example: "67b330d40e76630289fa945d"
+ *               holiday:
  *                 type: string
- *                 description: The salary of the employee.
- *                 example: "12000"
- *               tax:
+ *                 description: The date of the holiday.
+ *                 example: "September 10, 2025 00:00"
+ *               holidayName:
  *                 type: string
- *                 description: The tax amount for the employee (e.g., "0" for no tax).
- *                 example: "0"
+ *                 description: The name of the holiday.
+ *                 example: "Durga Puja"
  *               clientId:
  *                 type: string
- *                 description: The client ID associated with the employee.
+ *                 description: The client ID associated with the holiday.
  *                 example: "6788abe40db7c3b61ed93c70"
  *     security:
  *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Successfully created a new payroll record for the employee.
+ *         description: Successfully created a new holiday record.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "New payroll is created for the employee"
+ *               message: "New Holiday created"
  *               data:
- *                 payRollId: "67b32669425c6067035df2fa"
- *                 userId: "67b32661425c6067035df2f7"
- *                 salary: "12000"
- *                 tax: "0"
+ *                 holidayid: "67b32682425c6067035df306"
  *       400:
  *         description: Invalid request data or missing parameters.
  *         content:

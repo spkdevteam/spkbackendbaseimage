@@ -1,13 +1,13 @@
 /**
  * @swagger
- * /users/pendingDocument/{companyId}/{role}:
+ * /users/pendingDocument/{clientId}/{role}:
  *   get:
  *     summary: Fetch users with pending documents by role
  *     description: Retrieves a list of users with pending document submissions, filtered by their role within a specific company.
  *     tags:
  *       - Authentication
  *     parameters:
- *       - name: companyId
+ *       - name: clientId
  *         in: path
  *         required: true
  *         description: The unique ID of the company.

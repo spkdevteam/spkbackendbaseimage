@@ -7,6 +7,7 @@ const updateUserProfile = async (req, res, next) =>{
         const {
             userId,
             clientId, 
+            companyId,
             firstName,
             lastName,
             profileImage,
@@ -34,9 +35,10 @@ const updateUserProfile = async (req, res, next) =>{
                 country,
                 ZipCode,
                 address,
+                companyId,
                 isVerified,
                 isActive})
-                return res.status(200).json({status: result?.status, message: result?.message})
+                return res.status(200).json({status: result?.status, message: result?.message, data: result?.data})
     } catch (error) {
         next(error)
     }

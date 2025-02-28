@@ -1,13 +1,13 @@
 /**
  * @swagger
- * /users/getByRole/{companyId}/{roleId}:
+ * /users/getByRole/{clientId}/{roleId}:
  *   get:
  *     summary: Fetch users by role ID
  *     description: Retrieves a list of users associated with a specific role within a company.
  *     tags:
  *       - Authentication
  *     parameters:
- *       - name: companyId
+ *       - name: clientId
  *         in: path
  *         required: true
  *         description: The unique ID of the company.

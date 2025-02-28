@@ -1,14 +1,16 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const paginate = require("../pagination")
-const { clientIdValidation, stringValidationWithSpace } = require("../validation/validation")
+const { clientIdValidation, stringValidation, stringValidationWithEmptyString, } = require("../validation/validation")
 
 const getUserAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
+
     try {
        const validations = [
         clientIdValidation({clientId}),
-        stringValidationWithSpace({string: searchKey, name: "searchKey: " })
+        stringValidationWithEmptyString({ string: searchKey, name: "searchKey: " })
        ]
+       
        const error = validations.filter((e) => e && e.status === false)
        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(", ")}
         
@@ -26,7 +28,8 @@ const getUserAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
 
         const filter = {deletedAt: null};
 
-        if (searchKey.trim()) {
+        if (searchKey && searchKey.trim() !== "") {
+            // searchKey = searchKey.replace(/^"|"$/g, "").trim() 
             const numberSearch = !isNaN(searchKey) ? parseInt(searchKey) : null
             filter["$or"] = [
                 { firstName: { $regex: searchKey, $options: "i" } },
@@ -38,7 +41,7 @@ const getUserAll = async ({page= 1, perPage= 10, searchKey ="", clientId}) =>{
                 { state: { $regex: searchKey, $options: "i" } },
                 { ZipCode: { $regex: searchKey, $options: "i" } },
                 { address: { $regex: searchKey, $options: "i" } }  
-            ];
+            ]
             // Adding age filter when number search is valid
             if (numberSearch !== null) {
                 filter["$or"].push({ age: { $gte: numberSearch - 2, $lte: numberSearch + 2 } });

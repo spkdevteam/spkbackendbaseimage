@@ -3,7 +3,7 @@ const sanitizeBody = require("../../utils/sanitizeBody")
 
 const updateUser = async (req, res, next) =>{
     try {
-        const data = await sanitizeBody(req.body) || {}
+        const data = await sanitizeBody(req.body)
         const {
             id,
             clientId, 

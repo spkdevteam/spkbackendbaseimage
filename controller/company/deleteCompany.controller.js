@@ -6,8 +6,8 @@ const deleteCompany = async (req, res, next) =>{
         
         const removeCompany = await sanitizeBody(req.params)
         console.log(removeCompany, "================================");
-        
-        const result = await deletedCompany(removeCompany)
+        const {id, clientId} = removeCompany
+        const result = await deletedCompany({id, clientId})
         
         return res.status(200).json({status: result.status, message: result.message, data: result.data})
     } catch (error) {

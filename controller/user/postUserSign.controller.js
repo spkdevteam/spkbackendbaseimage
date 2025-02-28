@@ -10,7 +10,7 @@ require("dotenv").config()
 const signup = async (req, res, next) => {
 
     try {
-        const data =await sanitizeBody(req.body) || {}
+        const data =await sanitizeBody(req.body)
         const { firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId} = data
         const result =await createUser({ firstName, lastName, profileImage, companyId, email, phone, password, gender, age, bloodGroup, city, state, country, ZipCode, address,clientId})
         console.log("the result:", result);

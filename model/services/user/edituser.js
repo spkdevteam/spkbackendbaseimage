@@ -1,7 +1,7 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, zipCodeValidation, passwordValidation } = require("../validation/validation")
-
+const bcrypt = require("bcryptjs")
 const editUser = async ({id,
     clientId, 
     firstName,
@@ -39,8 +39,8 @@ const editUser = async ({id,
 
         ]
 
-        const error = validations.filter((e) => e && e.status == false)
-        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(", ")}
+        const error = validations.filter((e) => e && e.status === false);
+        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ")};
         console.log(error, "error ===========");
 
         const db = await getClientDatabaseConnection(clientId)
@@ -55,13 +55,24 @@ const editUser = async ({id,
         // if(userPhone){
         //     return {status: false, message: "User with this phone number already exists"}
         // }
-        const updateUser = await User.updateOne({ _id: id, deletedAt: null}, {$set: { 
+        const existingUser = await User.findOne({ _id: id, deletedAt: null })
+        if (!existingUser) {
+            return { status: false, message: "User not found or already deleted" }
+        }
+        console.log("Existing User Found:", existingUser);
+
+        let updatedPassword = existingUser.password
+        if (password) {
+            const salt = await bcrypt.genSalt(10)
+            updatedPassword = await bcrypt.hash(password, salt)
+        }
+        const updateUser = await User.findOneAndUpdate({ _id: id, deletedAt: null}, {$set: { 
             firstName,
             lastName,
             profileImage,
             email,
             phone,
-            password,
+            password: updatedPassword,
             gender,
             age,
             bloodGroup,
@@ -71,19 +82,14 @@ const editUser = async ({id,
             ZipCode,
             address,
             isVerified,
-            isActive}})
-            //checking if the update is 
-            if(updateUser.matchedCount < 1){
-                return {status: false, message: "Oops try again"};
-            }
-
-            if(updateUser.modifiedCount < 1){
-                return {status: false, message: "Operation failed"}
-            }
-
-            const savedUser = await User.findById(id)
-
-            return {status: true, message: "user updated successfully", data: savedUser}
+            isActive}},
+            {new: true}
+        )
+        if (!updateUser) {
+            return { status: false, message: "Oops, try again" }
+          }
+      
+          return { status: true, message: "User updated successfully" }
         
     } catch (error) {
         console.log("Error in updating user", error);

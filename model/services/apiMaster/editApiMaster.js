@@ -1,15 +1,21 @@
 const { mongoose } = require("mongoose")
 const apiSchema = require("../../apiMaster")
 const { getClientDatabaseConnection } = require("../../connection")
+const { clientIdValidation } = require("../validation/validation")
 
 
-const editAPI = async ({req}) =>{
+const editAPI = async ({id, APIName, path, clientId}) =>{
     try {
-        const {id, APIName, clientId} = req.body
+        // const {id, APIName, clientId} = data
     
-        if(!clientId) return {status:false, message: "Client ID is required"}
+        const validations = [
+            clientIdValidation({clientId})
+        ]
+
+        const error = validations.filter((e) => e && e.status == false)
+        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(",")}
         if(!id) return {status:false, message: "Id is required"}
-        if(!APIName) return {status:false, message: "APIName is required"}
+        if(!APIName && !path) return {status:false, message: "Either APIName or path is required"}
 
         const db = await getClientDatabaseConnection(clientId)
         const API = await db.model("api", apiSchema)
@@ -18,15 +24,35 @@ const editAPI = async ({req}) =>{
         if(!mongoose.Types.ObjectId.isValid(id)){
             return {status:false, message: "Invalid ID format"}
         }
+        //find existing api master entry
+        const existingApi = await API.findById(id)
+        if(!existingApi){
+            return {status: false, message: "Api master not found"}
+        }
         
-        //check if the api name exisits or not after updating 
-        const apiExists = await API.findOne({APIName})
-
-        if(apiExists){
-            return {status: false, message: "APIname already exists"}
+        //check uniqueness for apiName and path before updating
+        if(APIName !== existingApi.APIName || path !== existingApi.path){
+            const duplicateApi = await API.findOne({
+                $or:[{APIName}, {path}],
+                _id: {$ne: id}
+            })
+            if (duplicateApi) {
+                return { status: false, message: "APIName or path already exists" };
+            }
         }
 
-        const updateAPI = await API.findByIdAndUpdate(id, {APIName}, {new: true})
+        //prepare update data
+        const updateData = {}
+        if(APIName){
+            updateData.APIName = APIName
+        } 
+        if(path) {
+            updateData.path = path
+        }
+        console.log(path);
+        
+
+        const updateAPI = await API.findByIdAndUpdate(id, updateData, {new: true})
         
         if(!updateAPI){
             return {status: false, message: "API Id has not been updated"}

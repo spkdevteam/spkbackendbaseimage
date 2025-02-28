@@ -18,13 +18,14 @@
  *               - name
  *               - designationId
  *               - departmentId
+ *               - companyId  # Added companyId here before clientId
  *               - clientId
  *             properties:
  *               name:
  *                 type: string
  *                 description: The name of the role to be created.
  *                 example: "john"
- *               companyId:
+ *               companyId:  # Added companyId before clientId in request body
  *                 type: string
  *                 description: The company ID associated with the role.
  *                 example: "6788abe40db7c3b61ed93c70"
@@ -50,6 +51,7 @@
  *               message: "Role is created successfully."
  *               data:
  *                 roleId: "67b32661425c6067035df2f7"
+ *                 companyId: "6788abe40db7c3b61ed93c70"  # Added companyId here after roleId in response
  *                 name: "john"
  *                 designationId: "jr. developer"
  *                 departmentId: "dev"

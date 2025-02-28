@@ -8,7 +8,7 @@ const router = express.Router();
 router
     .post("/createPayroll", createPayroll)
     .patch("/editPayroll", editPayroll)
-    .get("/getPayrollById/:payrollId/:clientId", getPayrollById)
-    .get("/getPaginatedpayroll/:clientId", getPaginatedpayroll)
+    .get("/getPayrollById/:payrollId/:companyId/:clientId", getPayrollById)
+    .get("/getPaginatedpayroll/:companyId/:clientId", getPaginatedpayroll)
 
 module.exports = router;

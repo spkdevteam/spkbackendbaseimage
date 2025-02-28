@@ -3,8 +3,8 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const editPermission = async (req, res, next) => {
     try {
-        const {roleId, arr, clientId} = await sanitizeBody(req.body);
-        const result = await editPermissionFn({roleId, arr, clientId});
+        const {roleId, arr, companyId, clientId} = await sanitizeBody(req.body);
+        const result = await editPermissionFn({roleId, arr, companyId, clientId});
         return res.status(200).json({status: result?.status, message: result?.message });
     } catch (error) {
         next(error);

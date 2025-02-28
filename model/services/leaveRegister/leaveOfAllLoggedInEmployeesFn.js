@@ -1,4 +1,4 @@
-const leaveOfAllLoggedInEmployeesFn = async ({ page = 1, perPage = 10, clientId }) => {
+const leaveOfAllLoggedInEmployeesFn = async ({ page = 1, perPage = 10, companyId, clientId }) => {
     try {
         return {
             status: true, message: "Leave of all the logged in employees", data: [

@@ -10,8 +10,8 @@ const router = express.Router();
 router
     .post("/createLeave", createLeaveApplication)
     .patch("/editApproval", leaveApplicationDetailsEdit)
-    .get("/leaveOfAllLoggedInEmployees/:clientId", leaveOfAllLoggedInEmployees)
-    .get("/leaveApplicationDetailsById/:userId/:clientId", leaveApplicationDetailsById)
-    .get("/leaveApplicationStatus/:userId/:clientId", leaveApplicationStatus)
+    .get("/leaveOfAllLoggedInEmployees/:companyId/:clientId", leaveOfAllLoggedInEmployees)
+    .get("/leaveApplicationDetailsById/:userId/:companyId/:clientId", leaveApplicationDetailsById)
+    .get("/leaveApplicationStatus/:userId/:companyId/:status/:clientId", leaveApplicationStatus)
 
 module.exports = router;

@@ -3,8 +3,8 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const toggleHoliday = async (req, res, next) => {
     try {
-        const { holidayId, clientid } = await sanitizeBody(req.body);
-        const result = await toggleHolidayFn({ holidayId, clientid });
+        const { holidayId, companyId, clientid } = await sanitizeBody(req.body);
+        const result = await toggleHolidayFn({ holidayId, companyId, clientid });
         return res.status(200).json({status: result?.status, message: result?.message });
     } catch (error) {
         next(error);

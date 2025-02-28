@@ -3,7 +3,7 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const leaveOfAllLoggedInEmployees = async (req, res, next) => {
     try {
-        const { clientId } = await sanitizeBody(req.params);
+        const { companyId, clientId } = await sanitizeBody(req.params);
         const metaData = await sanitizeBody(req.query);
         const cleanQuery = {
             page: metaData.page ? metaData.page.replace(/^"|"$/g, "") : "1", // default to "1" if missing
@@ -13,7 +13,7 @@ const leaveOfAllLoggedInEmployees = async (req, res, next) => {
         cleanQuery.page = parseInt(cleanQuery.page, 10);
         cleanQuery.perPage = parseInt(cleanQuery.perPage, 10);
         const { page, perPage } = cleanQuery;
-        const result = await leaveOfAllLoggedInEmployeesFn({ page, perPage, clientId });
+        const result = await leaveOfAllLoggedInEmployeesFn({ page, perPage, companyId, clientId });
         return res.status(200).json({status: result?.status, message: result?.message, data: result?.data, metaData: result?.metaData });
     } catch (error) {
         next(error);

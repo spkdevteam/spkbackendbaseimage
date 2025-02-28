@@ -1,7 +1,7 @@
-const createHolidayFn = async ({ companyId, holiday, holidayName, clientId }) => {
+const createHolidayFn = async ({ holiday, holidayName, companyId, clientId }) => {
     try {
         return {status: true, message: "New Holiday created", data: {
-            holidayid: "67b32682425c6067035df306",
+            holidayId: "67b32682425c6067035df306",
         } }
     } catch (error) {
         return {status: false, message: error.message};

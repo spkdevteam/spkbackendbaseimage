@@ -3,7 +3,7 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const getPaginatedRoles = async (req, res, next) => {
     try {
-        const { clientId } = await sanitizeBody(req.params);
+        const { companyId, clientId } = await sanitizeBody(req.params);
         const roles = await sanitizeBody(req.query);
         const cleanQuery = {
             page: roles.page ? roles.page.replace(/^"|"$/g, "") : "1", // default to "1" if missing
@@ -14,7 +14,7 @@ const getPaginatedRoles = async (req, res, next) => {
         cleanQuery.page = parseInt(cleanQuery.page, 10);
         cleanQuery.perPage = parseInt(cleanQuery.perPage, 10);
         const { page, perPage, searchKey } = cleanQuery;
-        const result = await getPaginatedRolesFn({ page, perPage, searchKey, clientId });
+        const result = await getPaginatedRolesFn({ page, perPage, searchKey, companyId, clientId });
         return res.status(200).json({ status: result?.status, message: result?.message, data: result?.data, metadata: result?.metaData });
     } catch (error) {
         next(error);

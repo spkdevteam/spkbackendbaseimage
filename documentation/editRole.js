@@ -18,6 +18,7 @@
  *               - roleId
  *               - designationId
  *               - departmentId
+ *               - companyId  # Added companyId before clientId
  *               - clientId
  *             properties:
  *               roleId:
@@ -32,6 +33,10 @@
  *                 type: string
  *                 description: The department ID to be associated with the role.
  *                 example: "67b3266d425c6067035df2fd"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the role.
+ *                 example: "6788abe40db7c3b61ed93c70"  # Added companyId before clientId
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the role.

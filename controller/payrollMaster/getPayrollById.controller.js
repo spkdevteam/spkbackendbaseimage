@@ -3,8 +3,8 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const getPayrollById = async (req, res, next) => {
     try {
-        const { payrollId, clientId } = await sanitizeBody(req.params);
-        const result = await getPayrollByIdFn({ payrollId, clientId });
+        const { payrollId, companyId, clientId } = await sanitizeBody(req.params);
+        const result = await getPayrollByIdFn({ payrollId, companyId, clientId });
         return res.status(200).json({ status: result?.status, message: result?.message, data: result?.data });
     } catch (error) {
         next(error);

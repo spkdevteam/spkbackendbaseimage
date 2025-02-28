@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /demoRoles/getPaginatedRoles/{clientId}:
+ * /demoRoles/getPaginatedRoles/{companyId}/{clientId}:
  *   get:
  *     summary: Get paginated roles
  *     description: Retrieves a paginated list of roles for a given client ID with an optional search key. Supports pagination through `page` and `perPage` query parameters.
@@ -9,13 +9,20 @@
  *     security:
  *       - BearerAuth: []
  *     parameters:
+ *       - name: companyId
+ *         in: path
+ *         required: true
+ *         description: The company ID associated with the roles.
+ *         schema:
+ *           type: string
+ *         example: "67b32661425c6067035df2f7"
  *       - name: clientId
  *         in: path
  *         required: true
  *         description: The client ID associated with the roles.
  *         schema:
  *           type: string
- *           example: "6788abe40db7c3b61ed93c70"
+ *         example: "6788abe40db7c3b61ed93c70"
  *       - name: page
  *         in: query
  *         required: false
@@ -47,6 +54,7 @@
  *               message: "All the roles are here."
  *               data:
  *                 - roleId: "67bc3c3fd0fc20776adab0b6"
+ *                   companyId: "67c04caf42adcc1853fa464d"
  *                   rulesName: "firstRole"
  *                   designationId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
@@ -55,11 +63,11 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:30:39.657Z"
  *                   updatedAt: "2025-02-24T10:28:52.398Z"
  *                   __v: 0
  *                 - roleId: "67bc3c4dd0fc20776adab0ba"
+ *                   companyId: "67c04caf42adcc1853fa464d"
  *                   rulesName: "secondRole"
  *                   designationId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
@@ -68,11 +76,11 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:30:53.500Z"
  *                   updatedAt: "2025-02-24T09:30:53.500Z"
  *                   __v: 0
  *                 - roleId: "67bc3c58d0fc20776adab0bc"
+ *                   companyId: "67c04caf42adcc1853fa464d"
  *                   rulesName: "thirdRole"
  *                   designationId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
@@ -81,7 +89,6 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:31:04.896Z"
  *                   updatedAt: "2025-02-24T09:31:04.896Z"
  *                   __v: 0

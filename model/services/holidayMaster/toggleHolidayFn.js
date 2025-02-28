@@ -1,4 +1,4 @@
-const toggleHolidayFn = async ({ holidayId, clientid }) => {
+const toggleHolidayFn = async ({ holidayId, companyId, clientid }) => {
     try {
         return {status: true, message: "holiday changed"};
     } catch (error) {

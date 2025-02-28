@@ -52,7 +52,7 @@
  *               status: true
  *               message: "New duty created"
  *               data:
- *                 _id: "67b037ae038ce3ffbb097924"
+ *                 dutyId: "67b037ae038ce3ffbb097924"
  *       400:
  *         description: Bad request. Missing or invalid data.
  *         content:

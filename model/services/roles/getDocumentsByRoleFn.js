@@ -1,8 +1,9 @@
-const getDocumentsByRoleFn = async ({ role, clientId }) => {
+const getDocumentsByRoleFn = async ({ role, companyId, clientId }) => {
     try {
         return {
             status: true, message: "Documents", data: {
                 role,
+                companyId,
                 documents: ["aadhar card", "pan card"]
             }
         };

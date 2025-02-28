@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /demoRoles/deletePermissions/{roleId}/{clientId}:
+ * /demoRoles/deletePermissions/{roleId}/{companyId}/{clientId}:
  *   delete:
  *     summary: Delete a permission from a role
- *     description: Deletes a specific permission for a given client ID and permission ID.
+ *     description: Deletes a specific permission for a given role ID, company ID, and client ID.
  *     tags:
  *       - Role Management
  *     security:
@@ -12,10 +12,17 @@
  *       - name: roleId
  *         in: path
  *         required: true
- *         description: The unique identifier of the permission to be deleted.
+ *         description: The unique identifier of the role from which the permission is to be deleted.
  *         schema:
  *           type: string
  *         example: "abcd1234efgh5678"
+ *       - name: companyId  # Added companyId here after roleId and before clientId
+ *         in: path
+ *         required: true
+ *         description: The company ID associated with the role.
+ *         schema:
+ *           type: string
+ *         example: "6788abe40db7c3b61ed93c70"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -31,6 +38,9 @@
  *             example:
  *               status: true
  *               message: "Permission deleted successfully."
+ *               data:
+ *                 roleId: "abcd1234efgh5678"  # roleId in response
+ *                 companyId: "6788abe40db7c3b61ed93c70"  # Added companyId here after roleId in response
  *       400:
  *         description: Invalid request data or missing fields.
  *         content:

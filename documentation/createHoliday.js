@@ -13,15 +13,11 @@
  *           schema:
  *             type: object
  *             required:
- *               - companyId
  *               - holiday
  *               - holidayName
+ *               - companyId
  *               - clientId
  *             properties:
- *               companyId:
- *                 type: string
- *                 description: The unique identifier of the company for which the holiday is being created.
- *                 example: "67b330d40e76630289fa945d"
  *               holiday:
  *                 type: string
  *                 description: The date of the holiday.
@@ -30,6 +26,10 @@
  *                 type: string
  *                 description: The name of the holiday.
  *                 example: "Durga Puja"
+ *               companyId:
+ *                 type: string
+ *                 description: The unique identifier of the company for which the holiday is being created.
+ *                 example: "67b330d40e76630289fa945d"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the holiday.
@@ -45,7 +45,7 @@
  *               status: true
  *               message: "New Holiday created"
  *               data:
- *                 holidayid: "67b32682425c6067035df306"
+ *                 holidayId: "67b32682425c6067035df306"
  *       400:
  *         description: Invalid request data or missing parameters.
  *         content:

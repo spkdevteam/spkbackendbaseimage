@@ -3,7 +3,7 @@
  * /demoHoliday/defaultHoliday:
  *   patch:
  *     summary: Set the default holiday
- *     description: Sets a holiday as the default holiday based on the provided status and message.
+ *     description: Sets a holiday as the default holiday based on the provided holiday ID, default holiday name, company ID, and client ID.
  *     tags:
  *       - Holiday Management
  *     requestBody:
@@ -13,17 +13,27 @@
  *           schema:
  *             type: object
  *             required:
- *               - status
- *               - message
+ *               - holidayId
+ *               - defaultHolidayName
+ *               - companyId
+ *               - clientId
  *             properties:
- *               status:
- *                 type: boolean
- *                 description: The status indicating whether the default holiday is set.
- *                 example: true
- *               message:
+ *               holidayId:
  *                 type: string
- *                 description: A message indicating the status of the operation.
- *                 example: "Default holiday is set"
+ *                 description: The unique identifier of the holiday to be set as default.
+ *                 example: "67c04ca442adcc1853fa4646"
+ *               defaultHolidayName:
+ *                 type: string
+ *                 description: The name of the holiday to be set as the default holiday (e.g., "Sunday").
+ *                 example: "Sunday"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the holiday.
+ *                 example: "67b330d40e76630289fa945d"
+ *               clientId:
+ *                 type: string
+ *                 description: The client ID associated with the holiday.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *     security:
  *       - BearerAuth: []
  *     responses:
@@ -33,7 +43,7 @@
  *           application/json:
  *             example:
  *               status: true
- *               message: "Default holiday is set"
+ *               message: "Default holiday is set to Sunday"
  *       400:
  *         description: Invalid request data or missing parameters.
  *         content:

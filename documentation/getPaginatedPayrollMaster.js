@@ -1,12 +1,19 @@
 /**
  * @swagger
- * /demoPayroll/getPaginatedpayroll/{clientId}:
+ * /demoPayroll/getPaginatedpayroll/{companyId}/{clientId}:
  *   get:
  *     summary: Retrieve paginated payrolls for a client with optional search filter
  *     description: Retrieves a paginated list of payroll records for a specific client, with an optional search filter for specific payrolls.
  *     tags:
- *       - Payroll Management
+ *       - Payroll Master
  *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID associated with the payroll records.
+ *         schema:
+ *           type: string
+ *           example: "67b32661425c6067035df2f7"
  *       - in: path
  *         name: clientId
  *         required: true
@@ -47,6 +54,7 @@
  *               message: "Successfully fetched the payrolls"
  *               data:
  *                 - payrollId: "67bc3c3fd0fc20776adab0b6"
+ *                   companyId: "67b32661425c6067035df2f7"
  *                   userId: "67b3266d425c6067035df2fd"
  *                   salary: 12000
  *                   tax: 0
@@ -55,11 +63,11 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:30:39.657Z"
  *                   updatedAt: "2025-02-24T10:28:52.398Z"
  *                   __v: 0
  *                 - payrollId: "67bc3c4dd0fc20776adab0ba"
+ *                   companyId: "67b32661425c6067035df2f7"
  *                   userId: "67b3266d425c6067035df2fd"
  *                   salary: 12000
  *                   tax: 0
@@ -68,11 +76,11 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:30:53.500Z"
  *                   updatedAt: "2025-02-24T09:30:53.500Z"
  *                   __v: 0
  *                 - payrollId: "67bc3c58d0fc20776adab0bc"
+ *                   companyId: "67b32661425c6067035df2f7"
  *                   userId: "67b3266d425c6067035df2fd"
  *                   salary: 12000
  *                   tax: 0
@@ -81,7 +89,6 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:31:04.896Z"
  *                   updatedAt: "2025-02-24T09:31:04.896Z"
  *                   __v: 0

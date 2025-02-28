@@ -17,6 +17,7 @@
  *             required:
  *               - roleId
  *               - arr
+ *               - companyId  # Added companyId here before clientId
  *               - clientId
  *             properties:
  *               roleId:
@@ -55,6 +56,10 @@
  *                       type: string
  *                       description: The validation status of the document (e.g., "life time").
  *                       example: "life time"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the role and documents.
+ *                 example: "6788abe40db7c3b61ed93c70"  # Added companyId here before clientId
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the role and documents.

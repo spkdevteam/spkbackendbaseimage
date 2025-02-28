@@ -1,4 +1,4 @@
-const deleteDocumentFn = async ({ roleId, clientId }) => {
+const deleteDocumentFn = async ({ roleId, companyId, clientId }) => {
     try {
         return {status: true, message: "Document deleted succesfully."};
     } catch (error) {

@@ -1,4 +1,4 @@
-const createLeaveApplicationFn = async ({ userId, companyId, application, leaveType, clientId }) => {
+const createLeaveApplicationFn = async ({ userId, application, leaveType, companyId, clientId }) => {
     try {
         return {status: true, message: "Leave application is sent"};
     } catch (error) {

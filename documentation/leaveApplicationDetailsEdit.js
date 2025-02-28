@@ -15,6 +15,7 @@
  *             required:
  *               - userId
  *               - isApproved
+ *               - companyId
  *               - clientId
  *             properties:
  *               userId:
@@ -25,6 +26,10 @@
  *                 type: string
  *                 description: The approval status of the leave application. Should be either "true" or "false".
  *                 example: "true"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the leave application.
+ *                 example: "67b32661425c6067035df2f7"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the leave application.

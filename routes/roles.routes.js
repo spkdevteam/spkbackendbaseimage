@@ -21,19 +21,19 @@ const router = express.Router();
 router
     .post("/createRole", createRole)
     .patch("/editRole", editRole)
-    .delete("/deleteRole/:roleId/:clientId", deleteRole)
-    .get("/getPaginatedRoles/:clientId", getPaginatedRoles)
+    .delete("/deleteRole/:roleId/:companyId/:clientId", deleteRole)
+    .get("/getPaginatedRoles/:companyId/:clientId", getPaginatedRoles)
     .post("/assignPermission", assignPermission)
     .patch("/editPermission", editPermission)
-    .delete("/deletePermissions/:roleId/:clientId", deletePermission)
+    .delete("/deletePermissions/:roleId/:companyId/:clientId", deletePermission)
     .post("/assignDocs", assignDocument)
     .patch("/editDocs", editDocument)
-    .delete("/deleteDocs/:roleId/:clientId", deleteDocument)
-    .get("/getPermissionsByRoleId/:roleId/:clientId", getPermissionsByRoleId)
-    .get("/getPermissionByRole/:role/:clientId", getPermissionByRole)
-    .get("/getDocsByRoleId/:roleId/:clientId", getDocumentsByRoleId)
-    .get("/getDocsByRole/:role/:clientId", getDocumentsByRole)
-    .get("/getByRoleId/:roleId/:clientId", getByRoleId)
+    .delete("/deleteDocs/:roleId/:companyId/:clientId", deleteDocument)
+    .get("/getPermissionsByRoleId/:roleId/:compantId/:clientId", getPermissionsByRoleId)
+    .get("/getPermissionByRole/:role/:companyId/:clientId", getPermissionByRole)
+    .get("/getDocsByRoleId/:roleId/:companyId/:clientId", getDocumentsByRoleId)
+    .get("/getDocsByRole/:role/:companyId/:clientId", getDocumentsByRole)
+    .get("/getByRoleId/:roleId/:companyId/:clientId", getByRoleId)
     
 
 module.exports = router;

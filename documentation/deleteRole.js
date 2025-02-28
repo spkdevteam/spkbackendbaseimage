@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /demoRoles/deleteRole/{roleId}/{clientId}:
+ * /demoRoles/deleteRole/{roleId}/{companyId}/{clientId}:
  *   delete:
  *     summary: Delete a role
- *     description: Deletes a role based on the provided role ID and client ID. Ensures the role ID and client ID are valid before deletion.
+ *     description: Deletes a role based on the provided role ID, company ID, and client ID. Ensures all are valid before deletion.
  *     tags:
  *       - Role Management
  *     security:
@@ -16,6 +16,13 @@
  *         schema:
  *           type: string
  *           example: "67b32661425c6067035df2f7"
+ *       - name: companyId  # Added companyId after roleId and before clientId
+ *         in: path
+ *         required: false
+ *         description: The company ID associated with the role. Default is "6788abe40db7c3b61ed93c70".
+ *         schema:
+ *           type: string
+ *           example: "6788abe40db7c3b61ed93c70"
  *       - name: clientId
  *         in: path
  *         required: false
@@ -31,13 +38,16 @@
  *             example:
  *               status: true
  *               message: "Role is deleted successfully."
+ *               data:
+ *                 roleId: "67b32661425c6067035df2f7"  # roleId in response
+ *                 companyId: "6788abe40db7c3b61ed93c70"  # Added companyId here after roleId in response
  *       400:
- *         description: Invalid role ID or client ID.
+ *         description: Invalid role ID, company ID, or client ID.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid role ID or client ID."
+ *               message: "Invalid role ID, company ID, or client ID."
  *       404:
  *         description: Role not found.
  *         content:

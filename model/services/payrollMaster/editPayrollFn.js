@@ -1,4 +1,4 @@
-const editPayrollFn = async ({ payrollId, userId, salary, tax, clientId }) => {
+const editPayrollFn = async ({ payrollId, userId, salary, tax, companyId, clientId }) => {
     try {
         return { status: true, message: "Updated successfully."};
     } catch (error) {

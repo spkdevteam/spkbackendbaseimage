@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /demoLeaves/leaveApplicationStatus/{userId}/{clientId}:
+ * /demoLeaves/leaveApplicationStatus/{userId}/{companyId}/{status}/{clientId}:
  *   get:
  *     summary: Get the status of a leave application for a specific user and client
  *     description: Retrieves the current status of a specific leave application for a given user and client.
@@ -14,6 +14,20 @@
  *         schema:
  *           type: string
  *           example: "67b32661425c6067035df2f7"
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID associated with the leave application.
+ *         schema:
+ *           type: string
+ *           example: "67b32661425c6067035df2f7"
+ *       - in: path
+ *         name: status
+ *         required: true
+ *         description: The current status of the leave application (e.g., "pending", "approved").
+ *         schema:
+ *           type: string
+ *           example: "approved"
  *       - in: path
  *         name: clientId
  *         required: true
@@ -31,7 +45,7 @@
  *             example:
  *               status: true
  *               message: "Status of leave application"
- *               data: "pending"
+ *               data: "Status, changed to approved"
  *       400:
  *         description: Invalid request data or missing parameters.
  *         content:

@@ -1,7 +1,8 @@
-const assignPermissionFn = async ({ roleId, arr, clientId }) => {
+const assignPermissionFn = async ({ roleId, arr, companyId, clientId }) => {
     try {
         return { status: true, message: "Permissions are assigned.", data: {
             roleId,
+            companyId,
             "assigned permissions": arr
         } };
     } catch (error) {

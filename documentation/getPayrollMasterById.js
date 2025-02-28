@@ -1,16 +1,23 @@
 /**
  * @swagger
- * /demoPayroll/getPayrollById/{payrollId}/{clientId}:
+ * /demoPayroll/getPayrollById/{payrollId}/{companyId}/{clientId}:
  *   get:
- *     summary: Retrieve payroll details by payroll ID and client ID
- *     description: Retrieves the payroll information for a specific employee using their payroll ID and client ID.
+ *     summary: Retrieve payroll details by payroll ID, company ID, and client ID
+ *     description: Retrieves the payroll information for a specific employee using their payroll ID, company ID, and client ID.
  *     tags:
- *       - Payroll Management
+ *       - Payroll Master
  *     parameters:
  *       - in: path
  *         name: payrollId
  *         required: true
  *         description: The unique identifier of the payroll record.
+ *         schema:
+ *           type: string
+ *           example: "67b32661425c6067035df2f7"
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID associated with the payroll.
  *         schema:
  *           type: string
  *           example: "67b32661425c6067035df2f7"
@@ -33,6 +40,7 @@
  *               message: "The payroll is"
  *               data:
  *                 payrollId: "67b32661425c6067035df2f7"
+ *                 companyId: "67b32661425c6067035df2f7"
  *                 userId: "67b3266d425c6067035df2fd"
  *                 salary: 12000
  *                 tax: 0

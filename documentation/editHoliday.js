@@ -16,6 +16,7 @@
  *               - holidayId
  *               - holiday
  *               - holidayName
+ *               - companyId
  *               - clientId
  *             properties:
  *               holidayId:
@@ -30,6 +31,10 @@
  *                 type: string
  *                 description: The name of the holiday.
  *                 example: "Durga Puja"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the holiday.
+ *                 example: "67b330d40e76630289fa945d"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the holiday.

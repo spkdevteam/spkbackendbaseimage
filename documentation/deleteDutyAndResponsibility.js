@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /demoDuties/deleteDutyAndResponsibility/{id}/{clientId}:
+ * /demoDuties/deleteDutyAndResponsibility/{id}/{companyId}/{clientId}:
  *   delete:
  *     summary: Delete a specific duty and responsibility
  *     description: This API deletes a specific duty and responsibility by its ID and the associated client ID.
@@ -14,6 +14,13 @@
  *         schema:
  *           type: string
  *           example: "123456"
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID associated with the duty.
+ *         schema:
+ *           type: string
+ *           example: "exampleCompanyId"
  *       - in: path
  *         name: clientId
  *         required: true

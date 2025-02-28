@@ -1,4 +1,4 @@
-const getPermissionsByRoleIdFn = async ({ roleId, clientId }) => {
+const getPermissionsByRoleIdFn = async ({ roleId, companyId, clientId }) => {
     try {
         return {
             status: true, message: "Here are all the permissions on this role", data: [{

@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /demoRoles/getPermissionByRole/{role}/{clientId}:
+ * /demoRoles/getPermissionByRole/{role}/{companyId}/{clientId}:
  *   get:
  *     summary: Retrieve permissions for a role by role ID
- *     description: Retrieves a list of permissions associated with a specific role and client ID.
+ *     description: Retrieves a list of permissions associated with a specific role, company ID, and client ID.
  *     tags:
  *       - Role Management
  *     security:
@@ -16,6 +16,13 @@
  *         schema:
  *           type: string
  *         example: "admin"
+ *       - name: companyId
+ *         in: path
+ *         required: true
+ *         description: The company ID associated with the role.
+ *         schema:
+ *           type: string
+ *         example: "67c04caf42adcc1853fa464d"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -33,6 +40,7 @@
  *               message: "These are permissions available for the role"
  *               data:
  *                 role: "67b32661425c6067035df2f7"
+ *                 companyId: "67c04caf42adcc1853fa464d"
  *                 permissions:
  *                   - "read"
  *                   - "write"
@@ -45,7 +53,7 @@
  *               status: false
  *               message: "Invalid request data or missing fields."
  *       404:
- *         description: Role or client ID does not exist.
+ *         description: Role, company, or client ID does not exist.
  *         content:
  *           application/json:
  *             example:

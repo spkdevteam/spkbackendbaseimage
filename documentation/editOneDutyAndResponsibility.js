@@ -29,6 +29,10 @@
  *                 type: string
  *                 description: The documents associated with the duty.
  *                 example: "demoDoc"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the duty.
+ *                 example: "demoCompanyId"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the duty.
@@ -38,6 +42,7 @@
  *               - designation
  *               - rules
  *               - documents
+ *               - companyId
  *               - clientId
  *     responses:
  *       200:

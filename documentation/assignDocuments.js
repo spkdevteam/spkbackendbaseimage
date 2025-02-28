@@ -3,7 +3,7 @@
  * /demoRoles/assignDocs:
  *   post:
  *     summary: Assign documents to a role
- *     description: Assigns specific documents to a role for a given client ID. The request includes the document ID, the list of documents to be assigned, and the client ID.
+ *     description: Assigns specific documents to a role for a given client ID and company ID. The request includes the document ID, the list of documents to be assigned, the company ID, and the client ID.
  *     tags:
  *       - Role Management
  *     security:
@@ -15,11 +15,12 @@
  *           schema:
  *             type: object
  *             required:
- *               - documentId
+ *               - roleId
  *               - arr
+ *               - companyId
  *               - clientId
  *             properties:
- *               documentId:
+ *               roleId:
  *                 type: string
  *                 description: The unique identifier of the document to be assigned.
  *                 example: "67b32661425c6067035df2f7"
@@ -55,6 +56,10 @@
  *                       type: string
  *                       description: The validation status of the document (e.g., "life time").
  *                       example: "life time"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the role and documents.
+ *                 example: "67c04caf42adcc1853fa464d"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the role and documents.
@@ -68,6 +73,8 @@
  *               status: true
  *               message: "Documents are assigned."
  *               data:
+ *                 roleId: "abc123"
+ *                 companyId: "67c04caf42adcc1853fa464d"
  *                 assignedDocuments:
  *                   - name: "aadhar"
  *                     authority: "govt of india"

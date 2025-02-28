@@ -5,7 +5,7 @@
  *     summary: Create a new payroll for an employee
  *     description: Creates a new payroll record for an employee with salary, tax details, and client association.
  *     tags:
- *       - Payroll Management
+ *       - Payroll Master
  *     requestBody:
  *       required: true
  *       content:
@@ -50,6 +50,7 @@
  *               message: "New payroll is created for the employee"
  *               data:
  *                 payRollId: "67b32669425c6067035df2fa"
+ *                 companyId: "6788abe40db7c3b61ed93c70"
  *                 userId: "67b32661425c6067035df2f7"
  *                 salary: "12000"
  *                 tax: "0"

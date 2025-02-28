@@ -14,7 +14,7 @@ router
     .patch("/toggleHoliday", toggleHoliday)
     .patch("/defaultHoliday", defaultHoliday)
     .delete("/deleteHoliday/:holidayId/:clientId", deleteHoliday)
-    .get("/getPaginatedholiday/:clientId", getPaginatedholiday)
+    .get("/getPaginatedholiday/:holidayId/:clientId", getPaginatedholiday)
 
 
 module.exports = router;

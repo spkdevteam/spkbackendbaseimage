@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /demoDuties/getOneDutyAndResponsibility/{id}/{clientId}:
+ * /demoDuties/getOneDutyAndResponsibility/{id}/{companyId}/{clientId}:
  *   get:
  *     summary: Get a specific duty and responsibility
  *     description: This API retrieves the details of a specific duty and responsibility by its ID and the associated client ID.
@@ -14,6 +14,13 @@
  *         schema:
  *           type: string
  *           example: "123456"
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID associated with the duty.
+ *         schema:
+ *           type: string
+ *           example: "exampleCompanyId"
  *       - in: path
  *         name: clientId
  *         required: true
@@ -30,7 +37,8 @@
  *               status: true
  *               message: "Here is the duty."
  *               data:
- *                 _id: "123456"
+ *                 dutyId: "123456"
+ *                 companyId: "exampleCompanyId"
  *                 deptName: "demoDepartment"
  *                 designation: "demoDesignation"
  *                 rules: "demoRule"

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /demoRoles/getDocsByRole/{role}/{clientId}:
+ * /demoRoles/getDocsByRole/{role}/{companyId}/{clientId}:
  *   get:
  *     summary: Retrieve documents for a role by role ID
  *     description: Retrieves a list of document names associated with a specific role ID and client ID.
@@ -16,6 +16,13 @@
  *         schema:
  *           type: string
  *         example: "admin"
+ *       - name: companyId  # Added companyId before clientId in the parameters
+ *         in: path
+ *         required: true
+ *         description: The company ID associated with the role whose documents will be retrieved.
+ *         schema:
+ *           type: string
+ *         example: "6788abe40db7c3b61ed93c70"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -31,7 +38,8 @@
  *             example:
  *               message: "Documents"
  *               data:
- *                 role: "67b32661425c6067035df2f7"
+ *                 roleId: "67b32661425c6067035df2f7"  # Added roleId
+ *                 companyId: "6788abe40db7c3b61ed93c70"  # Added companyId after roleId
  *                 documents:
  *                   - "aadhar card"
  *                   - "pan card"

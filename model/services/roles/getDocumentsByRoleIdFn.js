@@ -1,4 +1,4 @@
-const getDocumentsByRoleIdFn = async ({ roleId, clientId }) => {
+const getDocumentsByRoleIdFn = async ({ roleId, companyId, clientId }) => {
     try {
         return {
             status: true, message: "Here are all the documents of this role", data: [{

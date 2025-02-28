@@ -1,6 +1,6 @@
-const leaveApplicationStatusFn = async ({ userId, clientId}) => {
+const leaveApplicationStatusFn = async ({ userId, companyId, status, clientId}) => {
     try {
-        return {status: true, message: "Status of leave application", data: "pending"}
+        return {status: true, message: "Status of leave application", data: `Status, changed to ${status}`};
     } catch (error) {
         return {status: false, message: error.message}
     }

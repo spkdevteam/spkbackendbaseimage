@@ -17,6 +17,7 @@
  *             required:
  *               - roleId
  *               - arr
+ *               - companyId  # Added companyId before clientId
  *               - clientId
  *             properties:
  *               roleId:
@@ -40,6 +41,10 @@
  *                       type: string
  *                       description: The schema that the permission applies to (e.g., "user", "order").
  *                       example: "user"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the role and permissions.
+ *                 example: "6788abe40db7c3b61ed93c70"  # Added companyId before clientId
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the role and permissions.

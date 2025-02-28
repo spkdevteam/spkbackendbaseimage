@@ -10,6 +10,7 @@ const rolesRouter = require("./roles.routes");
 const leaveApplicationRouter = require("./leaveApplication.routes");
 const payrollRouter = require("./payroll.routes");
 const holidayRouter = require("./holiday.routes");
+const shiftRegisterRouter = require("./shiftRegister.routes");
 
 
 
@@ -26,6 +27,7 @@ mainRouter
     .use('/demoLeaves', leaveApplicationRouter)
     .use('/demoPayroll', payrollRouter)
     .use('/demoHoliday', holidayRouter)
+    .use('/demoshiftRegister', shiftRegisterRouter)
     
 
 module.exports = { mainRouter };

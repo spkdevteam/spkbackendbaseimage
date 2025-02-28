@@ -1,9 +1,10 @@
-const getPaginatedHolidayFn = async ({ page, perPage, searchKey = "", clientId }) => {
+const getPaginatedHolidayFn = async ({ page, perPage, searchKey = "", companyId, clientId }) => {
     try {
         return {
             status: true, message: "Successfully fetched the olidays", data: [
                 {
-                    _id: "67bc3c3fd0fc20776adab0b6",
+                    holidayId: "67bc3c3fd0fc20776adab0b6",
+                    companyId: "67b330d40e76630289fa945d",
                     holiday: "September 10, 2025 00:00",
                     holidayName: "Durga Puja",
                     deletedAt: null,
@@ -17,7 +18,8 @@ const getPaginatedHolidayFn = async ({ page, perPage, searchKey = "", clientId }
                     __v: 0
                 },
                 {
-                    _id: "67bc3c4dd0fc20776adab0ba",
+                    holidayId: "67bc3c4dd0fc20776adab0ba",
+                    companyId: "67b330d40e76630289fa945d",
                     holiday: "September 10, 2025 00:00",
                     holidayName: "Durga Puja",
                     deletedAt: null,
@@ -31,7 +33,8 @@ const getPaginatedHolidayFn = async ({ page, perPage, searchKey = "", clientId }
                     __v: 0
                 },
                 {
-                    _id: "67bc3c58d0fc20776adab0bc",
+                    holidayId: "67bc3c58d0fc20776adab0bc",
+                    companyId: "67b330d40e76630289fa945d",
                     holiday: "September 10, 2025 00:00",
                     holidayName: "Durga Puja",
                     deletedAt: null,

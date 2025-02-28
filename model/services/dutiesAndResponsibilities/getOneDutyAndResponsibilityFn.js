@@ -1,7 +1,8 @@
-const getOneDutyAndResponsibilityFn = async ({ id, clientId}) => {
+const getOneDutyAndResponsibilityFn = async ({ id, companyId, clientId}) => {
     try {
         return { status: true, message: "Here is the duty.", data: {
-            _id: id,
+            dutyId: id,
+            companyId,
             deptName: "demoDepartment",
             designation: "demoDesignation",
             rules: "demoRule",

@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /demoRoles/deleteDocs/{roleId}/{clientId}:
+ * /demoRoles/deleteDocs/{roleId}/{companyId}/{clientId}:
  *   delete:
  *     summary: Delete documents for a role
- *     description: Deletes specific documents for a given client ID and role ID.
+ *     description: Deletes specific documents for a given role ID, company ID, and client ID.
  *     tags:
  *       - Role Management
  *     security:
@@ -16,6 +16,13 @@
  *         schema:
  *           type: string
  *         example: "67b32661425c6067035df2f7"
+ *       - name: companyId  # Added companyId here after roleId and before clientId
+ *         in: path
+ *         required: true
+ *         description: The company ID associated with the role and documents.
+ *         schema:
+ *           type: string
+ *         example: "6788abe40db7c3b61ed93c70"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -31,6 +38,9 @@
  *             example:
  *               status: true
  *               message: "Document deleted successfully."
+ *               data:
+ *                 roleId: "67b32661425c6067035df2f7"  # roleId in response
+ *                 companyId: "6788abe40db7c3b61ed93c70"  # Added companyId here after roleId in response
  *       400:
  *         description: Invalid request data or missing fields.
  *         content:

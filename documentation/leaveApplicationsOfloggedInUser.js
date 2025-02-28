@@ -1,12 +1,19 @@
 /**
  * @swagger
- * /demoLeaves/leaveOfAllLoggedInEmployees/{clientId}:
+ * /demoLeaves/leaveOfAllLoggedInEmployees/{companyId}/{clientId}:
  *   get:
  *     summary: Get leave information of all logged-in employees for a client with pagination
  *     description: Retrieves the leave information of all logged-in employees for a specific client, with pagination options for results.
  *     tags:
  *       - Leave Management
  *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID for which the leave information of logged-in employees is being retrieved.
+ *         schema:
+ *           type: string
+ *           example: "67b32661425c6067035df2f7"
  *       - in: path
  *         name: clientId
  *         required: true

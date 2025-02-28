@@ -1,9 +1,10 @@
-const getPaginatedRolesFn = async ({ page = 1, perPage = 10, searchKey = "", clientId }) => {
+const getPaginatedRolesFn = async ({ page = 1, perPage = 10, searchKey = "", companyId, clientId }) => {
     try {
         return {
             status: true, message: "All the roles are here.", data: [
                 {
                     roleId: "67bc3c3fd0fc20776adab0b6",
+                    companyId: "67c04caf42adcc1853fa464d",
                     rulesName: "firstRole",
                     designationId: "67b32661425c6067035df2f7",
                     departmentId: "67b32661425c6067035df2f7",
@@ -19,6 +20,7 @@ const getPaginatedRolesFn = async ({ page = 1, perPage = 10, searchKey = "", cli
                 },
                 {
                     roleId: "67bc3c4dd0fc20776adab0ba",
+                    companyId: "67c04caf42adcc1853fa464d",
                     rulesName: "secondRole",
                     designationId: "67b32661425c6067035df2f7",
                     departmentId: "67b32661425c6067035df2f7",
@@ -34,6 +36,7 @@ const getPaginatedRolesFn = async ({ page = 1, perPage = 10, searchKey = "", cli
                 },
                 {
                     roleId: "67bc3c58d0fc20776adab0bc",
+                    companyId: "67c04caf42adcc1853fa464d",
                     rulesName: "thirdRole",
                     designationId: "67b32661425c6067035df2f7",
                     departmentId: "67b32661425c6067035df2f7",

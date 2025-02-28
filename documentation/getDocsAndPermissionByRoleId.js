@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /demoRoles/getByRoleId/{roleId}/{clientId}:
+ * /demoRoles/getByRoleId/{roleId}/{companyId}/{clientId}:
  *   get:
  *     summary: Get permissions and documents for a role
  *     description: Retrieves the permissions and associated documents for a specific role and client ID.
@@ -14,6 +14,13 @@
  *         schema:
  *           type: string
  *           example: "67b32661425c6067035df2f7"
+ *       - in: path
+ *         name: companyId  # Added companyId before clientId in the parameters section
+ *         required: true
+ *         description: The company ID associated with the role.
+ *         schema:
+ *           type: string
+ *           example: "6788abe40db7c3b61ed93c70"
  *       - in: path
  *         name: clientId
  *         required: true
@@ -33,6 +40,7 @@
  *               message: "All the permissions and docs of that role"
  *               data:
  *                 roleId: "67b32661425c6067035df2f7"
+ *                 companyId: "6788abe40db7c3b61ed93c70"  # Added companyId after roleId in the response
  *                 permissions:
  *                   - "read"
  *                   - "write"

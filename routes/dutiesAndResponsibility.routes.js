@@ -10,8 +10,8 @@ const router = express.Router();
 router
     .post("/createDuty", createDutyAndResponsibility)
     .patch("/editOneDutyAndResponsibility", editOneDutyAndResponsibility)
-    .delete("/deleteDutyAndResponsibility/:id/:clientId", deleteDutyAndResponsibility)
-    .get("/getOneDutyAndResponsibility/:id/:clientId", getOneDutyAndResponsibility)
-    .get("/getDutyAndResponsibilityPaginated/:clientId", getPaginatedDutyAndResponsibility)
+    .delete("/deleteDutyAndResponsibility/:id/:companyId/:clientId", deleteDutyAndResponsibility)
+    .get("/getOneDutyAndResponsibility/:id/:companyId/:clientId", getOneDutyAndResponsibility)
+    .get("/getDutyAndResponsibilityPaginated/:companyId/:clientId", getPaginatedDutyAndResponsibility)
 
 module.exports = router;

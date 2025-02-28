@@ -1,9 +1,10 @@
-const getPaginatedDutyAndResponsibilityFn = async ({ page = 1, perPage = 10, searchKey = "", clientId }) => {
+const getPaginatedDutyAndResponsibilityFn = async ({ page = 1, perPage = 10, searchKey = "", companyId, clientId }) => {
     try {
         return {
             status: true, message: "Successfully fetched the duties", data: [
                 {
-                    _id: "67bc3c3fd0fc20776adab0b6",
+                    dutyId: "67bc3c3fd0fc20776adab0b6",
+                    companyId: "67c04caf42adcc1853fa464d",
                     rulesName: "firstDuty",
                     apiId: "67b32661425c6067035df2f7",
                     departmentId: "67b32661425c6067035df2f7",
@@ -18,7 +19,8 @@ const getPaginatedDutyAndResponsibilityFn = async ({ page = 1, perPage = 10, sea
                     __v: 0
                 },
                 {
-                    _id: "67bc3c4dd0fc20776adab0ba",
+                    dutyId: "67bc3c4dd0fc20776adab0ba",
+                    companyId: "67c04caf42adcc1853fa464d",
                     rulesName: "secondDuty",
                     apiId: "67b32661425c6067035df2f7",
                     departmentId: "67b32661425c6067035df2f7",
@@ -33,7 +35,8 @@ const getPaginatedDutyAndResponsibilityFn = async ({ page = 1, perPage = 10, sea
                     __v: 0
                 },
                 {
-                    _id: "67bc3c58d0fc20776adab0bc",
+                    dutyId: "67bc3c58d0fc20776adab0bc",
+                    companyId: "67c04caf42adcc1853fa464d",
                     rulesName: "thirdDuty",
                     apiId: "67b32661425c6067035df2f7",
                     departmentId: "67b32661425c6067035df2f7",

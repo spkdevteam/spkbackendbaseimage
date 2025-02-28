@@ -1,4 +1,4 @@
-const deleteHolidayFn = async ({}) => {
+const deleteHolidayFn = async ({ holidayId, companyId, clientId }) => {
     try {
         return {status: true, message: "Holiday deleted"};
     } catch (error) {

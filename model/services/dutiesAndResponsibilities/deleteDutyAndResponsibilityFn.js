@@ -1,4 +1,4 @@
-const deleteDutyAndResponsibilityFn = async ({ id, clientId })=>{
+const deleteDutyAndResponsibilityFn = async ({ id, companyId, clientId })=>{
     try {
         return { status: true, message: "Duty deleted"};
     } catch (error) {

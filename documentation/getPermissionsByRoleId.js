@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /demoRoles/getPermissionsByRoleId/{roleId}/{clientId}:
+ * /demoRoles/getPermissionsByRoleId/{roleId}/{companyId}/{clientId}:
  *   get:
  *     summary: Retrieve documents for a role by role ID
- *     description: Retrieves all documents associated with a specific role ID and client ID.
+ *     description: Retrieves all documents associated with a specific role ID, company ID, and client ID.
  *     tags:
  *       - Role Management
  *     security:
@@ -16,6 +16,13 @@
  *         schema:
  *           type: string
  *         example: "67b32661425c6067035df2f7"
+ *       - name: companyId
+ *         in: path
+ *         required: true
+ *         description: The company ID associated with the role.
+ *         schema:
+ *           type: string
+ *         example: "67c04caf42adcc1853fa464d"
  *       - name: clientId
  *         in: path
  *         required: true

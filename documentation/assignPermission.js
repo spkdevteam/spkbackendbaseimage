@@ -3,7 +3,7 @@
  * /demoRoles/assignPermission:
  *   post:
  *     summary: Assign permissions to a role
- *     description: Assigns specific permissions to a role for a given client ID. The request includes the role ID, the list of permissions to be assigned, and the client ID.
+ *     description: Assigns specific permissions to a role for a given client ID. The request includes the role ID, the list of permissions to be assigned, the company ID, and the client ID.
  *     tags:
  *       - Role Management
  *     security:
@@ -16,6 +16,7 @@
  *             type: object
  *             required:
  *               - roleId
+ *               - companyId  # Added companyId here
  *               - arr
  *               - clientId
  *             properties:
@@ -23,6 +24,10 @@
  *                 type: string
  *                 description: The unique identifier of the role to which the permissions will be assigned.
  *                 example: "67b32661425c6067035df2f7"
+ *               companyId:  # Added companyId here
+ *                 type: string
+ *                 description: The unique identifier of the company for which the permissions are being assigned.
+ *                 example: "67c04caf42adcc1853fa464d"
  *               arr:
  *                 type: array
  *                 description: A list of permissions to be assigned to the role.
@@ -53,6 +58,8 @@
  *               status: true
  *               message: "Permissions are assigned."
  *               data:
+ *                 roleId: "67b32661425c6067035df2f7"  # roleId in response
+ *                 companyId: "67c04caf42adcc1853fa464d"  # Added companyId here in the response
  *                 assignedPermissions:
  *                   - permission: "read"
  *                     schema: "user"

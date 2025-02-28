@@ -1,16 +1,23 @@
 /**
  * @swagger
- * /demoDuties/getDutyAndResponsibilityPaginated/{clientid}:
+ * /demoDuties/getDutyAndResponsibilityPaginated/{companyId}/{clientId}:
  *   get:
  *     summary: Get paginated duties and responsibilities
- *     description: This API retrieves a paginated list of duties and responsibilities by the given ID, with optional search and pagination parameters.
+ *     description: This API retrieves a paginated list of duties and responsibilities by the given companyId and clientId, with optional search and pagination parameters.
  *     tags:
  *       - Duties
  *     parameters:
  *       - in: path
+ *         name: companyId
+ *         required: true
+ *         description: The company ID associated with the duties.
+ *         schema:
+ *           type: string
+ *           example: "67b32661425c6067035df2f7"
+ *       - in: path
  *         name: clientId
  *         required: true
- *         description: The unique ID associated with the duties and responsibilities.
+ *         description: The client ID associated with the duties and responsibilities.
  *         schema:
  *           type: string
  *           example: "123456"
@@ -44,7 +51,8 @@
  *               status: true
  *               message: "Successfully fetched the duties"
  *               data:
- *                 - _id: "67bc3c3fd0fc20776adab0b6"
+ *                 - dutyId: "67bc3c3fd0fc20776adab0b6"
+ *                   companyId: "67c04caf42adcc1853fa464d"
  *                   rulesName: "firstDuty"
  *                   apiId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
@@ -53,11 +61,11 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:30:39.657Z"
  *                   updatedAt: "2025-02-24T10:28:52.398Z"
  *                   __v: 0
- *                 - _id: "67bc3c4dd0fc20776adab0ba"
+ *                 - dutyId: "67bc3c4dd0fc20776adab0ba"
+ *                   companyId: "67c04caf42adcc1853fa464d"
  *                   rulesName: "secondDuty"
  *                   apiId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
@@ -66,11 +74,11 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:30:53.500Z"
  *                   updatedAt: "2025-02-24T09:30:53.500Z"
  *                   __v: 0
- *                 - _id: "67bc3c58d0fc20776adab0bc"
+ *                 - dutyId: "67bc3c58d0fc20776adab0bc"
+ *                   companyId: "67c04caf42adcc1853fa464d"
  *                   rulesName: "thirdDuty"
  *                   apiId: "67b32661425c6067035df2f7"
  *                   departmentId: "67b32661425c6067035df2f7"
@@ -79,7 +87,6 @@
  *                   createdBy: "67b5c5f8b16bd2ccf5927d31"
  *                   editedBy: null
  *                   isActive: false
- *                   companyId: "67b32661425c6067035df2f7"
  *                   createdAt: "2025-02-24T09:31:04.896Z"
  *                   updatedAt: "2025-02-24T09:31:04.896Z"
  *                   __v: 0

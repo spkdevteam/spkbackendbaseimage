@@ -1,5 +1,5 @@
 const express = require('express');
-const {mainRouter} = require('./routes/main.routes.js');
+const { mainRouter } = require('./routes/main.routes.js');
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser")
@@ -11,7 +11,7 @@ const app = express();
 const port = 8092;
 
 const corsOptions = {
-    origin: "*", // Allows requests from all origins
+    origin: "*",
     credentials: true,
     methods: ['GET', 'PATCH', 'PUT', 'POST', 'DELETE'],
     allowedHeaders: ['X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'x-refresh-token', 'x-user-role', 'x-verify-token'],
@@ -30,6 +30,11 @@ app.use((req, res, next) => {
 });
 
 app.use('/', mainRouter);
+
+app.get("/test", (req, res)=>{
+    res.json({ success: true, message: "checking wheather branching is working or not"})
+})
+
 app.use(errorHandler);
 
 app.listen(port, () => {

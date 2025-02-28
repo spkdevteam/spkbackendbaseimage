@@ -19,6 +19,10 @@
  *                 type: string
  *                 description: The name of the rule.
  *                 example: "AdminAccess"
+ *               companyId:
+ *                 type: string
+ *                 description: The unique identifier of the company.
+ *                 example: "api12345"
  *               apiId:
  *                 type: string
  *                 description: The unique identifier of the API.

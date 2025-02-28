@@ -7,7 +7,7 @@ const departmentSchema = mongoose.Schema({
     description:{type:String} ,
     deletedAt:{type:Date,default:null},
     isActive:{type:Boolean,default:true},
-    old_Id: {type: String     },
+    old_Id: {type: String},
     createdBy: { type: mongoose.Schema.ObjectId, ref: "users", default:null, index: true } 
 },
 {
@@ -16,4 +16,4 @@ const departmentSchema = mongoose.Schema({
 
 const Department = mongoose.model('department',departmentSchema)
 
-module.exports  = departmentSchema
+module.exports  = departmentSchema;

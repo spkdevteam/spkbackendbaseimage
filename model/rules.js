@@ -9,7 +9,8 @@ const rulesSchema = new mongoose.Schema(
     deletedBy: { type: mongoose.Types.ObjectId, ref: 'user', default: null },
     createdBy: { type: mongoose.Types.ObjectId, ref: 'user', required: true },
     editedBy: { type: mongoose.Types.ObjectId, ref: 'user', default: null },
-    companyId: { type: ObjectId, ref: "company", default: null, index: true },
+    isActive: { type: Boolean, require: true, default: false },
+    companyId: { type: mongoose.Types.ObjectId, ref: "company", default: null, index: true },
   },
   { timestamps: true }
 );

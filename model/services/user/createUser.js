@@ -1,4 +1,3 @@
-const { status } = require("express/lib/response")
 const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema")
 const { emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace, passwordValidation } = require("../validation/validation")
@@ -44,11 +43,10 @@ const createUser =async ({firstName, lastName, profileImage, companyId, email, p
 
         const user = new User({
             displayId,
-            companyId,
-            firstName, 
-            lastName, 
-            profileImage, 
-            email, 
+            firstName,
+            lastName,
+            profileImage,
+            email,
             phone,
             password: newPassword, 
             gender, 
@@ -66,8 +64,8 @@ const createUser =async ({firstName, lastName, profileImage, companyId, email, p
         console.log("user save result:", result);      
         return {status:true,message:'User created successfully', data:{_id:result._id}}        
     } catch (error) {
-        console.log("Error in sign up user", error);
-        return {status: false, message: "Failed to sign up user", error: error.message}
+        return { status: false, message: error.message };
     }
 }
+
 module.exports = createUser

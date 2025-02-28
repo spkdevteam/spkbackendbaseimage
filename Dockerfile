@@ -16,3 +16,4 @@ COPY . .
 # 7. Set the command to start the app
 ENTRYPOINT ["npm"]
 CMD ["start"]
+

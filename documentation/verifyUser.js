@@ -1,26 +1,11 @@
 /**
  * @swagger
- * /isVerify/{clientId}/{userId}:
+ * /isVerify:
  *   patch:
  *     summary: Verify user if no pending documents
- *     description: Updates the isVerify field to true if the user has no pending documents.
+ *     description: Updates the `isVerify` field to true if the user has no pending documents.
  *     tags:
  *       - Authentication
- *     parameters:
- *       - in: path
- *         name: clientId
- *         required: true
- *         schema:
- *           type: string
- *         example: "client001"
- *         description: The ID of the client to which the user belongs.
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: string
- *         example: "65a3f9c9e8b1a3d0a1234702"
- *         description: The ID of the user to verify.
  *     requestBody:
  *       required: true
  *       content:
@@ -31,6 +16,9 @@
  *               userId:
  *                 type: string
  *                 example: "65a3f9c9e8b1a3d0a1234702"
+ *               companyId:
+ *                 type: string
+ *                 example: "67b037ae038ce3ffbb097924"
  *               firstName:
  *                 type: string
  *                 example: "Jane"
@@ -45,12 +33,7 @@
  *                 example: "9876543210"
  *               clientId:
  *                 type: string
- *                 example: "client001"
- *               pendingDocuments:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example: []
+ *                 example: "6788abe40db7c3b61ed93c70"
  *               isVerify:
  *                 type: boolean
  *                 example: true

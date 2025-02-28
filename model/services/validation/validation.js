@@ -126,6 +126,17 @@ const stringValidationWithEmptyString = ({ string, name = "" }) => {
 
     return { status: true, message: "Success" }
 };
+ const EmptyStringValidation = ({ string, name = "" }) => {
+    if (typeof string !== "string"|| string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
+        return { status: false, message:`Invalid ${name}${string}` };
+    }
+    return { status: true, message: "Success" };
+}
+const stringValidationWithSpace = ({ string, name="" }) => {
+    if(!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9&.,''\s-]+$/.test(string)){
+        return { status: false, message: `Invalid ${name}${string}`}
+    }
+    return { status: true, message: "Success"}
+}
 
-
-module.exports = { clientIdValidation, stringValidationWithEmptyString , stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, EmptyStringValidation, stringValidationWithSpace, passwordValidation}; 
+module.exports = { clientIdValidation, stringValidationWithEmptyString , stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation,  stringValidationWithSpace, passwordValidation}; 

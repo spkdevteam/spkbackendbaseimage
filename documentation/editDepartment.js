@@ -31,10 +31,6 @@
  *                 type: string
  *                 description: A brief description of the department.
  *                 example: "Changing for the testing"
- *               isActive:
- *                 type: string
- *                 description: Whether the department is active or not.
- *                 example: "true"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the department.

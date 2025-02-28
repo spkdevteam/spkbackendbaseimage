@@ -15,7 +15,7 @@ const deleteDesignationFn = async ({ id, clientId }) => {
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return { status: false, message: "Invalid designation ID" };
-        }
+        };
 
         const db = await getClientDatabaseConnection(clientId);
         const Designation = db.model("Designation", designationSchema);

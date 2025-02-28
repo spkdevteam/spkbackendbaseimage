@@ -36,12 +36,12 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
                             { shortName: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
                             { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
                         ]
-                    };
+                    }
                 }
-            }
+            };
 
             //number of total departments
-            const totalDocs = await Designation.countDocuments(searchQuery);
+            const totalDocs = await Designation.countDocuments({...searchQuery, deletedAt: null});
 
             //fetch paginated data
             const Designations = await Designation.find({ ...searchQuery, deletedAt: null }).limit(perPageNumber).skip(skip).lean();
@@ -57,10 +57,14 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
             return {
                 status: true,
                 message: "Successfully fetched departments",
-                totalDocs,
-                totalPages,
-                currentPage: pageNumber,
-                data: Designations
+                data: Designations,
+                metaData: {
+                    currentPage: pageNumber,
+                    perPage: perPageNumber,
+                    searchKey,
+                    totalDocs,
+                    totalPages,
+                }
             };
     } catch (error) {
         return { status: false, message: error.message };

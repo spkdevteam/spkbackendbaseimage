@@ -15,8 +15,8 @@ const getOneDesignationFn = async ({ id, clientId }) => {
 
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return { status: false, message: "Invalid designation ID" };
-        }
+            return { status: false, message: "Invalid rule ID" };
+        };
 
 
         const db = await getClientDatabaseConnection(clientId);
@@ -27,9 +27,9 @@ const getOneDesignationFn = async ({ id, clientId }) => {
 
         if(!designation) return { status: false, message: "Error occurred" };
 
-        return { status: true, message: "Designation is here", data: designation }
+        return { status: true, message: "Designation is here", data: designation };
     } catch (error) {
-        return { status: false, message: error.message }
+        return { status: false, message: error.message };
     }
 }
 

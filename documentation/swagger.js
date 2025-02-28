@@ -15,9 +15,8 @@ const swaggerOptions = {
         },
         {
           url: 'https://spkbackendbaseimage.onrender.com',
-          description: 'testing server',
+          description: 'Testing server',
         },
-        
          
       ],
        components: {

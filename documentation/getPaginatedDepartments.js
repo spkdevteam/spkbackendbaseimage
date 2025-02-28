@@ -45,12 +45,9 @@
  *             example:
  *               status: true
  *               message: "Successfully fetched departments"
- *               totalDocs: 13
- *               totalPages: 2
- *               currentPage: 1
  *               data:
  *                 - _id: "67b700d7befc9b41d31eefa1"
- *                   deptName: "Accounts"
+ *                   deptName: "IT"
  *                   displayId: "1000013"
  *                   companyId: null
  *                   description: "Changing for the testing"
@@ -59,19 +56,7 @@
  *                   old_Id: null
  *                   createdBy: null
  *                   createdAt: "2025-02-20T10:15:51.415Z"
- *                   updatedAt: "2025-02-20T11:57:19.534Z"
- *                   __v: 0
- *                 - _id: "67b701de264d31a18d16bac1"
- *                   deptName: "IT"
- *                   displayId: "1000014"
- *                   companyId: null
- *                   description: "Hi there"
- *                   deletedAt: null
- *                   isActive: true
- *                   old_Id: null
- *                   createdBy: null
- *                   createdAt: "2025-02-20T10:20:14.666Z"
- *                   updatedAt: "2025-02-20T10:20:14.666Z"
+ *                   updatedAt: "2025-02-22T11:59:35.079Z"
  *                   __v: 0
  *                 - _id: "67b71d9662b72aaca6cbf009"
  *                   deptName: "IT"
@@ -85,6 +70,48 @@
  *                   createdAt: "2025-02-20T12:18:30.962Z"
  *                   updatedAt: "2025-02-20T12:18:30.962Z"
  *                   __v: 0
+ *                 - _id: "67b71d9962b72aaca6cbf00c"
+ *                   deptName: "IT"
+ *                   displayId: "1000016"
+ *                   companyId: null
+ *                   description: "Information Technology"
+ *                   deletedAt: null
+ *                   isActive: true
+ *                   old_Id: null
+ *                   createdBy: null
+ *                   createdAt: "2025-02-20T12:18:33.392Z"
+ *                   updatedAt: "2025-02-20T12:18:33.392Z"
+ *                   __v: 0
+ *                 - _id: "67b71d9a62b72aaca6cbf00f"
+ *                   deptName: "IT"
+ *                   displayId: "1000017"
+ *                   companyId: null
+ *                   description: "Information Technology"
+ *                   deletedAt: null
+ *                   isActive: true
+ *                   old_Id: null
+ *                   createdBy: null
+ *                   createdAt: "2025-02-20T12:18:34.003Z"
+ *                   updatedAt: "2025-02-20T12:18:34.003Z"
+ *                   __v: 0
+ *                 - _id: "67b71d9a62b72aaca6cbf012"
+ *                   deptName: "IT"
+ *                   displayId: "1000018"
+ *                   companyId: null
+ *                   description: "Information Technology"
+ *                   deletedAt: null
+ *                   isActive: true
+ *                   old_Id: null
+ *                   createdBy: null
+ *                   createdAt: "2025-02-20T12:18:34.522Z"
+ *                   updatedAt: "2025-02-20T12:18:34.522Z"
+ *                   __v: 0
+ *               metaData:
+ *                 currentPage: 1
+ *                 perPage: 5
+ *                 searchKey: "IT"
+ *                 totalDocs: 17
+ *                 totalPages: 4
  *       400:
  *         description: Validation error or missing required parameters.
  *         content:

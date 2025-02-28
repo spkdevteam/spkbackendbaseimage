@@ -1,6 +1,6 @@
 const { getClientDatabaseConnection } = require("../../connection");
 const userSchema = require("../../userSchema");
-const { clientIdValidation } = require("../validation/validation");
+const { clientIdValidation, passwordValidation } = require("../validation/validation");
 const bcryptjs = require("bcryptjs");
 const mailingOptions = require("../mailing/mailingOptions"); 
 const textResponseForMailing = require("../mailing/textResponseForMailing"); 
@@ -8,11 +8,12 @@ const transporter = require("../mailing/nodemailerTransporter");
 
 const resetPassword = async ({ _id, otp, password, clientId }) => {
     try {
-        if (!password) return { status: false, message: "Invalid password" };
+        console.log(_id, otp, password, clientId)
         if(!otp) return { status: false, message: "Invalid Otp"};
 
         const validating = [
-            clientIdValidation({ clientId })
+            clientIdValidation({ clientId }),
+            passwordValidation({password})
         ]
         
         const error = validating.filter((e)=> e && e.status === false);
@@ -24,6 +25,8 @@ const resetPassword = async ({ _id, otp, password, clientId }) => {
 
         //checking the users existence
         const user = await User.findOne({ _id });
+        console.log(user)
+        
 
         //checking if user is there
         if(!user) return { status: false, message: "Some networking problem"}
@@ -38,6 +41,7 @@ const resetPassword = async ({ _id, otp, password, clientId }) => {
 
         //saving the user
         const savedUser = await user.save();
+
 
 
         if(savedUser.otp === null){

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /designation/getPaginatedDesignation/{clientId}:
+ * /designation/getPaginated/{clientId}:
  *   get:
  *     summary: Get paginated list of designations
  *     description: Retrieves a paginated list of designations for a specific client, with optional search and pagination parameters.
@@ -43,40 +43,7 @@
  *             example:
  *               status: true
  *               message: "Successfully fetched departments"
- *               totalDocs: 12
- *               totalPages: 2
- *               currentPage: 1
  *               data:
- *                 - _id: "67b807174f0a977bcfeb3d38"
- *                   title: "Administrator"
- *                   shortName: "admin"
- *                   displayId: "1000012"
- *                   createdBy: null
- *                   deletedAt: null
- *                   isActive: false
- *                   createdAt: "2025-02-21T04:54:47.646Z"
- *                   updatedAt: "2025-02-21T04:54:47.646Z"
- *                   __v: 0
- *                 - _id: "67b80abdc8af42b7fd745266"
- *                   title: "Chartered Accountant"
- *                   shortName: "ca"
- *                   displayId: "1000013"
- *                   createdBy: null
- *                   deletedAt: null
- *                   isActive: false
- *                   createdAt: "2025-02-21T05:10:21.254Z"
- *                   updatedAt: "2025-02-21T05:10:21.254Z"
- *                   __v: 0
- *                 - _id: "67b80ad0c8af42b7fd74526d"
- *                   title: "Senior Developer"
- *                   shortName: "sr. dev"
- *                   displayId: "1000014"
- *                   createdBy: null
- *                   deletedAt: null
- *                   isActive: false
- *                   createdAt: "2025-02-21T05:10:40.267Z"
- *                   updatedAt: "2025-02-21T05:10:40.267Z"
- *                   __v: 0
  *                 - _id: "67b80addc8af42b7fd745271"
  *                   title: "Junior developer"
  *                   shortName: "jr. dev"
@@ -85,7 +52,7 @@
  *                   deletedAt: null
  *                   isActive: false
  *                   createdAt: "2025-02-21T05:10:53.129Z"
- *                   updatedAt: "2025-02-21T07:19:59.176Z"
+ *                   updatedAt: "2025-02-22T11:59:14.277Z"
  *                   __v: 0
  *                 - _id: "67b80ae5c8af42b7fd745275"
  *                   title: "Junior developer 1"
@@ -97,36 +64,42 @@
  *                   createdAt: "2025-02-21T05:11:01.344Z"
  *                   updatedAt: "2025-02-21T07:32:14.746Z"
  *                   __v: 0
- *                 - _id: "67b82c4ce7f1447d7f259cef"
- *                   title: "Developer"
- *                   shortName: "dev"
- *                   displayId: "1000021"
+ *                 - _id: "67b967799984d2209633d0c2"
+ *                   title: "Developer4"
+ *                   shortName: "dev4"
+ *                   displayId: "1000024"
  *                   createdBy: null
  *                   deletedAt: null
  *                   isActive: true
- *                   createdAt: "2025-02-21T07:33:32.230Z"
- *                   updatedAt: "2025-02-21T07:33:32.230Z"
+ *                   createdAt: "2025-02-22T05:58:17.833Z"
+ *                   updatedAt: "2025-02-22T05:58:17.833Z"
  *                   __v: 0
- *                 - _id: "67b82c53e7f1447d7f259cf3"
- *                   title: "Developer1"
- *                   shortName: "dev1"
- *                   displayId: "1000022"
+ *                 - _id: "67bc0c14c5593092e5ea4dcc"
+ *                   title: "Administrator"
+ *                   shortName: "admin"
+ *                   displayId: "1000025"
  *                   createdBy: null
  *                   deletedAt: null
  *                   isActive: true
- *                   createdAt: "2025-02-21T07:33:39.249Z"
- *                   updatedAt: "2025-02-21T07:33:39.249Z"
+ *                   createdAt: "2025-02-24T06:05:08.007Z"
+ *                   updatedAt: "2025-02-24T06:05:08.007Z"
  *                   __v: 0
- *                 - _id: "67b82c5de7f1447d7f259cf7"
- *                   title: "Developer2"
- *                   shortName: "dev2"
- *                   displayId: "1000023"
+ *                 - _id: "67bc0c21c5593092e5ea4dd0"
+ *                   title: "Accountant"
+ *                   shortName: "ac"
+ *                   displayId: "1000026"
  *                   createdBy: null
  *                   deletedAt: null
  *                   isActive: true
- *                   createdAt: "2025-02-21T07:33:49.480Z"
- *                   updatedAt: "2025-02-21T07:38:25.284Z"
+ *                   createdAt: "2025-02-24T06:05:21.464Z"
+ *                   updatedAt: "2025-02-24T06:05:21.464Z"
  *                   __v: 0
+ *               metaData:
+ *                 currentPage: 1
+ *                 perPage: 5
+ *                 searchKey: ""
+ *                 totalDocs: 6
+ *                 totalPages: 2
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

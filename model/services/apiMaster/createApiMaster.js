@@ -3,7 +3,7 @@ const { getClientDatabaseConnection } = require("../../connection")
 const userSchema = require("../../userSchema");
 const { clientIdValidation } = require("../validation/validation");
 
-const createAPI = async ({APIName, path, menu, clientId}) =>{
+const createAPI = async ({APIName, path, menu, menuRouter, clientId}) =>{
     console.log("client id:", clientId);
     
     try {
@@ -33,7 +33,8 @@ const createAPI = async ({APIName, path, menu, clientId}) =>{
         const apiMaster = new API({
             APIName,
             path,
-            menu
+            menu,
+            menuRouter
         })
 
         const result = await apiMaster.save()

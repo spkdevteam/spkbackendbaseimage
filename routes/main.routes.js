@@ -8,6 +8,7 @@ const rulesAndPermissionRouter = require("./rulesAndPermission.routes");
 const dutiesAndResponsibilityRouter = require("./dutiesAndResponsibility.routes");
 const rolesRouter = require("./roles.routes");
 const leaveApplicationRouter = require("./leaveApplication.routes");
+const leaveTypeRouter = require("./leaveType.routes");
 const payrollRouter = require("./payroll.routes");
 const holidayRouter = require("./holiday.routes");
 const shiftRegisterRouter = require("./shiftRegister.routes");
@@ -38,6 +39,7 @@ mainRouter
     .use("/document",documentPropertiesRouter)
     .use("/document-master", documentMasterRouter)
     .use("/users/profile", userProfileRouter)
+    .use("/leaveType", leaveTypeRouter)
     
 
 module.exports = { mainRouter };

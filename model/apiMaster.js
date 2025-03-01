@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const {Schema} = mongoose
+const ObjectId = Schema.ObjectId
 
 const apiSchema = new mongoose.Schema(
   {
@@ -6,7 +8,15 @@ const apiSchema = new mongoose.Schema(
     path: { type: String, required: true, unique: true },
     deletedAt: { type: Date, default: null },
     isActive: {type: Boolean, default: true},
-    menu: {type: mongoose.Types.ObjectId, ref: "Rules", default: null, index: true}
+    menu: {type: mongoose.Types.ObjectId, ref: "Rules", default: null, index: true},
+    menuRouter: [
+     {
+      path: {type: String, required: true}
+     }
+    ],
+    
+    createdBy: { type: ObjectId, ref: "user", index: true },
+    
   },
   { timestamps: true }
 );

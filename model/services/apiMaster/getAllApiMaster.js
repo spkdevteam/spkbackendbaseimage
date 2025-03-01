@@ -30,7 +30,7 @@ const getAllApi = async ({clientId, searchKey="", page = 1, perPage = 10}) =>{
 
         const filter = {deletedAt: null};
         if (searchKey && searchKey.trim()) {
-            searchKey = searchKey.replace(/^"|"$/g, "").trim()
+            // searchKey = searchKey.replace(/^"|"$/g, "").trim()
             filter["$or"] = [
                 { APIName: { $regex: searchKey, $options: "i" } },
                 { path: { $regex: searchKey, $options: "i" } }
@@ -46,7 +46,7 @@ const getAllApi = async ({clientId, searchKey="", page = 1, perPage = 10}) =>{
         const pagination = paginate({page: pageNumber, perPage: limit, totalCounts: totalData})
 
         //fetch filtered and paginated API data
-        const apiList = await API.find(filter).skip(pagination.skip).limit(pagination.limit).select("APIName path metaData").lean()
+        const apiList = await API.find(filter).skip(pagination.skip).limit(pagination.limit).select("APIName path menuRouter metaData").lean()
         console.log(apiList);
         
         const totalPage = Math.ceil(totalData / perPage)
@@ -55,6 +55,7 @@ const getAllApi = async ({clientId, searchKey="", page = 1, perPage = 10}) =>{
                 api_id: api._id,
                 active: api.active,
                 path: api.path,
+                menuRouter: api.menuRouter,
                 metaData: api.metaData
             })),
             metaData:{

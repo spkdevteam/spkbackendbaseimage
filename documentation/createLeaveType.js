@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /isVerify:
- *   patch:
- *     summary: Verify user if no pending documents
- *     description: Updates the `isVerify` field to true if the user has no pending documents.
+ * /createLeaveType:
+ *   post:
+ *     summary: Create a new leave type
+ *     description: Creates a new leave type with the provided information.
  *     tags:
- *       - Authentication
+ *       - Leave Type
  *     requestBody:
  *       required: true
  *       content:
@@ -13,26 +13,28 @@
  *           schema:
  *             type: object
  *             properties:
- *               userId:
+ *               leaveName:
  *                 type: string
- *                 example: "65a3f9c9e8b1a3d0a1234702"
+ *                 example: "Medical Leave"
+ *               leaveType:
+ *                 type: string
+ *                 example: "Sick Leave"
  *               companyId:
  *                 type: string
- *                 example: "67b037ae038ce3ffbb097924"
+ *                 example: "65f7c0d3e5b6c70017a5e678"
  *               clientId:
  *                 type: string
  *                 example: "6788abe40db7c3b61ed93c70"
- *               isVerify:
- *                 type: boolean
- *                 example: true
  *     responses:
- *       200:
- *         description: User verified successfully.
+ *       201:
+ *         description: Leave type created successfully.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "User verified successfully"
+ *               message: "leaveType created successfully"
+ *               data: 
+ *                 _id: "67c2e18aaa5f72df1cd40fcf"
  *       400:
  *         description: Bad request. Possible missing parameters or invalid input.
  *         content:
@@ -40,13 +42,6 @@
  *             example:
  *               status: false
  *               message: "Invalid request data"
- *       404:
- *         description: User not found.
- *         content:
- *           application/json:
- *             example:
- *               status: false
- *               message: "User not found"
  *       500:
  *         description: Internal server error.
  *         content:

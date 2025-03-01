@@ -43,6 +43,7 @@ const createUser =async ({firstName, lastName, profileImage, companyId, email, p
 
         const user = new User({
             displayId,
+            companyId,
             firstName,
             lastName,
             profileImage,

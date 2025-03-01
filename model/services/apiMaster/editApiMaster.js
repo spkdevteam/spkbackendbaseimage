@@ -4,7 +4,7 @@ const { getClientDatabaseConnection } = require("../../connection")
 const { clientIdValidation } = require("../validation/validation")
 
 
-const editAPI = async ({id, APIName, path, clientId}) =>{
+const editAPI = async ({id, APIName, path, menuRouter, clientId}) =>{
     try {
         // const {id, APIName, clientId} = data
     
@@ -13,7 +13,7 @@ const editAPI = async ({id, APIName, path, clientId}) =>{
         ]
 
         const error = validations.filter((e) => e && e.status == false)
-        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(",")}
+        if(error.length > 0) return {status: false, message: error.map((e) => e.message).join(", ")}
         if(!id) return {status:false, message: "Id is required"}
         if(!APIName && !path) return {status:false, message: "Either APIName or path is required"}
 
@@ -48,6 +48,9 @@ const editAPI = async ({id, APIName, path, clientId}) =>{
         } 
         if(path) {
             updateData.path = path
+        }
+        if(menuRouter){
+            updateData.menuRouter = menuRouter
         }
         console.log(path);
         

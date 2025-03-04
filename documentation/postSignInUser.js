@@ -3,7 +3,7 @@
  * /users/signin:
  *   post:
  *     summary: User Sign-In
- *     description: The email will be the userId. The compulsory fields are userId, password, clientId, and companyId.
+ *     description: Allows a user to sign in by providing their userId (email) and password. Returns a success message with user details if authenticated successfully.
  *     tags:
  *       - Authentication
  *     security:
@@ -22,61 +22,60 @@
  *             properties:
  *               userId:
  *                 type: string
- *                 format: email
- *                 description: The user's email address used as an identifier.
- *                 example: "biswarup@gmail.com"
+ *                 description: User's email address
+ *                 example: "ayan@yopmail.com"
  *               password:
  *                 type: string
- *                 format: password
- *                 description: The user's password.
- *                 example: "hellooo"
+ *                 description: User's password
+ *                 example: "Ayan@1997"
  *               companyId:
  *                 type: string
- *                 description: The company ID associated with the user.
+ *                 description: Associated company ID
  *                 example: "67b037ae038ce3ffbb097924"
  *               clientId:
  *                 type: string
- *                 description: The client ID for authentication.
+ *                 description: Associated client ID
  *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
- *         description: User signed in successfully.
+ *         description: User signed in successfully
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "User signed in successfully."
+ *               message: "User signed in successfully"
  *               data:
- *                 _id: "67b6b05a1318925dce77fdea"
- *                 userId: "biswarup@gmail.com"
+ *                 _id: "67c6e3d93f79fb300133c8a5"
+ *                 userName:
+ *                   userId: "ayan@yopmail.com"
  *                 clientId: "6788abe40db7c3b61ed93c70"
  *                 companyId: "67b037ae038ce3ffbb097924"
  *       400:
- *         description: Validation error or missing required fields.
+ *         description: Validation error or missing required fields
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "userId, password, companyId, or clientId is missing."
+ *               message: "Required fields are missing"
  *       401:
- *         description: Unauthorized, invalid credentials.
+ *         description: Unauthorized, incorrect userId or password
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid userId or password."
+ *               message: "Invalid user credentials"
  *       404:
- *         description: User not found.
+ *         description: User not found for the provided userId
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "User not found."
+ *               message: "User not found"
  *       500:
- *         description: Internal server error.
+ *         description: Internal server error
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Internal server error."
+ *               message: "Internal server error"
  */

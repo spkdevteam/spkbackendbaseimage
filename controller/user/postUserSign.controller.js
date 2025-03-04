@@ -28,9 +28,9 @@ const signInUser = async(req, res, next) =>{
         const email = data?.email || data?.userId
         const { password, companyId, clientId} = data
         const result = await signin({userId: email, password, companyId, clientId})
-        const user = result.data
-        const token = generatejwtToken({userId: user?._id}) 
-        setTokenCookie(res, token)
+        // const user = result.data
+        // const token = generatejwtToken({userId: user?._id}) 
+        // setTokenCookie(res, token)
 
         return res.status(200).json({status: result.status, message: result.message, data: result.data })
 

@@ -33,7 +33,7 @@ const signin = async ( { userId, password, companyId, clientId} ) => {  // Added
         }
 
         // Compare password
-        const isPasswordValid = bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
         console.log(isPasswordValid, "Password comparison result");
 
         if (!isPasswordValid) {

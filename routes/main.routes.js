@@ -11,6 +11,7 @@ const leaveApplicationRouter = require("./leaveApplication.routes");
 const payrollRouter = require("./payroll.routes");
 const holidayRouter = require("./holiday.routes");
 const shiftRegisterRouter = require("./shiftRegister.routes");
+const rulesRouter = require("./rules.routes");
 
 
 
@@ -21,7 +22,8 @@ mainRouter
     .use('/users', userRouter)
     .use('/dept', deptRouter)
     .use('/designation', desigRouter)
-    .use('/rules', rulesAndPermissionRouter)
+    .use('/rules', rulesRouter)
+    //.use('/rules', rulesAndPermissionRouter)
     .use('/demoDuties', dutiesAndResponsibilityRouter)
     .use('/demoRoles', rolesRouter)
     .use('/demoLeaves', leaveApplicationRouter)

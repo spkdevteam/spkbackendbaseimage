@@ -1,34 +1,89 @@
 const mongoose = require("mongoose");
+const { Types } = mongoose;
+const ObjectId = Types.ObjectId;
 
 const rulesSchema = new mongoose.Schema(
   {
-    rulesName: { type: String, required: true },
-    apiId: { type: mongoose.Types.ObjectId, ref: 'api', required: true },
-    departmentId: { type: mongoose.Types.ObjectId, ref: 'CompDepartment', default: null },
+    ruleName: { type: String, required: true },
+    apiId: { type: ObjectId, ref: "api", index: true },
+    menuId: { type: ObjectId, ref: "menu", index: true },
+    companyId: { type: ObjectId, ref: "company", index: true },
     deletedAt: { type: Date, default: null },
-    deletedBy: { type: mongoose.Types.ObjectId, ref: 'user', default: null },
-    createdBy: { type: mongoose.Types.ObjectId, ref: 'user', required: true },
-    editedBy: { type: mongoose.Types.ObjectId, ref: 'user', default: null },
-    isActive: { type: Boolean, require: true, default: false },
-    companyId: { type: mongoose.Types.ObjectId, ref: "company", default: null, index: true },
+    deletedBy: { type: ObjectId, ref: "user", index: true, default: null },
+    createdBy: { type: ObjectId, ref: "user", index: true },
+    editedBy: { type: ObjectId, ref: "user", index: true, default: null },
+    isActive: { type: Boolean, default: true },
+    oldId: { type: String, default: null }
   },
   { timestamps: true }
 );
 
-// Instance method for soft delete
-rulesSchema.methods.softDelete = function (userId, callback) {
-  this.deletedAt = new Date();
-  this.deletedBy = userId;
-  return this.save(callback);
+//to save the rule
+rulesSchema.statics.insertRule = async function ({ userId, ruleName, apiId, menuId, companyId }) {
+  try {
+    const rule = new this({
+      createdBy: userId, ruleName, apiId, menuId, companyId
+    });
+
+    const savedRule = await rule.save();
+
+    return { status: true, rule: savedRule };
+  } catch (error) {
+    return { status: false, message: error.message };
+  }
 };
 
-// Instance method for updating rule
-rulesSchema.methods.updateRule = function (updateData, userId, callback) {
-  Object.assign(this, updateData);
-  this.editedBy = userId;
-  return this.save(callback);
+// to update the rule
+rulesSchema.statics.updateRule = async function ({ userId, ruleId, ruleName }) {
+  // Object.assign(this, updateData);
+  // this.editedBy = userId;
+  try {
+    const rule = await this.findOne({ _id: ruleId });
+    rule.ruleName = ruleName;
+    rule.editedBy = userId;
+
+
+    const savedRule = await rule.save();
+    return { status: true, rule: savedRule };
+  } catch (error) {
+    return { status: false, message: error.message };
+  }
 };
 
-const Rules = mongoose.model('Rules', rulesSchema);
+// to update rule to soft delete
+rulesSchema.statics.softDeleteRule = async function ({ userId, ruleId }) {
+  try {
+    const rule = this.findOne({ _id: ruleId, deletedAt:null });
+    if(!rule) return { status: false, message: "Network problem, try again"};
 
-module.exports = rulesSchema;
+    rule.deletedAt = new Date();
+    rule.deletedBy = userId;
+
+    const savedRule = await rule.save();
+    return { status: true, rule: savedRule };
+  } catch (error) {
+    return { status: false, message: error.message };
+  }
+
+};
+
+//to toggle the activeness of the rule
+rulesSchema.methods.toggleRule = async function name({ ruleId, userId }) {
+  try {
+    const rule = this.findOne({ _id: ruleId, deletedAt: null });
+    if(!rule) return { status: false, message: "Network problem, try again"};
+
+    rule.editedBy = userId;
+    rule.isActive = !rule.isActive;
+
+    const savedRule = await rule.save();
+    return { status: true, rule: savedRule };
+  } catch (error) {
+    return { status: false, message: error.message };
+  }
+};
+
+
+const Rules = mongoose.model('Rule', rulesSchema);
+
+module.exports = { rulesSchema, Rules };

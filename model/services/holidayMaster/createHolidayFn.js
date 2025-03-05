@@ -1,5 +1,5 @@
 const { getClientDatabaseConnection } = require("../../connection");
-const holidayMasterSchema = require("../../holiday_master");
+const holidayMasterSchema = require("../../holidayMaster");
 const { emptyStringValidation, isValidDate } = require("../validation/validation");
 
 const createHolidayFn = async ({ holidayName, holidayDate, departmentId, description, isActive, companyId, clientId }) => {

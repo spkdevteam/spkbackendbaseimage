@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /rules/EditRule:
+ * /rules/editRule:
  *   put:
- *     summary: Edit an existing rule and its permissions
- *     description: Updates the details of a specific rule, including its name and associated API.
+ *     summary: Edit an existing rule
+ *     description: Updates an existing rule entry by verifying provided rule ID, user ID, and client ID. It also ensures the rule name and other parameters are valid before updating.
  *     tags:
- *       - Rules Management
+ *       - Rule Management
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -14,50 +14,62 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - userId
+ *               - ruleId
+ *               - ruleName
+ *               - clientId
  *             properties:
+ *               userId:
+ *                 type: string
+ *                 description: The unique identifier of the user.
+ *                 example: "67c821d02d587653996ba828"
+ *               ruleId:
+ *                 type: string
+ *                 description: The unique identifier of the rule being updated.
+ *                 example: "67c83eddb7b9a86a3e1ab5d8"
+ *               ruleName:
+ *                 type: string
+ *                 description: The updated name of the rule.
+ *                 example: "spk_rule"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the rule.
- *                 example: "client12345"
- *               _id:
- *                 type: string
- *                 description: The unique identifier of the rule to be edited.
- *                 example: "rule98765"
- *               ruleName:
- *                 type: string
- *                 description: The new name for the rule.
- *                 example: "UpdatedRuleName"
- *               apiId:
- *                 type: string
- *                 description: The unique identifier of the associated API.
- *                 example: "api67890"
+ *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
- *         description: Rule updated successfully.
+ *         description: Rule successfully updated.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "Rule updated successfully."
+ *               message: "The rule was updated"
+ *       400:
+ *         description: Validation error or missing required fields.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "User ID, ruleId, ruleName, or clientId is missing."
  *       404:
- *         description: Rule not found.
+ *         description: Rule not found for the provided rule ID.
  *         content:
  *           application/json:
  *             example:
  *               status: false
  *               message: "Rule not found."
- *       400:
- *         description: Invalid input parameters.
+ *       401:
+ *         description: Unauthorized, missing or invalid token.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid input data."
+ *               message: "Unauthorized access."
  *       500:
  *         description: Internal server error.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "An error occurred while updating the rule."
+ *               message: "Internal server error."
  */

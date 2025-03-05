@@ -1,10 +1,11 @@
 const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
 const departmentSchema = require("../../department");
-const { stringValidation, emptyStringValidation, clientIdValidation, booleanValidation } = require("../validation/validation");
+const { stringValidation, emptyStringValidation, clientIdValidation } = require("../validation/validation");
 
 const editOneDepartmentFn = async ({ id, deptName, description, clientId }) => {
     try {
+        //validating
         const validation = [
             stringValidation({ string: deptName, name: "Department name: " }),
             emptyStringValidation({ string: description, name: "Description: " }),
@@ -18,7 +19,7 @@ const editOneDepartmentFn = async ({ id, deptName, description, clientId }) => {
             return { status: false, message: "Invalid designation ID" };
         };
 
-
+        //establishing connection to the db
         const db = await getClientDatabaseConnection(clientId);
         const Department = await db.model("Department", departmentSchema);
 

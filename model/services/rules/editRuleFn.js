@@ -13,6 +13,13 @@ const editRuleFn = async ({ userId, ruleId, ruleName, clientId }) => {
         const db = await getClientDatabaseConnection(clientId);
         const Rule = await db.model("rule", rulesSchema);
 
+        switch (true) {
+            case !mongoose.Types.ObjectId.isValid(userId):
+                return { status: false, message: "Invalid user id" };
+            case !mongoose.Types.ObjectId.isValid(ruleId):
+                return { status: false, message: "Invalid rule id" };
+        };
+
         const theRule = await Rule.findOne({ _id: ruleId, deletedAt: null });
 
         if(!theRule) return { status: false, message: "Network problem, try again"}; 

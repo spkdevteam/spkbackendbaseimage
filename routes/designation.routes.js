@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router
-    .post("/createDesignation", createDesignation)
+    .post("/createDesignation",  createDesignation)
     .delete("/deleteDesignation/:id/:clientId", deleteDesignation)
     .patch("/editOneDesignation", editOneDesignation)
     .get("/getOneDesignation/:id/:clientId", getOneDesignation)

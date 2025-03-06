@@ -14,6 +14,11 @@ const getRuleByIdFn = async ({ ruleId, clientId }) => {
         const db = await getClientDatabaseConnection(clientId);
         const Rule = await db.model("Rule", rulesSchema);
 
+        switch (true) {
+            case !mongoose.Types.ObjectId.isValid(userId):
+                return { status: false, message: "Invalid user id" };
+        };
+
         const rule = await Rule.findOne({ _id: ruleId, deletedAt: null });
 
         if(!rule) return { status: false, message: "Network problem, try again"};

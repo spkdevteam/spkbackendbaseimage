@@ -22,7 +22,7 @@ mainRouter
     .use('/users', userRouter)
     .use('/dept', deptRouter)
     .use('/designation', desigRouter)
-    .use('/rules', rulesRouter)
+    .use('/rules',  rulesRouter)
     //.use('/rules', rulesAndPermissionRouter)
     .use('/demoDuties', dutiesAndResponsibilityRouter)
     .use('/demoRoles', rolesRouter)

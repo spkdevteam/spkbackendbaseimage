@@ -1,8 +1,8 @@
 const { getClientDatabaseConnection } = require("../../connection");
-const designationSchema = require("../../designation");
+const { rulesSchema } = require("../../rules");
 const { clientIdValidation, emptyStringValidation } = require("../validation/validation");
 
-const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "", clientId }) => {
+const getPaginatedRulesFn = async ({ page=1, perPage=10, searchKey="", clientId}) => {
     try {
         const validation = [
             clientIdValidation({ clientId }),
@@ -23,7 +23,7 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
         const skip = (pageNumber - 1) * perPageNumber;
 
         const db = await getClientDatabaseConnection(clientId);
-        const Designation = await db.model("Designation", designationSchema);
+        const Rule = await db.model("Rule", rulesSchema);
 
         let searchQuery = {};
         if (searchKey.trim()) {
@@ -32,23 +32,21 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
             if (isNaN(searchKey)) {
                 searchQuery = {
                     $or: [
-                        { title: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                        { shortName: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
+                        { ruleName: { $regex: `^${escapedSearchKey}`, $options: "i" }},
                     ]
                 }
             }
         };
 
-        //number of total departments
-        const totalDocs = await Designation.countDocuments({ ...searchQuery, deletedAt: null });
+        //number of total rules
+        const totalDocs = await Rule.countDocuments({ ...searchQuery, deletedAt: null });
 
         //fetch paginated data
-        const Designations = await Designation.find({ ...searchQuery, deletedAt: null }).limit(perPageNumber).skip(skip).lean();
+        const Rules = await Rule.find({ ...searchQuery, deletedAt: null }).limit(perPageNumber).skip(skip).lean();
 
 
-        if (Designations.length === 0) {
-            return { status: false, message: "No designations found", totalDocs: 0, totalPages: 0, data: [] };
+        if (Rules.length === 0) {
+            return { status: false, message: "No rules found", totalDocs: 0, totalPages: 0, data: [] };
         }
 
         //checking number of total pages
@@ -56,8 +54,8 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
 
         return {
             status: true,
-            message: "Successfully fetched departments",
-            data: Designations,
+            message: "Successfully fetched rules",
+            data: Rules,
             metaData: {
                 currentPage: pageNumber,
                 perPage: perPageNumber,
@@ -67,8 +65,8 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
             }
         };
     } catch (error) {
-        return { status: false, message: error.message };
+        
     }
 }
 
-module.exports = getPaginatedDesignationFn;
+module.exports = getPaginatedRulesFn;

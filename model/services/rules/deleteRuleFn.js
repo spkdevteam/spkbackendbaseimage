@@ -15,11 +15,11 @@ const deleteRuleFn = async ({ userId, ruleId, clientId }) => {
         const Rule = await db.model("rule", rulesSchema);
 
         const noSuchCertificate = await Rule.findOne({ _id: ruleId, deletedAt: null });
-        if(noSuchCertificate) return {status: false, message: "No such Rule, try again"};
+        if(!noSuchCertificate) return {status: false, message: "No such Rule, try again"};
 
         const rule = await Rule.softDeleteRule({ userId, ruleId });
 
-        if(rule) return { status: false, message: "The rule is deleted"};
+        if(rule.status) return { status: true, message: "The rule is deleted"};
 
         return {status: false, message: "Failed to delete"};
     } catch (error) {

@@ -53,7 +53,7 @@ rulesSchema.statics.updateRule = async function ({ userId, ruleId, ruleName }) {
 // to update rule to soft delete
 rulesSchema.statics.softDeleteRule = async function ({ userId, ruleId }) {
   try {
-    const rule = this.findOne({ _id: ruleId, deletedAt:null });
+    const rule = await this.findOne({ _id: ruleId });
     if(!rule) return { status: false, message: "Network problem, try again"};
 
     rule.deletedAt = new Date();
@@ -64,13 +64,12 @@ rulesSchema.statics.softDeleteRule = async function ({ userId, ruleId }) {
   } catch (error) {
     return { status: false, message: error.message };
   }
-
 };
 
 //to toggle the activeness of the rule
-rulesSchema.methods.toggleRule = async function name({ ruleId, userId }) {
+rulesSchema.statics.toggleRule = async function name({ ruleId, userId }) {
   try {
-    const rule = this.findOne({ _id: ruleId, deletedAt: null });
+    const rule = await this.findOne({ _id: ruleId, deletedAt: null });
     if(!rule) return { status: false, message: "Network problem, try again"};
 
     rule.editedBy = userId;

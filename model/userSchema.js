@@ -14,13 +14,11 @@ const userSchema = new Schema(
             type: String,
             lowercase: true,
             trim: true,
-            unique: true,
         },
         phone: {
             type: String,
             trim: true,
             required: true,
-            unique: true
         },
         password: {
             type: String,
@@ -100,9 +98,9 @@ const userSchema = new Schema(
 );
 
 // Instance method for soft delete : [One with access soft deleting an non-deletd user and the id of the deletor(deletedById) is being stored also]
-userSchema.methods.softDeleteUser = async function ({ userId, deletedByUser }) {
+userSchema.statics.softDeleteUser = async function ({ userId, deletedByUser }) {
     try {
-        const user = await this.constructor.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
+        const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
         if (!user) return { status: false, message: "User doesn't exist" };
         user.deletedAt = new Date();
         user.deletedBy = deletedByUser;
@@ -122,9 +120,9 @@ userSchema.methods.softDeleteUser = async function ({ userId, deletedByUser }) {
 };
 
 //instance method for insert : [New user is being created and id of the creator (createdById) is being stored also]
-userSchema.methods.insertUser = async function ({ displayId, companyId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, family, maritalStatus, dateOfBirth, createdById, deletedAt, oldId = null }) {
+userSchema.statics.insertUser = async function ({ displayId, companyId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, family, maritalStatus, dateOfBirth, createdById, deletedAt, oldId = null }) {
     try {
-        const newUser = new this.constructor({
+        const newUser = new this({
             displayId,
             companyId: companyId,
             firstName,
@@ -161,9 +159,9 @@ userSchema.methods.insertUser = async function ({ displayId, companyId, firstNam
     }
 }
 //instance method for update: [One is updating details of the user and id of the updator (editedByUser) is also being stored at editedBy]
-userSchema.methods.updateUser = async function ({ userId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, family, maritalStatus, dateOfBirth, editedByUser }) {
+userSchema.statics.updateUser = async function ({ userId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, family, maritalStatus, dateOfBirth, editedByUser }) {
     try {
-        const user = await this.constructor.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
+        const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
         if (!user) return { status: false, message: "User doesn't exist" };
         user.firstName = firstName;
         user.lastName = lastName;
@@ -191,9 +189,9 @@ userSchema.methods.updateUser = async function ({ userId, firstName, lastName, p
 }
 
 //instance for toggle: [One with access is toggling i.e changing the isActive status of the user and the editors id (toggledByUser) is also being stored]
-userSchema.methods.toggleUser = async function ({ userId, toggledByUser }) {
+userSchema.statics.toggleUser = async function ({ userId, toggledByUser }) {
     try {
-        const user = await this.constructor.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
+        const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
         if (!user) return { status: false, message: "User doesn't exist" };
         user.isActive = !user.isActive;
         user.editedBy = toggledByUser;

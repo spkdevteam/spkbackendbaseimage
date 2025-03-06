@@ -15,7 +15,6 @@ const userSchema = new Schema(
             lowercase: true,
             trim: true,
             unique: true,
-
         },
         phone: {
             type: String,
@@ -211,5 +210,5 @@ userSchema.methods.toggleUser = async function ({ userId, toggledByUser }) {
 
 
 const userModel = mongoose.model("User", userSchema);
-module.exports = { userModel,userSchema };
+module.exports = { userModel, userSchema };
 

@@ -10,8 +10,8 @@ const forgot_password = async (req, res, next)=> {
         return res.status(200).json({ status: result?.status, message: result?.message, _id: result?._id});
     } catch (error) {
         next(error);
-    }
-}
+    };
+};
 
 const verify_otp = async (req, res, next)=> {
     try {
@@ -20,8 +20,8 @@ const verify_otp = async (req, res, next)=> {
         return res.status(200).json({ status: result?.status, message: result?.message, _id: result?._id});
     } catch (error) {
         next(error);
-    }
-}
+    };
+};
 
 const reset_password = async (req, res, next)=> {
     try {
@@ -31,7 +31,7 @@ const reset_password = async (req, res, next)=> {
         return res.status(200).json({ status: result?.status, message: result?.message, _id: result?._id});
     } catch (error) {
         next(error);
-    }
-}
+    };
+};
 
 module.exports = { forgot_password, verify_otp, reset_password };

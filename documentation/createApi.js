@@ -54,13 +54,14 @@
  *                 api:
  *                   apiName: "createApi"
  *                   apiPath: "/api/createApi"
- *                   menuid: null
+ *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   companyId: "67b037ae038ce3ffbb097924"
  *                   isActive: true
  *                   createdBy: "67c944517f8fcf7d12e92f1d"
  *                   deletedAt: null
- *                   _id: "67ca771e1145659a70f5c218"
- *                   createdAt: "2025-03-07T04:33:34.293Z"
- *                   updatedAt: "2025-03-07T04:33:34.293Z"
+ *                   _id: "67cab890e32b094449195679"
+ *                   createdAt: "2025-03-07T09:12:48.213Z"
+ *                   updatedAt: "2025-03-07T09:12:48.213Z"
  *                   __v: 0
  *       400:
  *         description: Validation error or missing required fields.

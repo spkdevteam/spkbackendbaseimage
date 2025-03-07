@@ -32,7 +32,7 @@ const createApiMasterFn = async ({ _id=null, userId, apiName, apiPath, menuId, c
         const apiWithSimilarPath = await apiMaster.findOne({ apiPath, deletedAt: null });
         if(apiWithSimilarPath) return { status:false, message: "This api path already exists"};
 
-        const api = await apiMaster.insertApiMaster({ _id, userId, apiName, apiPath, menuId });
+        const api = await apiMaster.insertApiMaster({ _id, userId, apiName, apiPath, companyId, menuId });
 
         if(!api.status) return {status: false, message: api.message };
 

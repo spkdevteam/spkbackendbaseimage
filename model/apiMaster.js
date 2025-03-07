@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId
+const { Types } = mongoose;
+const ObjectId = Types.ObjectId;
 
 
 const apiSchema = new mongoose.Schema(
   {
     apiName: { type: String, required: true, unique: true },
     apiPath: { type: String, required: true, unique: true },
-    menuId: { type: mongoose.Types.ObjectId, ref: "Menu", default: null, index: true },
+    menuId: { type: ObjectId, ref: "Menu", default: null, index: true },
+    companyId: { type:ObjectId, ref: "company", index: true},
     isActive: { type: Boolean, default: true },
     createdBy: { type: ObjectId, ref: "user", index: true },
     editedBy: { type: ObjectId, ref: "user", index: true },
@@ -38,13 +40,14 @@ apiSchema.statics.softDeleteApiMaster = async function ({ apiId, userId }) {
 
 
 //Instance for insert : [new API is being created]
-apiSchema.statics.insertApiMaster = async function ({ _id = null, userId, apiName, apiPath, menuId }) {
+apiSchema.statics.insertApiMaster = async function ({ _id = null, userId, apiName, apiPath, companyId, menuId }) {
   try {
     const newApi = new this({
       apiName,
       apiPath,
       createdBy: userId,
       menuId,
+      companyId
     });
 
     if (_id) {

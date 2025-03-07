@@ -46,21 +46,33 @@
  *               status: true
  *               message: "Successfully fetched apis"
  *               data:
- *                 - _id: "67ca8d09ef39c45b8d9f47ae"
+ *                 - _id: "67cab890e32b094449195679"
  *                   apiName: "createApi"
  *                   apiPath: "/api/createApi"
  *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   companyId: "67b037ae038ce3ffbb097924"
  *                   isActive: true
  *                   createdBy: "67c944517f8fcf7d12e92f1d"
  *                   deletedAt: null
- *                   createdAt: "2025-03-07T06:07:05.338Z"
- *                   updatedAt: "2025-03-07T06:07:05.338Z"
+ *                   createdAt: "2025-03-07T09:12:48.213Z"
+ *                   updatedAt: "2025-03-07T09:12:48.213Z"
+ *                   __v: 0
+ *                 - _id: "67cab9d3f24d611e8152b5e8"
+ *                   apiName: "editApi"
+ *                   apiPath: "/api/editApi"
+ *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   companyId: "67b037ae038ce3ffbb097924"
+ *                   isActive: true
+ *                   createdBy: "67c944517f8fcf7d12e92f1d"
+ *                   deletedAt: null
+ *                   createdAt: "2025-03-07T09:18:11.141Z"
+ *                   updatedAt: "2025-03-07T09:18:11.141Z"
  *                   __v: 0
  *               metaData:
  *                 currentPage: 1
  *                 perPage: 10
- *                 searchKey: "create"
- *                 totalDocs: 1
+ *                 searchKey: ""
+ *                 totalDocs: 2
  *                 totalPages: 1
  *       400:
  *         description: Validation error or missing required fields.

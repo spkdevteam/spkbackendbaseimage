@@ -1,28 +1,26 @@
 const mongoose = require("mongoose")
-const { Schema } = mongoose
-const ObjectId = Schema.ObjectId
+const { Types } = mongoose;
+const ObjectId = Types.ObjectId;
 
 const menuMasterSchema = mongoose.Schema({
-        
-            name: {
-                type: String,
-                required: true,
-                unique: true,
-            },
-            menuId: {
-                type: ObjectId,
-                ref: "Page",
-                default: null,
-                index: true
-            },
-        
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    menuId: {
+        type: ObjectId,
+        ref: "Page",
+        default: null,
+        index: true
+    },
+    companyId: {type: ObjectId, ref: "company", index: true},
     isActive: { type: Boolean, default: true },
-    createdBy: { type: ObjectId, ref: "user", index: true, default: null },
-    deletedBy: { type: ObjectId, ref: "user", index: true, default: null },
+    createdBy: { type: ObjectId, ref: "user", index: true},
+    deletedBy: { type: ObjectId, ref: "user", index: true},
     deletedAt: { type: Date, default: null, index: true },
-    editedBy: { type: ObjectId, ref: "user", index: true, default: null },
+    editedBy: { type: ObjectId, ref: "user", index: true},
     oldId: { type: String, default: null }
-
 },
     {
         timestamps: true
@@ -30,63 +28,54 @@ const menuMasterSchema = mongoose.Schema({
 );
 
 //create instance for softDelete
-menuMasterSchema.methods.softDelete = async function ({userId}) {
+menuMasterSchema.statics.softDeleteMenuMaster = async function ({ menuId, userId }) {
     try {
         //if already deleted return fale
-        if(this.deletedAt !== null){
-            return { status: true, message: "This menu is akready deleted" }
-        }
+        const Menu = await this.findOne({ _id: menuId });
 
-        this.deletedAt = new Date()
+        Menu.deletedAt = new Date();
+        Menu.deletedBy = userId;
 
-        //update deletedBy field
-        this.deletedBy = userId
-        await this.save()
-        return { status: true, message: "Menu deleted successfully", data: this }
+        const savedMenu = await Menu.save();
+        return { status: true, message: "Menu deleted successfully", data: savedMenu };
     } catch (error) {
-        return { status: false, message: "Failed to delete menu" }
+        return { status: false, message: "Failed to delete menu" };
     }
 };
 
 //create instance for edit
-menuMasterSchema.methods.edit = async function ({userId, updatedData}) {
+menuMasterSchema.statics.updateMenuMaster = async function ({ menuId, userId, menuIdForSaving, name }) {
     try {
-        const updatedMenu = await this.constructor.findOneAndUpdate(
-            { _id: this._id }, 
-            { ...updatedData, editedBy: userId },
-            { new: true } 
-        );
+        const Menu = await this.findOne({ _id: menuId });
 
-        if (!updatedMenu) {
-            return { status: false, message: "Menu not found" };
-        }
+        Menu.name = name;
+        Menu.editedBy = userId;
+        Menu.menuId = menuIdForSaving;
 
-        return { status: true, message: "Menu edited successfully", data: updatedMenu };
+        const savedMenu = await Menu.save();
+
+        return { status: true, message: "Menu edited successfully", data: savedMenu };
     } catch (error) {
         return { status: false, message: "Failed to edit menu", error: error.message };
     }
 };
-       
 
 //create an instance for insert
-menuMasterSchema.methods.insert = async function ({ newMenu, userId }) {
+menuMasterSchema.statics.insertMenuMaster = async function ({ _id = null, name, menuIdForSaving, companyId, userId }) {
     try {
-        // Check for duplicate menu
-        const existingMenu = await this.constructor.findOne({ name: newMenu.name },);
-
-        if (existingMenu) {
-            return { status: false, message: "Menu with name already exists" }
-        }
-
         // Create new menu instance
-        const newMenueData = new this.constructor({
-            name: newMenu.name,
-            menuId: newMenu.menuId,
+        const newMenuData = new this({
+            name,
+            menuId: menuIdForSaving,
+            companyId,
             createdBy: userId,
-            oldId
         });
 
-        const result = await newMenueData.save();
+        if(_id){
+            newMenuData.oldId = _id;
+        };
+
+        const result = await newMenuData.save();
         return { status: true, message: "Menu created successfully", data: result }
     } catch (error) {
         return { status: false, message: "Failed to create menu", error: error.message }
@@ -94,17 +83,21 @@ menuMasterSchema.methods.insert = async function ({ newMenu, userId }) {
 };
 
 //create instance for toggle 
-menuMasterSchema.methods.toggle = async function ({userId}){
+menuMasterSchema.statics.toggleMenuMaster = async function ({ menuId, userId }) {
     try {
         //toggle the status
-        this.isActive = !this.isActive
-        this.editedBy = userId
-        await this.save()
-        return { status: true, message: "Menu status toggled", data: this }
+        const Menu = await this.findOne({ _id: menuId });
+
+        Menu.editedBy = userId;
+        Menu.isActive = !Menu.isActive;
+
+
+        const savedMenu = await Menu.save();
+        return { status: true, message: "Menu status toggled", data: savedMenu };
     } catch (error) {
-        return { status: false, message: "Failed to toggle Menu status" }
+        return { status: false, message: "Failed to toggle Menu status" };
     }
 }
 
 const menuMasterModel = mongoose.model("Menu", menuMasterSchema);
-module.exports = { menuMasterModel,menuMasterSchema };
+module.exports = { menuMasterModel, menuMasterSchema };

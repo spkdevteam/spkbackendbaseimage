@@ -13,6 +13,7 @@ const holidayRouter = require("./holiday.routes");
 const shiftRegisterRouter = require("./shiftRegister.routes");
 const rulesRouter = require("./rules.routes");
 const apiMasterRouter = require("./apiMaster.routes");
+const menuMasterRouter = require("./menuMaster.routes");
 
 
 
@@ -24,6 +25,7 @@ mainRouter
     .use('/dept', deptRouter)
     .use('/designation', desigRouter)
     .use('/rules',  rulesRouter)
+    .use('/menu', menuMasterRouter)
     .use('/api',  apiMasterRouter)
     //.use('/rules', rulesAndPermissionRouter)
     .use('/demoDuties', dutiesAndResponsibilityRouter)

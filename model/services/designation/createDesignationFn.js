@@ -1,41 +1,44 @@
+const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
-const designationSchema = require("../../designation");
+const { designationSchema } = require("../../designation");
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber");
-const { emptyStringValidation, booleanValidation, clientIdValidation } = require("../validation/validation");
+const { emptyStringValidation, clientIdValidation } = require("../validation/validation");
 
-const createDesignationFn = async ({ title, companyId, shortName, isActive, clientId }) => {
+const createDesignationFn = async ({ _id = null, userId, designationName, companyId, shortName, clientId }) => {
     try {
+        switch (true) {
+            case !mongoose.Types.ObjectId.isValid(userId):
+                return { status: false, message: "Invalid user id" };
+            case !mongoose.Types.ObjectId.isValid(companyId):
+                return { status: false, message: "Invalid company id" };
+        };
+
         const validation = [
-            emptyStringValidation({ string: title, name: "Title: "}),
-            emptyStringValidation({ string: title, name: "Short name: "}),
-            booleanValidation({ boolean: typeof isActive === "string" ? isActive.toLowerCase() : isActive , name: "Active status: "}),
+            emptyStringValidation({ string: designationName, name: "designation name: " }),
+            emptyStringValidation({ string: shortName, name: "Short name: " }),
             clientIdValidation({ clientId })
         ];
 
         const error = validation.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
 
-
         const db = await getClientDatabaseConnection(clientId);
-        const Department = await db.model("Designation", designationSchema);
+        const Designation = await db.model("Designation", designationSchema);
 
-        const alreadyExists = await Department.findOne({ title });
+        const designationNamealreadyExists = await Designation.findOne({ designationName, companyId, deletedAt: null });
+        if (designationNamealreadyExists) return { status: false, message: "This designation name already exists." };
 
-        if(alreadyExists) return { status: false, message: "This title already exists."};
 
-        const serialNumber = await getserialNumber("designation", clientId, "");
+        const shortNamealreadyExists = await Designation.findOne({ shortName, companyId, deletedAt: null });
+        if (shortNamealreadyExists) return { status: false, message: "This short name already exists." };
+
+        const serialNumber = await getserialNumber("Designation", clientId, "");
 
         const absSerialNumber = Math.abs(serialNumber);
 
-        const designation = new Department({
-            title,
-            companyId,
-            shortName,
-            displayId: absSerialNumber,
-            isActive: isActive === "true" ? true : false,
-        });
+        const savedDesignation = await Designation.insertDesignation({ _id, userId, displayId: absSerialNumber, designationName, companyId, shortName });
 
-        const savedDesignation = await designation.save();
+        if (!savedDesignation.status) return { status: false, message: "Failed to save the designation" };
 
         return { status: true, message: "Designation created successfully", data: savedDesignation };
     } catch (error) {

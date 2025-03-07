@@ -19,13 +19,13 @@ const rulesSchema = new mongoose.Schema(
 );
 
 //to save the rule
-rulesSchema.statics.insertRule = async function ({ _id=null,userId, ruleName, apiId, menuId, companyId }) {
+rulesSchema.statics.insertRule = async function ({ _id = null, userId, ruleName, apiId, menuId, companyId }) {
   try {
     const rule = new this({
       createdBy: userId, ruleName, apiId, menuId, companyId
     });
 
-    if(_id){
+    if (_id) {
       rule.oldId = _id;
     };
 
@@ -58,7 +58,7 @@ rulesSchema.statics.updateRule = async function ({ userId, ruleId, ruleName }) {
 rulesSchema.statics.softDeleteRule = async function ({ userId, ruleId }) {
   try {
     const rule = await this.findOne({ _id: ruleId });
-    if(!rule) return { status: false, message: "Network problem, try again"};
+    if (!rule) return { status: false, message: "Network problem, try again" };
 
     rule.deletedAt = new Date();
     rule.deletedBy = userId;
@@ -74,7 +74,7 @@ rulesSchema.statics.softDeleteRule = async function ({ userId, ruleId }) {
 rulesSchema.statics.toggleRule = async function name({ ruleId, userId }) {
   try {
     const rule = await this.findOne({ _id: ruleId, deletedAt: null });
-    if(!rule) return { status: false, message: "Network problem, try again"};
+    if (!rule) return { status: false, message: "Network problem, try again" };
 
     rule.editedBy = userId;
     rule.isActive = !rule.isActive;

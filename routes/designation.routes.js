@@ -4,12 +4,13 @@ const deleteDesignation = require("../controller/designation/deleteDesignation.c
 const getOneDesignation = require("../controller/designation/getOneDesignation.controller");
 const editOneDesignation = require("../controller/designation/editOneDesignation.controller");
 const getPaginatedDesignation = require("../controller/designation/getPaginatedDesignation.controller");
+const addUser = require("../middleware/user/addUser");
 
 const router = express.Router();
 
 
 router
-    .post("/createDesignation",  createDesignation)
+    .post("/createDesignation", addUser, createDesignation)
     .delete("/deleteDesignation/:id/:clientId", deleteDesignation)
     .patch("/editOneDesignation", editOneDesignation)
     .get("/getOneDesignation/:id/:clientId", getOneDesignation)

@@ -5,12 +5,14 @@ const deleteRule = require("../controller/rules/deleteRule.controller");
 const addUser = require("../middleware/user/addUser");
 const getPaginatedRules = require("../controller/rules/getPaginatedRules.controller");
 const getRuleById = require("../controller/rules/getRuleById.controller");
+const toggleRuleStatus = require("../controller/rules/toggleRule.controller");
 
 const router = express.Router();
 
 router
 .post("/createRule",addUser,  createRule)
 .put("/editRule", addUser, editRule) 
+.patch("/toggleRule", addUser, toggleRuleStatus) 
 .delete("/deleteRule/:ruleId/:clientId", addUser, deleteRule)
 .get("/getPaginatedRules/:clientId", getPaginatedRules)
 .get("/getRuleById/:ruleId/:clientId", getRuleById)

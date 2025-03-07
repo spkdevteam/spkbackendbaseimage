@@ -19,11 +19,15 @@ const rulesSchema = new mongoose.Schema(
 );
 
 //to save the rule
-rulesSchema.statics.insertRule = async function ({ userId, ruleName, apiId, menuId, companyId }) {
+rulesSchema.statics.insertRule = async function ({ _id=null,userId, ruleName, apiId, menuId, companyId }) {
   try {
     const rule = new this({
       createdBy: userId, ruleName, apiId, menuId, companyId
     });
+
+    if(_id){
+      rule.oldId = _id;
+    };
 
     const savedRule = await rule.save();
 

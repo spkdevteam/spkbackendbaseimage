@@ -3,7 +3,7 @@ const { getClientDatabaseConnection } = require("../../connection");
 const { rulesSchema } = require("../../rules");
 const { clientIdValidation, emptyStringValidation } = require("../validation/validation");
 
-const createRuleFn = async ({ userId, ruleName, apiId, menuId, companyId, clientId }) => {
+const createRuleFn = async ({ _id = null, userId, ruleName, apiId, menuId, companyId, clientId }) => {
     try {
         const validation = [
             clientIdValidation({ clientId }),
@@ -30,7 +30,10 @@ const createRuleFn = async ({ userId, ruleName, apiId, menuId, companyId, client
         const ruleAlreadyExists = await Rule.findOne({ ruleName, companyId, deletedAt: null });
         if(ruleAlreadyExists) return { status:true, message: "This rule already exists here"};
 
-        const rule = await Rule.insertRule({ userId, ruleName, apiId, menuId, companyId });
+        const rule = await Rule.insertRule({ _id, userId, ruleName, apiId, menuId, companyId });
+
+
+        if(!rule.status) return {status: false, message: rule.message };
 
         return {status: true, message: "Rule successfully saved", data: rule.rule};
     } catch (error) {

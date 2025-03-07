@@ -28,6 +28,8 @@ const editRuleFn = async ({ userId, ruleId, ruleName, clientId }) => {
 
         const rule = await Rule.updateRule({ userId, ruleId, ruleName });
 
+        if(!rule.status) return {status: false, message: rule.message };
+
         return {status: true, message: "The rule was updated" };
     } catch (error) {
         return { status: false, message: error.message };

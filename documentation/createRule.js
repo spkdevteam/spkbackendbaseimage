@@ -15,17 +15,12 @@
  *           schema:
  *             type: object
  *             required:
- *               - userId
  *               - ruleName
  *               - apiId
  *               - menuId
  *               - companyId
  *               - clientId
  *             properties:
- *               userId:
- *                 type: string
- *                 description: The unique identifier of the user.
- *                 example: "67c821d02d587653996ba828"
  *               ruleName:
  *                 type: string
  *                 description: The name of the rule being created.

@@ -32,9 +32,9 @@ const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "
             if (isNaN(searchKey)) {
                 searchQuery = {
                     $or: [
-                        { title: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                        { shortName: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
+                        { title: { $regex: `^${escapedSearchKey}`, $options: "i" }},
+                        { shortName: { $regex: `^${escapedSearchKey}`, $options: "i" }},
+                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }},
                     ]
                 }
             }

@@ -12,6 +12,7 @@ const payrollRouter = require("./payroll.routes");
 const holidayRouter = require("./holiday.routes");
 const shiftRegisterRouter = require("./shiftRegister.routes");
 const rulesRouter = require("./rules.routes");
+const apiMasterRouter = require("./apiMaster.routes");
 
 
 
@@ -23,6 +24,7 @@ mainRouter
     .use('/dept', deptRouter)
     .use('/designation', desigRouter)
     .use('/rules',  rulesRouter)
+    .use('/api',  apiMasterRouter)
     //.use('/rules', rulesAndPermissionRouter)
     .use('/demoDuties', dutiesAndResponsibilityRouter)
     .use('/demoRoles', rolesRouter)

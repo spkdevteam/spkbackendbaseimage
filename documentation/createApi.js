@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /Api/CreateAPI:
+ * /api/createApi:
  *   post:
  *     summary: Create a new API entry
- *     description: Checks if the API path and client ID exist before saving a new entry. Identifies the user from the token and updates the `createdBy` field.
+ *     description: Adds a new API entry with the specified details, including the API name, path, menu ID, company ID, and client ID. Returns a success message upon successful creation.
  *     tags:
  *       - API Management
  *     security:
@@ -15,41 +15,67 @@
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - apiName
+ *               - apiPath
+ *               - menuId
+ *               - companyId
  *               - clientId
  *             properties:
- *               name:
+ *               apiName:
  *                 type: string
- *                 description: The API path to be created.
- *                 example: "/user/getDetails"
+ *                 description: The name of the API being created.
+ *                 example: "createApi"
+ *               apiPath:
+ *                 type: string
+ *                 description: The path of the API to be created.
+ *                 example: "/api/createApi"
+ *               menuId:
+ *                 type: string
+ *                 description: The ID of the menu associated with the API.
+ *                 example: "67b6f6da8f963fae8ff8d15f"
+ *               companyId:
+ *                 type: string
+ *                 description: The ID of the company to which the API belongs.
+ *                 example: "67b037ae038ce3ffbb097924"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the API.
- *                 example: "client12345"
+ *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
- *       201:
+ *       200:
  *         description: API successfully created.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "API created successfully."
+ *               message: "Api added successfully"
  *               data:
- *                 _id: "65a3b2c7f1d23a7890c12345"
+ *                 status: true
+ *                 api:
+ *                   apiName: "createApi"
+ *                   apiPath: "/api/createApi"
+ *                   menuid: null
+ *                   isActive: true
+ *                   createdBy: "67c944517f8fcf7d12e92f1d"
+ *                   deletedAt: null
+ *                   _id: "67ca771e1145659a70f5c218"
+ *                   createdAt: "2025-03-07T04:33:34.293Z"
+ *                   updatedAt: "2025-03-07T04:33:34.293Z"
+ *                   __v: 0
  *       400:
  *         description: Validation error or missing required fields.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "API name or clientId is missing."
+ *               message: "Missing required fields."
  *       409:
  *         description: Conflict, API already exists.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "API name already exists for this client."
+ *               message: "API already exists."
  *       401:
  *         description: Unauthorized, missing or invalid token.
  *         content:

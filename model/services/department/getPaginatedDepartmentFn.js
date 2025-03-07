@@ -32,9 +32,9 @@ const getPaginatedDepartmentFn = async ({ page = 1, perPage = 10, searchKey="", 
             if (isNaN(searchKey)) {
                 searchQuery = {
                     $or: [
-                        { description: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                        { deptName: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
-                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }, deletedAt: null },
+                        { description: { $regex: `^${escapedSearchKey}`, $options: "i" }},
+                        { deptName: { $regex: `^${escapedSearchKey}`, $options: "i" }},
+                        { displayId: { $regex: `^${escapedSearchKey}`, $options: "i" }},
                     ],
                     deletedAt: null
                 };

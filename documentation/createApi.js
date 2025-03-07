@@ -50,19 +50,17 @@
  *               status: true
  *               message: "Api added successfully"
  *               data:
- *                 status: true
- *                 api:
- *                   apiName: "createApi"
- *                   apiPath: "/api/createApi"
- *                   menuId: "67b6f6da8f963fae8ff8d15f"
- *                   companyId: "67b037ae038ce3ffbb097924"
- *                   isActive: true
- *                   createdBy: "67c944517f8fcf7d12e92f1d"
- *                   deletedAt: null
- *                   _id: "67cab890e32b094449195679"
- *                   createdAt: "2025-03-07T09:12:48.213Z"
- *                   updatedAt: "2025-03-07T09:12:48.213Z"
- *                   __v: 0
+ *                 apiName: "deleteApi"
+ *                 apiPath: "/api/deleteApi"
+ *                 menuId: "67b6f6da8f963fae8ff8d15f"
+ *                 companyId: "67b037ae038ce3ffbb097924"
+ *                 isActive: true
+ *                 createdBy: "67c944517f8fcf7d12e92f1d"
+ *                 deletedAt: null
+ *                 _id: "67cabd01d6a7b6b83450f803"
+ *                 createdAt: "2025-03-07T09:31:45.088Z"
+ *                 updatedAt: "2025-03-07T09:31:45.088Z"
+ *                 __v: 0
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

@@ -30,10 +30,9 @@ apiSchema.statics.softDeleteApiMaster = async function ({ apiId, userId }) {
     api.deletedAt = new Date();
     api.deletedBy = userId;
     const softDeletedApi = await api.save();
-    return { status: true, api: softDeletedApi };
+    return { status: true, message: softDeletedApi };
   }
   catch (error) {
-    console.error("Error Soft deleting API is:", error);
     return { status: false, message: error.message };
   }
 };
@@ -55,10 +54,9 @@ apiSchema.statics.insertApiMaster = async function ({ _id = null, userId, apiNam
     };
 
     const savedApi = await newApi.save();
-    return { status: true, api: savedApi };
+    return { status: true, message: savedApi };
   }
   catch (error) {
-    console.error("Error inserting new API is:", error);
     return { status: false, message: error.message };
   }
 };
@@ -76,10 +74,9 @@ apiSchema.statics.updateApiMaster = async function ({ apiId, apiName, apiPath, u
     api.apiPath = apiPath;
     api.editedBy = userId;
     const updatedApi = await api.save();
-    return { status: true, api: updatedApi };
+    return { status: true, message: updatedApi };
   }
   catch (error) {
-    console.error("Error updating API is:", error);
     return { status: false, message: error.message };
   }
 };
@@ -95,10 +92,9 @@ apiSchema.statics.toggleApiMaster = async function ({ apiId, userId }) {
     api.isActive = !api.isActive;
     api.editedBy = userId;
     const toggledApi = await api.save();
-    return { status: true, api: toggledApi };
+    return { status: true, message: toggledApi };
   }
   catch (error) {
-    console.error("Error toggling API is:", error);
     return { status: false, message: error.message };
   }
 

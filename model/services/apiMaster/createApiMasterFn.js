@@ -14,6 +14,11 @@ const createApiMasterFn = async ({ _id=null, userId, apiName, apiPath, menuId, c
                 return { status: false, message: "Invalid company id, try again"};
         };
 
+
+        if(_id && !mongoose.Types.ObjectId.isValid(_id)){
+            return {status:false, message: "Wrong _id, while copying from db"};
+        }
+
         const validation = [
             clientIdValidation({ clientId }),
             emptyStringValidation({ string: apiName, name: "Api Name: "})
@@ -36,7 +41,7 @@ const createApiMasterFn = async ({ _id=null, userId, apiName, apiPath, menuId, c
 
         if(!api.status) return {status: false, message: api.message };
 
-        return { status:true, message: "Api added successfully", data: api}
+        return { status:true, message: "Api added successfully", data: api.message}
     } catch (error) {
         return {status: false, message: error.message};
     }

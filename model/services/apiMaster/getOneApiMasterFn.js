@@ -1,9 +1,13 @@
+const { default: mongoose } = require("mongoose");
 const { apiSchema } = require("../../apiMaster");
 const { getClientDatabaseConnection } = require("../../connection");
 const { clientIdValidation } = require("../validation/validation");
 
 const getOneApiMasterFn = async ({ apiId, clientId }) => {
     try {
+        if(!mongoose.Types.ObjectId.isValid(apiId)){
+            return {status: false, message: "Invalid api id"};
+        }
         const clientIdValidationVar = clientIdValidation({ clientId });
         if(!clientIdValidationVar.status) return {status: false, message: "Some networking problem"};
 

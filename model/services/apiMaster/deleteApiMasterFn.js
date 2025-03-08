@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const { apiSchema } = require("../../apiMaster");
 const { getClientDatabaseConnection } = require("../../connection");
 const { clientIdValidation } = require("../validation/validation");

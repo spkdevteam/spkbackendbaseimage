@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const clientIdValidation = ({ clientId }) => {
     if (!clientId || typeof clientId !== "string" || clientId.length !== 24 || !/^[A-Za-z0-9]+$/.test(clientId)) {
         return { status: false, message: "Some networking problem" };
@@ -17,8 +18,14 @@ const phoneNumberValidation = ({ phone }) => {
     if (!phone || typeof phone !== 'string' || phone.length < 10 || phone.length > 25 || !/^\+?(\d{1,3})?[-. ]?\(?(\d{3})\)?[-. ]?(\d{3})[-. ]?(\d{4})$/.test(phone)) {
         return { status: false, message: "Invalid Phone" };
     }
-    return { status: true, message:"Success"}
-    return { status: true, message: "Success" };
+    return { status: true, message: "Success" }
+}
+
+const mongoIdValidation = ({ _id }) => {
+    if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
+        return { status: false, message: "Invalid id" }
+    }
+    return { status: true, message: "Success" }
 }
 
 // const passwordValidation = ({password}) =>{
@@ -80,14 +87,21 @@ const zipCodeValidation = ({ ZipCode }) => {
 
 
 const stringValidation = ({ string, name = "" }) => {
-    if (!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z]+$/.test(string)) {
+    if (!string || typeof (string) !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z]+$/.test(string)) {
+        return { status: false, message: `Invalid ${name}${string}` }
+    }
+    return { status: true, message: "Success" };
+}
+
+const stringValidationWithNumber = ({ string, name = "" }) => {
+    if (!string || typeof (string) !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9+.@_&-]+$/.test(string)) {
         return { status: false, message: `Invalid ${name}${string}` }
     }
     return { status: true, message: "Success" };
 }
 
 const emptyStringValidation = ({ string, name = "" }) => {
-    if (typeof string !== "string"|| string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
+    if (typeof string !== "string" || string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
         return { status: false, message: `Invalid ${name}${string}` };
     }
     return { status: true, message: "Success" };
@@ -101,24 +115,24 @@ const booleanValidation = ({ boolean, name = "" }) => {
 
 
 
-const passwordValidation = ({password}) =>{
- 
-    if(!password || typeof password !== "string" || password.length< 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)){
- 
-        return {status: false, message: "Invalid password"}
+const passwordValidation = ({ password }) => {
+
+    if (!password || typeof password !== "string" || password.length < 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)) {
+
+        return { status: false, message: "Invalid password" }
     }
-    return {status: true, message: "Success"}
+    return { status: true, message: "Success" }
 }
 
- 
+
 // module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation };
- 
+
 const stringValidationWithEmptyString = ({ string, name = "" }) => {
     // Allow empty string
     if (string === "") {
         return { status: true, message: "Success" }
     }
-    
+
     // Validate only if string is provided
     if (!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9\s]+$/.test(string)) {
         return { status: false, message: `Invalid ${name}${string ? `: ${string}` : ""}` }
@@ -126,17 +140,78 @@ const stringValidationWithEmptyString = ({ string, name = "" }) => {
 
     return { status: true, message: "Success" }
 };
- const EmptyStringValidation = ({ string, name = "" }) => {
-    if (typeof string !== "string"|| string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
-        return { status: false, message:`Invalid ${name}${string}` };
+const EmptyStringValidation = ({ string, name = "" }) => {
+    if (typeof string !== "string" || string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
+        return { status: false, message: `Invalid ${name}${string}` };
     }
     return { status: true, message: "Success" };
 }
-const stringValidationWithSpace = ({ string, name="" }) => {
-    if(!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9&.,''\s-]+$/.test(string)){
-        return { status: false, message: `Invalid ${name}${string}`}
+const stringValidationWithSpace = ({ string, name = "" }) => {
+    if (!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9&.,''\s-]+$/.test(string)) {
+        return { status: false, message: `Invalid ${name}${string}` }
     }
-    return { status: true, message: "Success"}
+    return { status: true, message: "Success" }
 }
 
-module.exports = { clientIdValidation, stringValidationWithEmptyString , stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation,  stringValidationWithSpace, passwordValidation}; 
+const validateAddress = ({ address }) => {
+    if (!Array.isArray(address) || address.length === 0) {
+        return { status: false, message: "Address is invalid or missing" }
+    }
+
+    const addressObj = address[0]
+
+    const stateValidation = stringValidationWithSpace({ string: addressObj.state, name: "State" })
+    if (!stateValidation.status) {
+        return stateValidation.message
+    }
+
+    const cityValidation = stringValidationWithSpace({ string: addressObj.city, name: "City" })
+    if (!cityValidation.status) {
+        return cityValidation.message
+    }
+
+    const countryValidation = stringValidationWithSpace({ string: addressObj.country, name: "Country" })
+    if (!countryValidation.status) {
+        return countryValidation.message
+    }
+
+    const ZipCodeValidation = stringValidationWithSpace({ string: addressObj.ZipCode, name: "ZpiCode" })
+    if (!ZipCodeValidation.status) {
+        return ZipCodeValidation.message
+    }
+
+    return { status: true, message: "Success" }
+}
+
+const validateLoginOptions = ({ loginOptions }) => {
+    if (!loginOptions?.email && !loginOptions?.phone && !loginOptions?.userId) {
+        return { status: false, message: "At least one of the field either emial or phone or userId is required" }
+    }
+
+    if (loginOptions?.email && typeof (loginOptions.email) !== 'string') {
+        return { status: false, message: "Use valid email address" }
+    }
+
+    if (loginOptions?.email.length > 30 || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(loginOptions?.email)) {
+        console.log(loginOptions?.email)
+        return { status: false, message: "Invalid Email" };
+    }
+
+    if (loginOptions?.phone && typeof (loginOptions?.phone) !== 'string') {
+        return { status: false, message: "Use valid phone number" }
+    }
+
+    if (loginOptions?.phone.length < 10 || loginOptions?.phone.length > 25 || !/^\+?(\d{1,3})?[-. ]?\(?(\d{3})\)?[-. ]?(\d{3})[-. ]?(\d{4})$/.test(loginOptions?.phone)) {
+        return { status: false, message: "Invalid Phone" };
+    }
+
+    if (typeof (loginOptions?.userId) !== 'string' && loginOptions?.userId) {
+        return { statis: false, message: "Use valid userId" }
+    }
+
+    return { status: true, message: "Success" }
+
+}
+
+
+module.exports = { clientIdValidation, mongoIdValidation, stringValidationWithNumber, stringValidationWithEmptyString, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions }; 

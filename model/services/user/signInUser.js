@@ -119,7 +119,7 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
                 companyName: user?.companyId?.name,
                 contact: user?.companyId?.contactNumber,
                 email: user?.companyId?.email
-                    }]
+            }]
         }
         const token = jwt.sign(payload, process.env.PASSWORD_SECRET_KEY, { expiresIn: "30d" }); //replace secret key with dynamic companyId in prod
 

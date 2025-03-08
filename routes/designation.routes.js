@@ -5,15 +5,17 @@ const getOneDesignation = require("../controller/designation/getOneDesignation.c
 const editOneDesignation = require("../controller/designation/editOneDesignation.controller");
 const getPaginatedDesignation = require("../controller/designation/getPaginatedDesignation.controller");
 const addUser = require("../middleware/user/addUser");
+const toggleDesignationStatus = require("../controller/designation/toggleDesignationStatus.controller");
 
 const router = express.Router();
 
 
 router
     .post("/createDesignation", addUser, createDesignation)
-    .delete("/deleteDesignation/:id/:clientId", deleteDesignation)
-    .patch("/editOneDesignation", editOneDesignation)
-    .get("/getOneDesignation/:id/:clientId", getOneDesignation)
+    .delete("/deleteDesignation/:designationId/:clientId",addUser, deleteDesignation)
+    .put("/editDesignation",addUser, editOneDesignation)
+    .patch("/toggleDesignation/",addUser, toggleDesignationStatus)
+    .get("/getOneDesignation/:designationId/:clientId", getOneDesignation)
     .get("/getPaginated/:clientId", getPaginatedDesignation)
 
 

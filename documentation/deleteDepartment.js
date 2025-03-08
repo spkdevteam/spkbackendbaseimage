@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /dept/deleteDepartment/{id}/{clientId}:
+ * /department/deleteDepartment/{id}/{clientId}:
  *   delete:
  *     summary: Delete a department
  *     description: Deletes a department based on the provided department ID and client ID.

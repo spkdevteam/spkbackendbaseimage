@@ -1,5 +1,5 @@
 const { getClientDatabaseConnection } = require("../../connection");
-const designationSchema = require("../../designation");
+const { designationSchema } = require("../../designation");
 const { clientIdValidation, emptyStringValidation } = require("../validation/validation");
 
 const getPaginatedDesignationFn = async ({ page = 1, perPage = 10, searchKey = "", clientId }) => {

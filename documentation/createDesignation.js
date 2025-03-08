@@ -15,25 +15,21 @@
  *           schema:
  *             type: object
  *             required:
- *               - title
+ *               - designationName
  *               - clientId
  *             properties:
- *               title:
+ *               designationName:
  *                 type: string
- *                 description: The title of the designation to be created.
- *                 example: "Developer"
+ *                 description: The name of the designation to be created.
+ *                 example: "Administrator"
  *               companyId:
  *                 type: string
  *                 description: The company ID associated with the designation.
- *                 example: "6788abe40db7c3b61ed93c70"
+ *                 example: "67b037f8038ce3ffbb09792d"
  *               shortName:
  *                 type: string
  *                 description: The short name or abbreviation for the designation.
- *                 example: "dev"
- *               isActive:
- *                 type: string
- *                 description: Whether the designation is active or not.
- *                 example: "true"
+ *                 example: "admin"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the designation.
@@ -47,15 +43,19 @@
  *               status: true
  *               message: "Designation created successfully"
  *               data:
- *                 title: "Developer"
- *                 shortName: "dev"
- *                 displayId: "1000011"
- *                 createdBy: null
+ *                 displayId: "0"
+ *                 designationName: "Administrator"
+ *                 shortName: "admin"
+ *                 companyId: "67b037f8038ce3ffbb09792d"
+ *                 createdBy: "67c944517f8fcf7d12e92f1d"
+ *                 editedBy: null
+ *                 deletedBy: null
  *                 deletedAt: null
+ *                 oldId: null
  *                 isActive: true
- *                 _id: "67b805eac722d5f018e4f688"
- *                 createdAt: "2025-02-21T04:49:46.577Z"
- *                 updatedAt: "2025-02-21T04:49:46.577Z"
+ *                 _id: "67cbe23636344733e25e2d70"
+ *                 createdAt: "2025-03-08T06:22:46.069Z"
+ *                 updatedAt: "2025-03-08T06:22:46.069Z"
  *                 __v: 0
  *       400:
  *         description: Validation error or missing required fields.

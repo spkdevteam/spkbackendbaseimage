@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /designation/deleteDesignation/{id}/{clientId}:
+ * /designation/deleteDesignation/{designationId}/{clientId}:
  *   delete:
  *     summary: Delete a designation
  *     description: Deletes the specified designation based on the provided ID and client ID.
@@ -10,7 +10,7 @@
  *       - BearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: designationId
  *         required: true
  *         description: The ID of the designation to be deleted.
  *         schema:

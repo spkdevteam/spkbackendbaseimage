@@ -22,7 +22,7 @@ const mainRouter = express.Router()
 mainRouter
     .use('/api-docs', swaggerRouter)
     .use('/users', userRouter)
-    .use('/dept', deptRouter)
+    .use('/department', deptRouter)
     .use('/designation', desigRouter)
     .use('/rules',  rulesRouter)
     .use('/menu', menuMasterRouter)

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /dept/getPaginated/{clientId}:
+ * /department/getPaginated/{clientId}:
  *   get:
  *     summary: Get paginated list of departments
  *     description: Fetches a paginated list of departments based on the provided client ID, page number, and per page limit. It also supports a search key for filtering.

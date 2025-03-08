@@ -4,9 +4,9 @@ const ObjectId = Types.ObjectId;
 
 const designationSchema = mongoose.Schema({
     displayId: { type: String, required: true, unique: true },
-    designationName: { type: String, required: true, unique: true },
+    designationName: { type: String, required: true },
+    shortName: { type: String },
     companyId: { type: ObjectId, ref: "company", default: null, index: true },
-    shortName: { type: String, unique: true },
     createdBy: { type: ObjectId, ref: "user", default: null, index: true },
     editedBy: { type: ObjectId, ref: "user", default: null, index: true },
     deletedBy: { type: ObjectId, ref: "user", default: null, index: true },
@@ -29,7 +29,7 @@ designationSchema.statics.insertDesignation = async function ({ _id = null, user
         };
 
         const savedDesignation = await designation.save();
-        return { status: true, designation: savedDesignation };
+        return { status: true, message: savedDesignation };
     } catch (error) {
         console.log(error)
         return { status: false, message: error.message };
@@ -47,7 +47,7 @@ designationSchema.statics.updateDesignation = async function ({ userId, designat
         designation.editedBy = userId;
 
         const savedDesignation = await designation.save();
-        return { status: true, designation: savedDesignation };
+        return { status: true, message: savedDesignation };
     } catch (error) {
         return { status: false, message: error.message };
     }

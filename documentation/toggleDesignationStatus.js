@@ -1,9 +1,9 @@
 /**
  * @swagger
- * /designation/editDesignation:
- *   put:
- *     summary: Edit an existing designation
- *     description: Updates the designation with the provided details. Requires the designation ID and client ID to perform the update.
+ * /designation/toggleDesignation:
+ *   patch:
+ *     summary: Toggle the status of a designation
+ *     description: Toggles the status of the designation based on the provided designation ID and client ID. This can be used to activate or deactivate a designation.
  *     tags:
  *       - Designation Management
  *     security:
@@ -16,37 +16,24 @@
  *             type: object
  *             required:
  *               - designationId
- *               - designationName
  *               - clientId
  *             properties:
  *               designationId:
  *                 type: string
- *                 description: The ID of the designation to be updated.
- *                 example: "67cbdce5672d6324f4e4f3c3"
- *               designationName:
- *                 type: string
- *                 description: The updated name of the designation.
- *                 example: "Developer"
- *               shortName:
- *                 type: string
- *                 description: The updated short name for the designation.
- *                 example: "dev"
- *               companyId:
- *                 type: string
- *                 description: The company ID associated with the designation.
- *                 example: "67b037f8038ce3ffbb09792d"
+ *                 description: The ID of the designation whose status will be toggled.
+ *                 example: "67cbe23636344733e25e2d70"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the designation.
  *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
- *         description: Designation successfully updated.
+ *         description: Designation status successfully toggled.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "Designation is updated"
+ *               message: "Successfully toggled the api status"
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

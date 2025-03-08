@@ -1,11 +1,19 @@
 const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
-const designationSchema = require("../../designation");
+const { designationSchema } = require("../../designation");
 const { clientIdValidation } = require("../validation/validation");
 
-const deleteDesignationFn = async ({ id, clientId }) => {
+const deleteDesignationFn = async ({ userId, designationId, clientId }) => {
     try {
-        console.log(id, clientId)
+        //checking the ids
+        switch(true){
+            case !mongoose.Types.ObjectId.isValid(designationId):
+                return { status: false, message: "Invalid designation ID"};
+            case !mongoose.Types.ObjectId.isValid(userId):
+                return { status: false, message: "Invalid user ID"};
+        };
+
+        //validating clientId
         const validation = [
             clientIdValidation({ clientId })
         ];
@@ -13,16 +21,15 @@ const deleteDesignationFn = async ({ id, clientId }) => {
         const error = validation.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
 
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return { status: false, message: "Invalid designation ID" };
-        };
-
+        //establishing the connection to the db
         const db = await getClientDatabaseConnection(clientId);
         const Designation = db.model("Designation", designationSchema);
 
-        const designation = await Designation.updateOne({ _id: id, deletedAt: null }, { deletedAt: Date.now() });
+        //performing soft delete
+        const designation = await Designation.softDeleteDesignation({ userId, designationId });
 
-        if (designation.modifiedCount < 1) return { status: false, message: "Operation failed!!" };
+        //checking wheather deletion was proper or not
+        if (!designation.status) return { status: false, message: "Operation failed!!" };
 
         return { status: true, message: "Designation deleted Succesfully" };
     } catch (error) {

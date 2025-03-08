@@ -4,12 +4,13 @@ const deleteDepartment = require("../controller/department/deleteDepartment.cont
 const getOneDepartment = require("../controller/department/getOneDepartment.controller");
 const editOneDepartment = require("../controller/department/editOneDepartment.controller");
 const getPaginatedDepartment = require("../controller/department/getPaginatedDepartment.controller");
+const addUser = require("../middleware/user/addUser");
 
 
 
 const router = express.Router();
 
-router.post("/createDept", createDepartment)
+router.post("/createDept", addUser, createDepartment)
       .patch("/editOneDepartment", editOneDepartment)
       .delete("/deleteDepartment/:id/:clientId", deleteDepartment)
       .get("/getOneDepartment/:id/:clientId", getOneDepartment)

@@ -7,7 +7,7 @@ const apiSchema = new mongoose.Schema(
   {
     apiName: { type: String, required: true, unique: true },
     apiPath: { type: String, required: true, unique: true },
-    menuId: { type: ObjectId, ref: "Menu", default: null, index: true },
+    menuId: { type: ObjectId, ref: "menu", index: true },
     companyId: { type:ObjectId, ref: "company", index: true},
     isActive: { type: Boolean, default: true },
     createdBy: { type: ObjectId, ref: "user", index: true },

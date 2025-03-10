@@ -42,7 +42,7 @@ const createApiMasterFn = async ({ _id=null, userId, apiName, apiPath, menuId, c
 
         if(!api.status) return {status: false, message: api.message };
 
-        return { status:true, message: "Api added successfully", data: api.message}
+        return { status:true, message: "Api added successfully", data: api.message._id};
     } catch (error) {
         return {status: false, message: error.message};
     }

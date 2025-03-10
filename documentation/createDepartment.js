@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /dept/createDept:
+ * /department/createDept:
  *   post:
  *     summary: Create a new department
  *     description: Creates a new department entry with the provided details. Ensures that all required fields are provided and stores the department under the given client ID.

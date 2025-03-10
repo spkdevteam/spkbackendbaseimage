@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
-// const { Types } = mongoose;
-// const ObjectId = Types.ObjectId;
+const { Schema } = mongoose;
+const { Types } = mongoose;
+const ObjectId = Types.ObjectId;
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
     {
         displayId: { type: String, unique: true },
-        companyId: { type: mongoose.Types.ObjectId, ref: "company", default: null, index: true },
+        companyId: { type: ObjectId, ref: "company", default: null, index: true },
         firstName: { type: String, required: true },
         lastName: { type: String },
         profileImage: { type: String, default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
@@ -16,6 +17,7 @@ const userSchema = new mongoose.Schema(
         },
         phone: {
             type: String,
+            trim: true,
             required: true,
         },
         password: {
@@ -56,14 +58,14 @@ const userSchema = new mongoose.Schema(
         documents: { type: [String], required: true },
         leaveDetails: { type: [String], default: [] },
         designation: {
-            type: mongoose.Types.ObjectId,
-            ref: "Designation",
+            type: ObjectId,
+            ref: "designation",
             default: null,
             index: true
         },
         department: {
-            type: mongoose.Types.ObjectId,
-            ref: "Department",
+            type: ObjectId,
+            ref: "department",
             default: null,
             index: true,
         },
@@ -76,21 +78,6 @@ const userSchema = new mongoose.Schema(
             type: Date,
             required: true,
         },
-        loginOptions:  //at least one field should be there it should be handled during validation
-        {
-            email: {
-                type: String,
-                default: null
-            },
-            phone: {
-                type: String,
-                default: null
-            },
-            userId: {
-                type: String,
-                default: null
-            },
-        },
         otp: {
             type: String,
             trim: true,
@@ -101,10 +88,10 @@ const userSchema = new mongoose.Schema(
             default: false
         },
         isActive: { type: Boolean, default: true },
-        createdBy: { type: mongoose.Types.ObjectId, ref: "user", index: true },
+        createdBy: { type: ObjectId, ref: "user", index: true },
         deletedAt: { type: Date, default: null, index: true },
-        deletedBy: { type: mongoose.Types.ObjectId, ref: "user", index: true },
-        editedBy: { type: mongoose.Types.ObjectId, ref: "user", index: true },
+        deletedBy: { type: ObjectId, ref: "user", index: true },
+        editedBy: { type: ObjectId, ref: "user", index: true },
         oldId: { type: String, default: null }
     },
     { timestamps: true }
@@ -133,7 +120,7 @@ userSchema.statics.softDeleteUser = async function ({ userId, deletedByUser }) {
 };
 
 //instance method for insert : [New user is being created and id of the creator (createdById) is being stored also]
-userSchema.statics.insertUser = async function ({ _id = null, displayId, companyId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, loginOptions, family, maritalStatus, dateOfBirth, createdById = null, deletedAt = null, oldId = null }) {
+userSchema.statics.insertUser = async function ({ displayId, companyId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, family, maritalStatus, dateOfBirth, createdById, deletedAt, oldId = null }) {
     try {
         const newUser = new this({
             displayId,
@@ -152,23 +139,19 @@ userSchema.statics.insertUser = async function ({ _id = null, displayId, company
             designation: designation,
             department: department,
             family,
-            loginOptions,
             maritalStatus,
             dateOfBirth,
             // otp,
             // isVerified : false,
             // isActive : true,
             createdBy: createdById,
-            deletedAt: deletedAt,
+            deletedAt,
             // deletedBy: deletedBy ? new ObjectId(deletedBy) : null,
             // editedBy: editedBy ? new ObjectId(editedBy) : null,
+            oldId
         });
-        if (_id) {
-            newUser.oldId = _id;
-        }
         const savedUser = await newUser.save();
-
-        return { status: true, message: "User Created successfully", user: savedUser };
+        return { status: true, user: savedUser };
     }
     catch (error) {
         console.error("Error inserting user is:", error);
@@ -176,7 +159,7 @@ userSchema.statics.insertUser = async function ({ _id = null, displayId, company
     }
 }
 //instance method for update: [One is updating details of the user and id of the updator (editedByUser) is also being stored at editedBy]
-userSchema.methods.updateUser = async function ({ userId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, family, maritalStatus, dateOfBirth, editedByUser }) {
+userSchema.statics.updateUser = async function ({ userId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, family, maritalStatus, dateOfBirth, editedByUser }) {
     try {
         const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
         if (!user) return { status: false, message: "User doesn't exist" };
@@ -206,7 +189,7 @@ userSchema.methods.updateUser = async function ({ userId, firstName, lastName, p
 }
 
 //instance for toggle: [One with access is toggling i.e changing the isActive status of the user and the editors id (toggledByUser) is also being stored]
-userSchema.methods.toggleUser = async function ({ userId, toggledByUser }) {
+userSchema.statics.toggleUser = async function ({ userId, toggledByUser }) {
     try {
         const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
         if (!user) return { status: false, message: "User doesn't exist" };
@@ -220,6 +203,8 @@ userSchema.methods.toggleUser = async function ({ userId, toggledByUser }) {
         return { status: false, message: error.message };
     }
 }
+
+
 
 
 const userModel = mongoose.model("User", userSchema);

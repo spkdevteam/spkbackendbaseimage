@@ -8,8 +8,14 @@ const clientIdValidation = ({ clientId }) => {
 
 const emailValidation = ({ email }) => {
     if (!email || typeof email !== 'string' || email.length > 30 || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-        console.log(email)
         return { status: false, message: "Invalid Email" };
+    }
+    return { status: true, message: "Success" };
+}
+
+function isValidDate({ value }) {
+    if (isNaN(new Date(value))) {
+        return { status: false, message: "Invalid date" };
     }
     return { status: true, message: "Success" };
 }
@@ -101,7 +107,7 @@ const stringValidationWithNumber = ({ string, name = "" }) => {
 }
 
 const emptyStringValidation = ({ string, name = "" }) => {
-    if (typeof string !== "string" || string.length > 500 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
+    if (typeof string !== "string" || string.length > 600 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
         return { status: false, message: `Invalid ${name}${string}` };
     }
     return { status: true, message: "Success" };
@@ -119,6 +125,10 @@ const passwordValidation = ({ password }) => {
 
     if (!password || typeof password !== "string" || password.length < 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)) {
 
+        return { status: false, message: "Invalid password" }
+const passwordValidation = ({ password }) => {
+    if (!password || typeof password !== "string" || password.length < 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/
+.test(password)) {
         return { status: false, message: "Invalid password" }
     }
     return { status: true, message: "Success" }
@@ -215,3 +225,5 @@ const validateLoginOptions = ({ loginOptions }) => {
 
 
 module.exports = { clientIdValidation, mongoIdValidation, stringValidationWithNumber, stringValidationWithEmptyString, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions }; 
+
+module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation, isValidDate };

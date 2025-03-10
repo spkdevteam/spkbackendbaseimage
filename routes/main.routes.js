@@ -12,21 +12,23 @@ const leaveTypeRouter = require("./leaveType.routes");
 const payrollRouter = require("./payroll.routes");
 const holidayRouter = require("./holiday.routes");
 const shiftRegisterRouter = require("./shiftRegister.routes");
-  
-const companyRouter = require("./company.routes")
-const apiMasterRouter = require("./apiMaster.routes")
-const documentPropertiesRouter = require("./documentProperties.routes")
-const documentMasterRouter = require("./documentMaster.routes")
-const userProfileRouter = require("./userProfile.routes")
- 
+const rulesRouter = require("./rules.routes");
+const apiMasterRouter = require("./apiMaster.routes");
+const menuMasterRouter = require("./menuMaster.routes");
+
+
+
 const mainRouter = express.Router()
 
 mainRouter
     .use('/api-docs', swaggerRouter)
     .use('/users', userRouter)
-    .use('/dept', deptRouter)
+    .use('/department', deptRouter)
     .use('/designation', desigRouter)
-    .use('/rules', rulesAndPermissionRouter)
+    .use('/rules',  rulesRouter)
+    .use('/menu', menuMasterRouter)
+    .use('/api',  apiMasterRouter)
+    //.use('/rules', rulesAndPermissionRouter)
     .use('/demoDuties', dutiesAndResponsibilityRouter)
     .use('/demoRoles', rolesRouter)
     .use('/demoLeaves', leaveApplicationRouter)

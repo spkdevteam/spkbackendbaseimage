@@ -14,8 +14,7 @@ const createRulesAndPermissionFn = async ({ rulesName, companyId, apiId, departm
         const error = validation.filter((e) => e && e.status === false);
         if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
 
-
-
+        
         switch (true) {
             case !mongoose.Types.ObjectId.isValid(apiId):
                 return { status: false, message: "Invalid api ID" };

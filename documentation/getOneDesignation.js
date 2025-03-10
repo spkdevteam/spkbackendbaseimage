@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /designation/getOneDesignation/{id}/{clientId}:
+ * /designation/getOneDesignation/{designationId}/{clientId}:
  *   get:
  *     summary: Get a specific designation by ID
  *     description: Retrieves a specific designation based on the provided designation ID and client ID.
@@ -10,12 +10,12 @@
  *       - BearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: designationId
  *         required: true
  *         description: The ID of the designation to retrieve.
  *         schema:
  *           type: string
- *           example: "67b80addc8af42b7fd745271"
+ *           example: "67cbe23636344733e25e2d70"
  *       - in: path
  *         name: clientId
  *         required: true

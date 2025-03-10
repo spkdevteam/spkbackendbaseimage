@@ -1,74 +1,98 @@
 /**
  * @swagger
- * /api/GetAllAPI:
+ * /api/getPaginatedApi/{clientId}:
  *   get:
- *     summary: Get all APIs for a client
- *     description: Retrieves a list of APIs based on client ID, pagination, and search filters.
+ *     summary: Retrieve paginated API entries
+ *     description: Fetches a list of API entries with pagination and optional search functionality, based on the provided client ID.
  *     tags:
  *       - API Management
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - in: query
- *         name: ClientId
+ *       - name: clientId
+ *         in: path
  *         required: true
+ *         description: The client ID associated with the APIs.
  *         schema:
  *           type: string
- *         description: The client ID to filter APIs.
- *         example: "client12345"
- *       - in: query
- *         name: page
+ *           example: "6788abe40db7c3b61ed93c70"
+ *       - name: page
+ *         in: query
+ *         required: true
+ *         description: The page number to retrieve.
  *         schema:
  *           type: integer
- *           default: 1
- *         description: The page number for pagination.
- *       - in: query
- *         name: perPage
+ *           example: 1
+ *       - name: perPage
+ *         in: query
+ *         required: true
+ *         description: The number of API entries per page.
  *         schema:
  *           type: integer
- *           default: 10
- *         description: Number of results per page.
- *       - in: query
- *         name: searchKey
+ *           example: 10
+ *       - name: searchKey
+ *         in: query
+ *         required: false
+ *         description: The search keyword to filter APIs by their name or path.
  *         schema:
  *           type: string
- *         description: Optional search term to filter results.
- *         example: "user"
+ *           example: "create"
  *     responses:
  *       200:
- *         description: Successfully retrieved the API list.
+ *         description: Successfully fetched the paginated list of APIs.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "APIs fetched successfully."
+ *               message: "Successfully fetched apis"
  *               data:
- *                 metaData:
- *                   page: 1
- *                   perPage: 10
- *                   searchKey: "user"
- *                   totalData: 100
- *                 result:
- *                   - apiName: "User API"
- *                     api_id: "api12345"
- *                     active: true
- *                     path: "/api/user"
- *                   - apiName: "Product API"
- *                     api_id: "api67890"
- *                     active: false
- *                     path: "/api/product"
+ *                 - _id: "67cab890e32b094449195679"
+ *                   apiName: "createApi"
+ *                   apiPath: "/api/createApi"
+ *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   companyId: "67b037ae038ce3ffbb097924"
+ *                   isActive: true
+ *                   createdBy: "67c944517f8fcf7d12e92f1d"
+ *                   deletedAt: null
+ *                   createdAt: "2025-03-07T09:12:48.213Z"
+ *                   updatedAt: "2025-03-07T09:12:48.213Z"
+ *                   __v: 0
+ *                 - _id: "67cab9d3f24d611e8152b5e8"
+ *                   apiName: "editApi"
+ *                   apiPath: "/api/editApi"
+ *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   companyId: "67b037ae038ce3ffbb097924"
+ *                   isActive: true
+ *                   createdBy: "67c944517f8fcf7d12e92f1d"
+ *                   deletedAt: null
+ *                   createdAt: "2025-03-07T09:18:11.141Z"
+ *                   updatedAt: "2025-03-07T09:18:11.141Z"
+ *                   __v: 0
+ *               metaData:
+ *                 currentPage: 1
+ *                 perPage: 10
+ *                 searchKey: ""
+ *                 totalDocs: 2
+ *                 totalPages: 1
  *       400:
- *         description: Invalid input parameters.
+ *         description: Validation error or missing required fields.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid parameters."
+ *               message: "Invalid parameters or missing fields."
+ *       401:
+ *         description: Unauthorized, missing or invalid token.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "Unauthorized access."
  *       500:
  *         description: Internal server error.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "An error occurred while fetching APIs."
+ *               message: "Internal server error."
  */

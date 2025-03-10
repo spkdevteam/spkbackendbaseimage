@@ -1,18 +1,21 @@
-const express = require("express")
-const createApiMaster = require("../controller/apiMaster/postApiMaster.controller")
-const authentication = require("../middleware/authToken")
-const deleteApiMaster = require("../controller/apiMaster/deleteApiMaster.controller")
-const {editAPIMaster, toggleApiMaster} = require("../controller/apiMaster/editApiMaster.controller")
-const {getAllApiMaster, getApiMasterById} = require("../controller/apiMaster/getApiMaster.controller")
+const express = require("express");
+const createApiMaster = require("../controller/apiMaster/createApiMaster.controller");
+const addUser = require("../middleware/user/addUser");
+const editApiMaster = require("../controller/apiMaster/editApiMaster.controller");
+const deleteApiMaster = require("../controller/apiMaster/deleteApiMaster.controller");
+const getOneApiMaster = require("../controller/apiMaster/getOneApiMaster.controller");
+const getPaginatedApi = require("../controller/apiMaster/getPaginatedApi.controller");
+const toggleApiStatus = require("../controller/apiMaster/toggleApiStatus.controller");
 
-const router = express.Router()
+const router = express.Router();
 
 router
-    .post("/create", createApiMaster)
-    .delete("/delete/:id/:clientId", deleteApiMaster)
-    .patch("/edit", editAPIMaster)
-    .get("/get-all/:apiName/:clientId/", getAllApiMaster)
-    .get("/getById/:clientId/:id", getApiMasterById)
-    .patch("/toggleStatus", toggleApiMaster)
+    .post("/createApi", addUser, createApiMaster)
+    .put("/editApi", addUser, editApiMaster)
+    .patch("/toggleApi/", addUser, toggleApiStatus)
+    .delete("/deleteApi/:apiId/:clientId", addUser, deleteApiMaster)
+    .get("/getOneApi/:apiId/:clientId", getOneApiMaster)
+    .get("/getPaginatedApi/:clientId", getPaginatedApi)
 
-module.exports = router
+
+module.exports = router;

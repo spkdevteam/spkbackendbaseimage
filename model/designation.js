@@ -4,9 +4,9 @@ const ObjectId = Types.ObjectId;
 
 const designationSchema = mongoose.Schema({
     displayId: { type: String, required: true, unique: true },
-    designationName: { type: String, required: true, unique: true },
+    designationName: { type: String, required: true },
+    shortName: { type: String },
     companyId: { type: ObjectId, ref: "company", default: null, index: true },
-    shortName: { type: String, unique: true },
     createdBy: { type: ObjectId, ref: "user", default: null, index: true },
     editedBy: { type: ObjectId, ref: "user", default: null, index: true },
     deletedBy: { type: ObjectId, ref: "user", default: null, index: true },
@@ -18,20 +18,20 @@ const designationSchema = mongoose.Schema({
 });
 
 //to save the designation
-designationSchema.statics.insertDesignation = async function ({ userId, displayId, designationName, companyId, shortName }) {
+designationSchema.statics.insertDesignation = async function ({ _id = null, userId, displayId, designationName, companyId, shortName }) {
     try {
         const designation = new this({
             displayId, designationName, companyId, shortName, createdBy: userId
         });
 
-        //checking availability of holiday name
-        // const designationNameAlreadyExists = await thisconstructor.findOne({ designationName });
-        // if(designationNameAlreadyExists) return { status: false, message: "This designation name is not available."};
-
+        if (_id) {
+            designation.oldId = _id;
+        };
 
         const savedDesignation = await designation.save();
-        return { status: true, designation: savedDesignation };
+        return { status: true, message: savedDesignation };
     } catch (error) {
+        console.log(error)
         return { status: false, message: error.message };
     }
 };
@@ -39,7 +39,7 @@ designationSchema.statics.insertDesignation = async function ({ userId, displayI
 // to update the designation
 designationSchema.statics.updateDesignation = async function ({ userId, designationName, designationId, shortName }) {
     try {
-        const designation = await this.constuctor.findOne({ _id: designationId, deletedAt: null });
+        const designation = await this.findOne({ _id: designationId, deletedAt: null });
         if (!designation) return { status: false, message: "Network problem, Try again" };
 
         designation.designationName = designationName;
@@ -47,7 +47,7 @@ designationSchema.statics.updateDesignation = async function ({ userId, designat
         designation.editedBy = userId;
 
         const savedDesignation = await designation.save();
-        return { status: true, designation: savedDesignation };
+        return { status: true, message: savedDesignation };
     } catch (error) {
         return { status: false, message: error.message };
     }
@@ -56,7 +56,7 @@ designationSchema.statics.updateDesignation = async function ({ userId, designat
 //to soft delete the designation
 designationSchema.statics.softDeleteDesignation = async function ({ userId, designationId }) {
     try {
-        const designation = await this.constructor.findOne({ _id: designationId, deletedAt: null });
+        const designation = await this.findOne({ _id: designationId, deletedAt: null });
         if (!designation) return { status: false, message: "Network problem, Try again" };
 
         designation.deletedAt = new Date();
@@ -72,7 +72,7 @@ designationSchema.statics.softDeleteDesignation = async function ({ userId, desi
 //to toggle the activeness of the designation
 designationSchema.statics.toggleDesignation = async function ({ userId, designationId }) {
     try {
-        const designation = await this.constructor.findOne({ _id: designationId, deletedAt: null });
+        const designation = await this.findOne({ _id: designationId, deletedAt: null });
         if (!designation) return { status: false, message: "Network problem, Try again" };
 
         designation.editedBy = userId;

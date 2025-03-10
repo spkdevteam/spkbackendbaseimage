@@ -1,28 +1,28 @@
 /**
  * @swagger
- * /rules/DeleteRule:
+ * /rules/deleteRule/{ruleId}/{clientId}:
  *   delete:
- *     summary: Delete a Rule and its Permissions
- *     description: Removes a specific rule and its associated permissions based on the provided rule ID and client ID.
+ *     summary: Delete a Rule
+ *     description: Deletes a specific rule based on the provided rule ID and client ID.
  *     tags:
- *       - Rules Management
+ *       - Rule Management
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - in: query
- *         name: _id
+ *       - in: path
+ *         name: ruleId
  *         required: true
  *         schema:
  *           type: string
  *         description: The unique identifier of the rule to be deleted.
  *         example: "rule98765"
- *       - in: query
- *         name: ClientId
+ *       - in: path
+ *         name: clientId
  *         required: true
  *         schema:
  *           type: string
  *         description: The client ID associated with the rule.
- *         example: "client12345"
+ *         example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
  *         description: Rule deleted successfully.
@@ -30,7 +30,7 @@
  *           application/json:
  *             example:
  *               status: true
- *               message: "Rule deleted successfully."
+ *               message: "The rule is deleted"
  *       404:
  *         description: Rule not found.
  *         content:
@@ -44,7 +44,7 @@
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid _id or ClientId."
+ *               message: "Invalid ruleId or clientId."
  *       500:
  *         description: Internal server error.
  *         content:

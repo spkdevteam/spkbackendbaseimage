@@ -7,7 +7,7 @@ const rolesSchema = new mongoose.Schema({
     departmentId: { type: ObjectId, ref: "department", index: true, required: true },
     companyId: { type: ObjectId, ref: "company", index: true, required: true },
     designationId: { type: ObjectId, ref: "company", index: true, required: true },
-    leaveDetails: [{ type: ObjectId, ref: "leaveRegister", index: true, default: [] }],
+    leaveDetails: [{ type: Object, default: [] }],
     permissions: [{
         ruleId: { type: ObjectId, ref: "rule", index: true },
         ruleName: { type: String, default: "" },

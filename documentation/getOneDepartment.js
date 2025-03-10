@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /dept/getOneDepartment/{id}/{clientId}:
+ * /department/getOneDepartment/{id}/{clientId}:
  *   get:
  *     summary: Get a department by ID and client ID
  *     description: Fetches a department based on the provided department ID and client ID.

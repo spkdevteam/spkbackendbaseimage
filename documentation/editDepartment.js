@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /dept/editOneDepartment:
+ * /department/editOneDepartment:
  *   patch:
  *     summary: Update an existing department
  *     description: Updates the department details based on the provided department ID and client ID.

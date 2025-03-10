@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /rules/CreateRule:
+ * /rules/createRule:
  *   post:
- *     summary: Create a new rule and assign permissions
- *     description: Creates a new rule with the specified name, associated API, department, and branch.
+ *     summary: Create a new rule entry
+ *     description: Saves a new rule entry by verifying provided information like user, API, menu, and company IDs. Also ensures valid client ID and updates rule data.
  *     tags:
- *       - Rules Management
+ *       - Rule Management
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -14,50 +14,82 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - ruleName
+ *               - apiId
+ *               - menuId
+ *               - companyId
+ *               - clientId
  *             properties:
- *               rulesName:
+ *               ruleName:
  *                 type: string
- *                 description: The name of the rule.
- *                 example: "AdminAccess"
+ *                 description: The name of the rule being created.
+ *                 example: "newRule"
+ *               apiId:
+ *                 type: string
+ *                 description: The unique identifier of the associated API.
+ *                 example: "67c821d02d587653996ba828"
+ *               menuId:
+ *                 type: string
+ *                 description: The unique identifier of the associated menu.
+ *                 example: "67c821d02d587653996ba828"
  *               companyId:
  *                 type: string
  *                 description: The unique identifier of the company.
- *                 example: "api12345"
- *               apiId:
+ *                 example: "67c821d02d587653996ba828"
+ *               clientId:
  *                 type: string
- *                 description: The unique identifier of the API.
- *                 example: "api12345"
- *               departMentId:
- *                 type: string
- *                 description: The unique identifier of the department.
- *                 example: "dept67890"
- *               branchId:
- *                 type: string
- *                 description: The unique identifier of the branch.
- *                 example: "branch54321"
+ *                 description: The client ID associated with the rule.
+ *                 example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       201:
- *         description: Rule created successfully.
+ *         description: Rule successfully created.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "Rule created successfully."
+ *               message: "Rule successfully saved"
  *               data:
- *                 _id: "rule98765"
- *                 branchId: "branch54321"
+ *                 ruleName: "newRule"
+ *                 apiId: "67c821d02d587653996ba828"
+ *                 menuId: "67c821d02d587653996ba828"
+ *                 companyId: "67c821d02d587653996ba838"
+ *                 deletedAt: null
+ *                 deletedBy: null
+ *                 createdBy: "67c821d02d587653996ba828"
+ *                 editedBy: null
+ *                 isActive: true
+ *                 oldId: null
+ *                 _id: "67c8369eaf59d1b7f459c31a"
+ *                 createdAt: "2025-03-05T11:33:50.013Z"
+ *                 updatedAt: "2025-03-05T11:33:50.013Z"
+ *                 __v: 0
  *       400:
- *         description: Invalid input parameters.
+ *         description: Validation error or missing required fields.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid input data."
+ *               message: "User ID, ruleName, apiId, menuId, companyId, or clientId is missing."
+ *       409:
+ *         description: Conflict, rule already exists for the provided parameters.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "Rule with the given parameters already exists."
+ *       401:
+ *         description: Unauthorized, missing or invalid token.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "Unauthorized access."
  *       500:
  *         description: Internal server error.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "An error occurred while creating the rule."
+ *               message: "Internal server error."
  */

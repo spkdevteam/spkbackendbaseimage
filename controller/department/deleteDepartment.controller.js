@@ -3,8 +3,8 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const deleteDepartment = async (req, res, next) => {
     try {
-        const { id, clientId } = await sanitizeBody(req.params);
-        const result = await deleteDepartmentFn({ id, clientId });
+        const { userId, departmentId, clientId } = await sanitizeBody(req.params);
+        const result = await deleteDepartmentFn({ userId, departmentId, clientId });
         return res.status(200).json({ status: result?.status, message: result?.message});
     } catch (error) {
         next(error);

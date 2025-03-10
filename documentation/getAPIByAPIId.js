@@ -1,44 +1,55 @@
 /**
  * @swagger
- * /api/getAPIByAPIId:
+ * /api/getOneApi/{apiId}/{clientId}:
  *   get:
- *     summary: Get API details by ID
- *     description: Fetches a specific API's details using client ID and API ID.
+ *     summary: Retrieve a specific API entry
+ *     description: Fetches the details of a specific API based on the provided API ID and client ID.
  *     tags:
  *       - API Management
  *     security:
  *       - BearerAuth: []
  *     parameters:
- *       - in: query
- *         name: clientId
+ *       - name: apiId
+ *         in: path
  *         required: true
+ *         description: The ID of the API to retrieve.
  *         schema:
  *           type: string
+ *           example: "67cab890e32b094449195679"
+ *       - name: clientId
+ *         in: path
+ *         required: true
  *         description: The client ID associated with the API.
- *         example: "client12345"
- *       - in: query
- *         name: apiId
- *         required: true
  *         schema:
  *           type: string
- *         description: The unique API ID.
- *         example: "api67890"
+ *           example: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
- *         description: Successfully retrieved the API details.
+ *         description: API successfully fetched.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "API details fetched successfully."
+ *               message: "Successfully fetched the api"
  *               data:
- *                 apiObject:
- *                   apiName: "User API"
- *                   api_id: "api67890"
- *                   active: true
- *                   path: "/api/user"
- *                   createdBy: "admin"
- *                   createdAt: "2024-02-06T12:00:00Z"
+ *                 _id: "67cab890e32b094449195679"
+ *                 apiName: "createApi"
+ *                 apiPath: "/api/createApi"
+ *                 menuId: "67b6f6da8f963fae8ff8d15f"
+ *                 companyId: "67b037ae038ce3ffbb097924"
+ *                 isActive: true
+ *                 createdBy: "67c944517f8fcf7d12e92f1d"
+ *                 deletedAt: null
+ *                 createdAt: "2025-03-07T09:12:48.213Z"
+ *                 updatedAt: "2025-03-07T09:12:48.213Z"
+ *                 __v: 0
+ *       400:
+ *         description: Validation error or missing required fields.
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: false
+ *               message: "Invalid parameters or missing fields."
  *       404:
  *         description: API not found.
  *         content:
@@ -46,18 +57,18 @@
  *             example:
  *               status: false
  *               message: "API not found."
- *       400:
- *         description: Invalid input parameters.
+ *       401:
+ *         description: Unauthorized, missing or invalid token.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "Invalid clientId or apiId."
+ *               message: "Unauthorized access."
  *       500:
  *         description: Internal server error.
  *         content:
  *           application/json:
  *             example:
  *               status: false
- *               message: "An error occurred while fetching API details."
+ *               message: "Internal server error."
  */

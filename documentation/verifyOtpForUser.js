@@ -19,7 +19,7 @@
  *               id:
  *                 type: string
  *                 description: User's unique identifier (can be default if not specified)
- *                 example: "67b478c1bf3b620ce96b9ce2"
+ *                 example: "67c92d61de795d44a8bf9b5e"
  *               otp:
  *                 type: string
  *                 description: One-Time Password (OTP) provided by the user for verification

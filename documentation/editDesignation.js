@@ -1,7 +1,7 @@
 /**
  * @swagger
- * /designation/editOneDesignation:
- *   patch:
+ * /designation/editDesignation:
+ *   put:
  *     summary: Edit an existing designation
  *     description: Updates the designation with the provided details. Requires the designation ID and client ID to perform the update.
  *     tags:
@@ -15,22 +15,26 @@
  *           schema:
  *             type: object
  *             required:
- *               - id
- *               - title
+ *               - designationId
+ *               - designationName
  *               - clientId
  *             properties:
- *               id:
+ *               designationId:
  *                 type: string
  *                 description: The ID of the designation to be updated.
- *                 example: "67b80addc8af42b7fd745271"
- *               title:
+ *                 example: "67cbdce5672d6324f4e4f3c3"
+ *               designationName:
  *                 type: string
- *                 description: The updated title of the designation.
- *                 example: "Junior developer"
+ *                 description: The updated name of the designation.
+ *                 example: "Developer"
  *               shortName:
  *                 type: string
  *                 description: The updated short name for the designation.
- *                 example: "jr. dev"
+ *                 example: "dev"
+ *               companyId:
+ *                 type: string
+ *                 description: The company ID associated with the designation.
+ *                 example: "67b037f8038ce3ffbb09792d"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the designation.
@@ -41,18 +45,8 @@
  *         content:
  *           application/json:
  *             example:
+ *               status: true
  *               message: "Designation is updated"
- *               data:
- *                 _id: "67b80addc8af42b7fd745271"
- *                 title: "Junior developer"
- *                 shortName: "jr. dev"
- *                 displayId: "1000015"
- *                 createdBy: null
- *                 deletedAt: null
- *                 isActive: false
- *                 createdAt: "2025-02-21T05:10:53.129Z"
- *                 updatedAt: "2025-02-21T07:17:20.835Z"
- *                 __v: 0
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

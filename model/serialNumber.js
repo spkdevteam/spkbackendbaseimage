@@ -7,5 +7,5 @@ const serialNumebrSchema = mongoose.Schema({
 });
 
 const serialNumberCollection = mongoose.model('serialNumber',serialNumebrSchema);
-module.exports = serialNumebrSchema;
+module.exports = {serialNumebrSchema};
 

@@ -42,19 +42,19 @@ pageMasterSchema.methods.softDelete = async function ({userId}) {
         }
         this.deletedAt = new Date();
         this.deletedBy = userId;
-        const result = await this.save();
+        await this.save();
 
-        return { status: true, message: "Page deleted successfully", data: result };
+        return { status: true, message: "Page deleted successfully", data: this };
     } catch (error) {
         return { status: false, message: "Failed to delete page", error: error.message };
     }
 };
 
 //instance for edit
-pageMasterSchema.methods.edit = async function ({userId, updatedData, pagemasterId}) {
+pageMasterSchema.methods.edit = async function ({userId, updatedData}) {
     try {
         const updatedPage = await this.constructor.findOneAndUpdate(
-            { _id: pagemasterId, deletedAt: null },  
+            { _id: this._id },  
             { ...updatedData, editedBy: userId },
             { new: true} 
         );
@@ -74,13 +74,13 @@ pageMasterSchema.methods.edit = async function ({userId, updatedData, pagemaster
 pageMasterSchema.methods.insert = async function ({ newPage, userId }) {
     try {
         // Check for duplicate page
-        // const existingPage = await this.constructor.findOne({
-        //     $or: [{ menuName: newPage.menuName }, { pathName: newPage.pathName }],
-        // });
+        const existingPage = await this.constructor.findOne({
+            $or: [{ menuName: newPage.menuName }, { pathName: newPage.pathName }],
+        });
 
-        // if (existingPage) {
-        //     return { status: false, message: "Page with menuName or pathName already exists" }
-        // }
+        if (existingPage) {
+            return { status: false, message: "Page with menuName or pathName already exists" }
+        }
 
         // Create new page instance
         const newPageData = new this.constructor({
@@ -88,8 +88,6 @@ pageMasterSchema.methods.insert = async function ({ newPage, userId }) {
             pathName: newPage.pathName,
             reporting: newPage.reporting,
             createdBy: userId,
-            deletedAt,
-            isActive,
             oldId
         });
 

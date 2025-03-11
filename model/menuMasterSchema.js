@@ -8,7 +8,7 @@ const menuMasterSchema = mongoose.Schema({
         required: true,
         unique: true,
     },
-    menuId: {
+    pageId: {
         type: ObjectId,
         ref: "Page",
         default: null,
@@ -17,6 +17,7 @@ const menuMasterSchema = mongoose.Schema({
     companyId: {type: ObjectId, ref: "company", index: true},
     isActive: { type: Boolean, default: true },
     createdBy: { type: ObjectId, ref: "user", index: true},
+    editedBy: {type: ObjectId, ref: "user", index: true},
     deletedBy: { type: ObjectId, ref: "user", index: true},
     deletedAt: { type: Date, default: null, index: true },
     editedBy: { type: ObjectId, ref: "user", index: true},
@@ -44,13 +45,13 @@ menuMasterSchema.statics.softDeleteMenuMaster = async function ({ menuId, userId
 };
 
 //create instance for edit
-menuMasterSchema.statics.updateMenuMaster = async function ({ menuId, userId, menuIdForSaving, name }) {
+menuMasterSchema.statics.updateMenuMaster = async function ({ menuId, userId, pageId, name }) {
     try {
         const Menu = await this.findOne({ _id: menuId });
 
         Menu.name = name;
         Menu.editedBy = userId;
-        Menu.menuId = menuIdForSaving;
+        Menu.pageId = pageId;
 
         const savedMenu = await Menu.save();
 
@@ -61,12 +62,12 @@ menuMasterSchema.statics.updateMenuMaster = async function ({ menuId, userId, me
 };
 
 //create an instance for insert
-menuMasterSchema.statics.insertMenuMaster = async function ({ _id = null, name, menuIdForSaving, companyId, userId }) {
+menuMasterSchema.statics.insertMenuMaster = async function ({ _id = null, name, pageId, companyId, userId }) {
     try {
         // Create new menu instance
         const newMenuData = new this({
             name,
-            menuId: menuIdForSaving,
+            pageId,
             companyId,
             createdBy: userId,
         });

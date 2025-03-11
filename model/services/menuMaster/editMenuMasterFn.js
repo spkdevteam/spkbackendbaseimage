@@ -4,14 +4,14 @@ const { menuMasterSchema } = require("../../menuMasterSchema");
 const { emptyStringValidation, clientIdValidation } = require("../validation/validation");
 
 
-const editMenuMasterFn = async ({ menuId, userId, menuIdForSaving, name, clientId })=> {
+const editMenuMasterFn = async ({ menuId, userId, pageId, name, clientId })=> {
     try {
         //checking the mongodb ids
         switch(true){
             case !mongoose.Types.ObjectId.isValid(userId):
                 return {status: false, message: "Invalid user id"};
-            case !mongoose.Types.ObjectId.isValid(menuIdForSaving):
-                return {status: false, message: "Invalid menu to change id"};
+            case !mongoose.Types.ObjectId.isValid(pageId):
+                return {status: false, message: "Invalid page id"};
             case !mongoose.Types.ObjectId.isValid(menuId):
                 return {status: false, message: "Invalid menu id"};
         };
@@ -41,10 +41,10 @@ const editMenuMasterFn = async ({ menuId, userId, menuIdForSaving, name, clientI
         if(!menu) return {status:false, message: "Network problem, try again"};
 
         //checking wheather it needs to edit or not
-        if(menu.name === name && menu.menuId == menuIdForSaving) return { status: false, message: "There is nothing to update"};
+        if(menu.name === name && menu.pageId == pageId) return { status: false, message: "There is nothing to update"};
 
         //editing the api
-        const editedMenu = await menuMaster.updateMenuMaster({ menuId, userId, menuIdForSaving, name });
+        const editedMenu = await menuMaster.updateMenuMaster({ menuId, userId, pageId, name });
 
         //checking wheather operation failed or not
         if(!editedMenu.status) return { status: false, message: "Operation failed, try again"};

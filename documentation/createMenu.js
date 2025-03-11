@@ -16,7 +16,7 @@
  *             type: object
  *             required:
  *               - name
- *               - menuId
+ *               - pageId
  *               - companyId
  *               - clientId
  *             properties:
@@ -24,9 +24,9 @@
  *                 type: string
  *                 description: The name of the menu being created.
  *                 example: "first"
- *               menuId:
+ *               pageId:
  *                 type: string
- *                 description: The ID of the menu.
+ *                 description: The ID of the page.
  *                 example: "67b037ae038ce3ffbb097924"
  *               companyId:
  *                 type: string
@@ -46,7 +46,7 @@
  *               message: "Menu added successfully"
  *               data:
  *                 name: "first"
- *                 menuId: "67b037ae038ce3ffbb097924"
+ *                 pageId: "67b037ae038ce3ffbb097924"
  *                 companyId: "67b037f8038ce3ffbb09792d"
  *                 isActive: true
  *                 createdBy: "67c944517f8fcf7d12e92f1d"

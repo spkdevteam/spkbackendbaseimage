@@ -3,8 +3,8 @@ const sanitizeBody = require("../../utils/sanitizeBody");
 
 const editMenuMaster = async (req, res, next) => {
     try {
-        const { menuId, userId, menuIdForSaving, name, clientId } = await sanitizeBody(req.body);
-        const result = await editMenuMasterFn({ menuId, userId, menuIdForSaving, name, clientId });
+        const { menuId, userId, pageId, name, clientId } = await sanitizeBody(req.body);
+        const result = await editMenuMasterFn({ menuId, userId, pageId, name, clientId });
         return res.status(200).json({ status: result?.status, message: result?.message});
     } catch (error) {
         next(error);

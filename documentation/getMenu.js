@@ -15,7 +15,7 @@
  *         description: The ID of the menu to be retrieved.
  *         schema:
  *           type: string
- *           example: "67cac338e3a8ce2d848e0652"
+ *           example: "67d00c2600a85f9e3acb78ce"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -32,17 +32,18 @@
  *               status: true
  *               message: "Menu fetched successfully"
  *               data:
- *                 _id: "67cac338e3a8ce2d848e0652"
- *                 name: "first"
- *                 menuId: "67b037ae038ce3ffbb097924"
+ *                 _id: "67d00c2600a85f9e3acb78ce"
+ *                 name: "first1"
+ *                 pageId: "67b037ae038ce3ffbb097924"
  *                 companyId: "67b037f8038ce3ffbb09792d"
  *                 isActive: true
  *                 createdBy: "67c944517f8fcf7d12e92f1d"
  *                 deletedAt: null
  *                 oldId: null
- *                 createdAt: "2025-03-07T09:58:16.830Z"
- *                 updatedAt: "2025-03-07T09:58:16.830Z"
+ *                 createdAt: "2025-03-11T10:10:46.910Z"
+ *                 updatedAt: "2025-03-11T10:11:10.675Z"
  *                 __v: 0
+ *                 editedBy: "67c944517f8fcf7d12e92f1d"
  *       400:
  *         description: Validation error or invalid parameters.
  *         content:

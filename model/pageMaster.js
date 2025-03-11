@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
-const { Schema } = mongoose
-const ObjectId = Schema.ObjectId
+const { Types } = mongoose;
+const ObjectId = Types.ObjectId;
 
 const pageMasterSchema = mongoose.Schema({
      
@@ -8,12 +8,12 @@ const pageMasterSchema = mongoose.Schema({
             menuName: {
                 type: String,
                 required: true,
-                unique: true
+                // unique: true
             },
             pathName: {
                 type: String,
                 required: true,
-                unique: true
+                // unique: true
             },
             reporting: {
                 type: String,
@@ -34,82 +34,86 @@ const pageMasterSchema = mongoose.Schema({
     }
 );
 
-//instance for softDelete
-pageMasterSchema.methods.softDelete = async function ({userId}) {
-    try {
-        if (this.deletedAt !== null) {
-            return { status: false, message: "Page already deleted" };
-        }
-        this.deletedAt = new Date();
-        this.deletedBy = userId;
-        await this.save();
-
-        return { status: true, message: "Page deleted successfully", data: this };
-    } catch (error) {
-        return { status: false, message: "Failed to delete page", error: error.message };
-    }
-};
-
-//instance for edit
-pageMasterSchema.methods.edit = async function ({userId, updatedData}) {
-    try {
-        const updatedPage = await this.constructor.findOneAndUpdate(
-            { _id: this._id },  
-            { ...updatedData, editedBy: userId },
-            { new: true} 
-        );
-
-        if (!updatedPage) {
-            return { status: false, message: "Page not found" };
-        }
-
-        return { status: true, message: "Page edited successfully", data: updatedPage };
-    } catch (error) {
-        return { status: false, message: "Failed to edit page", error: error.message };
-    }
-};
-
-
-//instance for insert
-pageMasterSchema.methods.insert = async function ({ newPage, userId }) {
-    try {
-        // Check for duplicate page
-        const existingPage = await this.constructor.findOne({
-            $or: [{ menuName: newPage.menuName }, { pathName: newPage.pathName }],
-        });
-
-        if (existingPage) {
-            return { status: false, message: "Page with menuName or pathName already exists" }
-        }
-
-        // Create new page instance
-        const newPageData = new this.constructor({
-            menuName: newPage.menuName,
-            pathName: newPage.pathName,
-            reporting: newPage.reporting,
-            createdBy: userId,
-            oldId
-        });
-
-        const result = await newPageData.save();
-        return { status: true, message: "Page created successfully", data: result }
-    } catch (error) {
-        return { status: false, message: "Failed to create page", error: error.message }
-    }
-};
-
 //instance for toggle
-pageMasterSchema.methods.toggle = async function ({userId}) {
+pageMasterSchema.statics.togglePagesMaster = async function ({toggledByUserId, pageId, clientId}) {
     try {
-        this.isActive = !this.isActive
-        this.editedBy = userId
-
-        await this.save();
-        return { status: true, message: "Page status toggled", data: this }
+        const fetchedPage = await this.findOne({_id : pageId, deletedAt : null});
+        if (!fetchedPage) return {status : false, message : "Requested page can't be found!!"};
+        fetchedPage.editedBy = toggledByUserId;
+        fetchedPage.isActive = !fetchedPage.isActive;
+        const toggledPage = await fetchedPage.save();
+        return { status: true, pages : toggledPage}; //check the pages.status inside services
+        
     } catch (error) {
         return { status: false, message: "Failed to toggle page status", error: error.message }
     }
 };
+
+
+
+
+//instance for softDelete pagesMaster
+pageMasterSchema.statics.softDeletePagesMaster = async function ({deletedByUserId, pageId, clientId}) {
+    try {
+        const fetchedPage = await this.findOne({_id : pageId, deletedAt : null});
+        if (!fetchedPage) return {status : false, message : "Requested page can't be found!!"};
+        fetchedPage.deletedBy = deletedByUserId;
+        fetchedPage.deletedAt = new Date();
+        const deletedPage = await fetchedPage.save();
+        return { status: true, pages : deletedPage}; //check the pages.status inside services
+    } catch (error) {
+        return { status: false, message:  error?.message||"Failed to delete page!!" };
+    }
+};
+
+//instance for editing pagesMaster
+pageMasterSchema.statics.editPagesMaster = async function ({ menuName, pathName, reporting, editedByUserId, pageId, clientId}) {
+    try {
+        const fetchedPage = await this.findOne({_id : pageId, deletedAt : null});
+        if (!fetchedPage) return {status : false, message : "Requested page can't be found!!"};
+        fetchedPage.menuName = menuName;
+        fetchedPage.pathName = pathName;
+        fetchedPage.reporting = reporting;
+        fetchedPage.editedBy = editedByUserId;
+
+        const editedPage = await fetchedPage.save();
+        return { status: true, pages : editedPage}; //check the pages.status inside services
+    } catch (error) {
+        return { status: false, message:  error?.message||"Failed to edit page!!" };
+    }
+};
+
+    //instance for inserting pagesMaster:
+pageMasterSchema.statics.insertPagesMaster = async function ({ menuName, pathName, reporting, createdByUserId, oldId = null, clientId }) {
+    try {
+        const ifExistingPage = await this.findOne({
+            $or : [{menuName : menuName,}, {pathName : pathName}]
+        });
+        console.log("ifExistingPageifExistingPage==>>",ifExistingPage);
+        
+        if (ifExistingPage) return ({status : false , message : `Page with ${ifExistingPage?.menuName === menuName ? "menuName : " + menuName : ""}${ifExistingPage?.pathName === pathName ? " pathName : " + pathName : ""} already exists!!`});
+
+        const newPageMaster = new this({
+            menuName,
+            pathName,
+            reporting,
+            createdBy:createdByUserId,
+        });
+        if (oldId)
+        {
+            newPageMaster.oldId = oldId; 
+        }
+        const savePageMaster = await newPageMaster.save();
+        // if(!savePageMaster)  return { status: false, message: "Unable to create page", pages : savePageMaster } 
+        return { status: true, pages : savePageMaster}; //check the pages.status inside services
+    } catch (error) {
+        console.log("error during inserting pagesMaster=>",error);
+        return { status: false, message: error?.message || "Failed to create page!!" }
+    }
+};
+
+
+
 
 const pageMasterModel = mongoose.model("Page", pageMasterSchema);
 module.exports = { pageMasterModel,pageMasterSchema };

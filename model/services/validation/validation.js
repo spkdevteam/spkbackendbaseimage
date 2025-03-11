@@ -1,3 +1,5 @@
+const { default: mongoose } = require("mongoose");
+
 const clientIdValidation = ({ clientId }) => {
     if (!clientId || typeof clientId !== "string" || clientId.length !== 24 || !/^[A-Za-z0-9]+$/.test(clientId)) {
         return { status: false, message: "Some networking problem" };
@@ -84,6 +86,14 @@ const stringValidation = ({ string, name = "" }) => {
     return { status: true, message: "Success" };
 }
 
+const stringValidationIncludingNumber = ({ string, name = "" }) => {
+    if (!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[A-Za-z0-9]+$/.test(string)) {
+        return { status: false, message: `Invalid ${name}${string}` }
+    }
+    return { status: true, message: "Success" };
+}
+
+
 const emptyStringValidation = ({ string, name = "" }) => {
     if (typeof string !== "string" || string.length > 600 || !/^[A-Za-z0-9_\-,.'!?;()": ]*$/.test(string)) {
         return { status: false, message: `Invalid ${name}${string}` };
@@ -105,4 +115,12 @@ const passwordValidation = ({ password }) => {
     return { status: true, message: "Success" }
 }
 
-module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation, isValidDate };
+const mongoIdValidation = ({ _id, name = "" }) => {
+    if (!_id || !mongoose.Types.ObjectId.isValid(_id)) {
+        return { status: false, message: `Invalid ${name}` }
+    }
+    return { status: true, message: "Success" }
+}
+
+
+module.exports = { stringValidationIncludingNumber, mongoIdValidation, clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation, isValidDate };

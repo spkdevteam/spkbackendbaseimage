@@ -14,7 +14,7 @@ const shiftRegisterRouter = require("./shiftRegister.routes");
 const rulesRouter = require("./rules.routes");
 const apiMasterRouter = require("./apiMaster.routes");
 const menuMasterRouter = require("./menuMaster.routes");
-
+const pagesMasterRouter = require("./pagesMaster.routes");
 
 
 const mainRouter = express.Router()
@@ -34,6 +34,6 @@ mainRouter
     .use('/demoPayroll', payrollRouter)
     .use('/demoHoliday', holidayRouter)
     .use('/demoshiftRegister', shiftRegisterRouter)
-    
+    .use('/pagesMaster',pagesMasterRouter)
 
 module.exports = { mainRouter };

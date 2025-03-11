@@ -15,7 +15,7 @@
  *         description: The ID of the department to be fetched.
  *         schema:
  *           type: string
- *           example: "67b701de264d31a18d16bac1"
+ *           example: "67d05dbbf80b6ff94ed5f31e"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -32,17 +32,20 @@
  *               status: true
  *               message: "User is here"
  *               data:
- *                 _id: "67b701de264d31a18d16bac1"
- *                 deptName: "IT"
- *                 displayId: "1000014"
- *                 companyId: null
- *                 description: "Hi there"
+ *                 _id: "67d05dbbf80b6ff94ed5f31e"
+ *                 deptName: "Admins"
+ *                 displayId: "0"
+ *                 companyId: "67b037ae038ce3ffbb097924"
+ *                 description: "Demo admin department."
  *                 deletedAt: null
  *                 isActive: true
  *                 old_Id: null
- *                 createdBy: null
- *                 createdAt: "2025-02-20T10:20:14.666Z"
- *                 updatedAt: "2025-02-20T10:20:14.666Z"
+ *                 shift:
+ *                   - "60b8d295fbd85c6e3b4f95f8"
+ *                   - "60b8d295fbd85c6e3b4f95f9"
+ *                 createdBy: "67c944517f8fcf7d12e92f1d"
+ *                 createdAt: "2025-03-11T07:17:26.204Z"
+ *                 updatedAt: "2025-03-11T09:49:47.660Z"
  *                 __v: 0
  *       400:
  *         description: Validation error or missing required parameters.

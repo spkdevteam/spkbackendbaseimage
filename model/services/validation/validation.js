@@ -41,6 +41,22 @@ const mongoIdValidation = ({ _id }) => {
 //     return { status: true, message:"Success"}
 // }
 
+const documentsValidation = ({ documents }) => {
+    console.log("documentssss:==>>", documents);
+    if (!documents || documents.length < 1) {
+        return { status: false, message: "Invalid documents" }
+    }
+    return { status: true, message: "Success" }
+}
+
+const dateOfBirthValidation = ({dateOfBirth}) =>{
+    const dob = new Date(dateOfBirth.trim());
+    if (isNaN(dob.getTime())) {
+        return { status: false, message: "Invalid Date of Birth" };
+    }
+    return {status: true, message: "Success"}
+}
+
 const genderValidation = ({ gender }) => {
     if (!gender || typeof gender !== 'string' || gender.length > 17 || gender.length < 4
         || !["Male", "Female", "Other", "Prefer not to say"].includes(gender)) {
@@ -63,33 +79,33 @@ const bloodGroupValidation = ({ bloodGroup }) => {
     return { status: true, message: "Success" }
 }
 
-const cityValidation = ({ city }) => {
-    if (!city || typeof city !== 'string' || city.length < 1 || city.length > 20 || !/^[A-Za-z\s]+$/.test(city)) {
-        return { status: false, message: "Invalid city name" };
-    }
-    return { status: true, message: "Success" }
-}
+// const cityValidation = ({ city }) => {
+//     if (!city || typeof city !== 'string' || city.length < 1 || city.length > 20 || !/^[A-Za-z\s]+$/.test(city)) {
+//         return { status: false, message: "Invalid city name" };
+//     }
+//     return { status: true, message: "Success" }
+// }
 
-const stateValidation = ({ state }) => {
-    if (!state || typeof state !== 'string' || state.length < 3 || state.length > 20 || !/^[A-Za-z]+$/.test(state)) {
-        return { status: false, message: "Invalid state name" };
-    }
-    return { status: true, message: "Success" }
-}
+// const stateValidation = ({ state }) => {
+//     if (!state || typeof state !== 'string' || state.length < 3 || state.length > 20 || !/^[A-Za-z]+$/.test(state)) {
+//         return { status: false, message: "Invalid state name" };
+//     }
+//     return { status: true, message: "Success" }
+// }
 
-const countryValidation = ({ country }) => {
-    if (!country || typeof country !== 'string' || country.length < 3 || country.length > 20 || !/^[A-Za-z]+$/.test(country)) {
-        return { status: false, message: "Invalid country name" };
-    }
-    return { status: true, message: "Success" }
-}
+// const countryValidation = ({ country }) => {
+//     if (!country || typeof country !== 'string' || country.length < 3 || country.length > 20 || !/^[A-Za-z]+$/.test(country)) {
+//         return { status: false, message: "Invalid country name" };
+//     }
+//     return { status: true, message: "Success" }
+// }
 
-const zipCodeValidation = ({ ZipCode }) => {
-    if (!ZipCode || typeof ZipCode !== 'string' || ZipCode.length < 3 || ZipCode.length > 10 || !/^[a-zA-Z0-9\s,'-]*$/.test(ZipCode)) {
-        return { status: false, message: "Invalid zipcode" };
-    }
-    return { status: true, message: "Success" }
-}
+// const zipCodeValidation = ({ ZipCode }) => {
+//     if (!ZipCode || typeof ZipCode !== 'string' || ZipCode.length < 3 || ZipCode.length > 10 || !/^[a-zA-Z0-9\s,'-]*$/.test(ZipCode)) {
+//         return { status: false, message: "Invalid zipcode" };
+//     }
+//     return { status: true, message: "Success" }
+// }
 
 
 const stringValidation = ({ string, name = "" }) => {
@@ -126,10 +142,11 @@ const passwordValidation = ({ password }) => {
     if (!password || typeof password !== "string" || password.length < 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/.test(password)) {
 
         return { status: false, message: "Invalid password" }
-const passwordValidation = ({ password }) => {
-    if (!password || typeof password !== "string" || password.length < 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/
-.test(password)) {
-        return { status: false, message: "Invalid password" }
+        // const passwordValidation = ({ password }) => {
+        //     if (!password || typeof password !== "string" || password.length < 6 || password.length > 100 || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&()_+\-=\[\]{};':"\\|,.<>\/?]{6,}$/
+        // .test(password)) {
+        //         return { status: false, message: "Invalid password" }
+        //     }
     }
     return { status: true, message: "Success" }
 }
@@ -194,6 +211,12 @@ const validateAddress = ({ address }) => {
 }
 
 const validateLoginOptions = ({ loginOptions }) => {
+    for (const key of Object.keys(loginOptions)) {
+        if (key !== "email" && key !== "phone" && key !== "userId") {
+            console.log(key);
+            return { status: false, message: "Malicious login options key" }
+        }
+    }
     if (!loginOptions?.email && !loginOptions?.phone && !loginOptions?.userId) {
         return { status: false, message: "At least one of the field either emial or phone or userId is required" }
     }
@@ -216,14 +239,16 @@ const validateLoginOptions = ({ loginOptions }) => {
     }
 
     if (typeof (loginOptions?.userId) !== 'string' && loginOptions?.userId) {
-        return { statis: false, message: "Use valid userId" }
+        return { status: false, message: "Use valid userId" }
     }
+
+
 
     return { status: true, message: "Success" }
 
 }
 
 
-module.exports = { clientIdValidation, mongoIdValidation, stringValidationWithNumber, stringValidationWithEmptyString, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions }; 
+module.exports = { clientIdValidation, mongoIdValidation, emptyStringValidation, dateOfBirthValidation, stringValidationWithNumber, documentsValidation, stringValidationWithEmptyString, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, booleanValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions };
 
-module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation, isValidDate };
+// module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation, isValidDate };

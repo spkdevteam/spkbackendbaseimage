@@ -48,11 +48,12 @@ const createDepartmentFn = async ({ _id = null, userId, deptName, companyId, des
             description,
             shift
         });
+        console.log("====================", department);
 
         //checking wheather the creating department was done or not
-        if(!department.status) return { status: false, message: "Operation failed try again later"};
-
-        return { status: true, message: "New department is created", data: department.message };
+        if(!department?.status) return { status: false, message: "Operation failed try again later"};
+        console.log("//////////////////", department.userId);
+        return { status: true, message: "New department is created", data: {_id: department.department._id} };
     } catch (error) {
         return { status: false, message: error.message };
     }

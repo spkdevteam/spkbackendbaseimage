@@ -10,11 +10,15 @@ const rolesRouter = require("./roles.routes");
 const leaveApplicationRouter = require("./leaveApplication.routes");
 const leaveTypeRouter = require("./leaveType.routes");
 const payrollRouter = require("./payroll.routes");
+const companyRouter = require("./company.routes");
+const userProfileRouter = require("./userProfile.routes");
 const holidayRouter = require("./holiday.routes");
 const shiftRegisterRouter = require("./shiftRegister.routes");
 const rulesRouter = require("./rules.routes");
 const apiMasterRouter = require("./apiMaster.routes");
 const menuMasterRouter = require("./menuMaster.routes");
+const documentMasterRouter = require("./documentMaster.routes");
+const documentPropertiesRouter = require("./documentProperties.routes");
 
 
 

@@ -1,36 +1,36 @@
 /**
  * @swagger
- * /department/deleteDepartment/{id}/{clientId}:
- *   delete:
- *     summary: Delete a department
- *     description: Deletes a department based on the provided department ID and client ID once deleted you cannot delete it again.
+ * /department/toggleDepartment:
+ *   patch:
+ *     summary: Toggle the status of a department
+ *     description: Toggles the active status of the department based on the provided client ID and department ID.
  *     tags:
  *       - Department Management
  *     security:
  *       - BearerAuth: []
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: The ID of the department to be deleted.
- *         schema:
- *           type: string
- *           example: "67d05dbbf80b6ff94ed5f31e"
- *       - name: clientId
- *         in: path
- *         required: true
- *         description: The client ID associated with the department.
- *         schema:
- *           type: string
- *           example: "6788abe40db7c3b61ed93c70"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               clientId:
+ *                 type: string
+ *                 description: The client ID associated with the department.
+ *                 example: "6788abe40db7c3b61ed93c70"
+ *               departmentId:
+ *                 type: string
+ *                 description: The department ID whose status needs to be toggled.
+ *                 example: "67d05dbbf80b6ff94ed5f31e"
  *     responses:
  *       200:
- *         description: Department successfully deleted.
+ *         description: Department status toggled successfully.
  *         content:
  *           application/json:
  *             example:
  *               status: true
- *               message: "Department is deleted"
+ *               message: "Department toggled successfully"
  *       400:
  *         description: Validation error or missing required parameters.
  *         content:
@@ -39,7 +39,7 @@
  *               status: false
  *               message: "Missing required parameters or invalid data."
  *       404:
- *         description: Department not found.
+ *         description: Department not found or does not exist.
  *         content:
  *           application/json:
  *             example:

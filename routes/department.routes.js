@@ -5,16 +5,18 @@ const getOneDepartment = require("../controller/department/getOneDepartment.cont
 const editOneDepartment = require("../controller/department/editOneDepartment.controller");
 const getPaginatedDepartment = require("../controller/department/getPaginatedDepartment.controller");
 const addUser = require("../middleware/user/addUser");
+const toggleDepartment = require("../controller/department/toggleDepartment.controller");
 
 
 
 const router = express.Router();
 
 router.post("/createDept", addUser, createDepartment)
-      .patch("/editOneDepartment", editOneDepartment)
-      .delete("/deleteDepartment/:id/:clientId", deleteDepartment)
+      .put("/editOneDepartment", addUser, editOneDepartment)
+      .delete("/deleteDepartment/:departmentId/:clientId", addUser, deleteDepartment)
       .get("/getOneDepartment/:id/:clientId", getOneDepartment)
-      .get("/getPaginated/:clientId", getPaginatedDepartment);
+      .get("/getPaginated/:clientId", getPaginatedDepartment)
+      .patch("/toggleDepartment", addUser, toggleDepartment)
 
 
 module.exports = router;

@@ -15,7 +15,7 @@
  *         description: The ID of the API to retrieve.
  *         schema:
  *           type: string
- *           example: "67cab890e32b094449195679"
+ *           example: "67ce7615d9dba6638beefb52"
  *       - name: clientId
  *         in: path
  *         required: true
@@ -32,10 +32,10 @@
  *               status: true
  *               message: "Successfully fetched the api"
  *               data:
- *                 _id: "67cab890e32b094449195679"
+ *                 _id: "67ce7615d9dba6638beefb52"
  *                 apiName: "createApi"
  *                 apiPath: "/api/createApi"
- *                 menuId: "67b6f6da8f963fae8ff8d15f"
+ *                 menuId: "67cadf71dca46ced36a2f058"
  *                 companyId: "67b037ae038ce3ffbb097924"
  *                 isActive: true
  *                 createdBy: "67c944517f8fcf7d12e92f1d"
@@ -43,6 +43,7 @@
  *                 createdAt: "2025-03-07T09:12:48.213Z"
  *                 updatedAt: "2025-03-07T09:12:48.213Z"
  *                 __v: 0
+ *                 menuName: "fourth"
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

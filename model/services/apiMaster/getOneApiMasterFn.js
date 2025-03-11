@@ -15,19 +15,21 @@ const getOneApiMasterFn = async ({ apiId, clientId }) => {
         const db = await getClientDatabaseConnection(clientId);
         const apiMaster = await db.model("api", apiSchema);
 
-        const api = await apiMaster.findOne({ _id: apiId, deletedAt: null }).populate("menuId", "name");
+        const api = await apiMaster.findOne({ _id: apiId, deletedAt: null });
 
         if (!api) return { status: false, message: "No such api, try again" };
 
+        //changing the mongoose document to the object
         const apiObject = api.toObject();
-        const menuName = apiObject.menuId ? apiObject.menuId.name : null;
 
-        return {
-            status: true, message: "Successfully fetched the api", data: {
-                ...apiObject,
-                menuName
-            }
-        };
+        //getting json from menus collection
+        const menu = await db.model("menu", menuMasterSchema);
+        const menuName = await menu.findOne({ _id: api.menuId, deletedAt: null });
+
+        //giving result as per the menuName
+        apiObject.menuName = menuName ? menuName.name : "Failed to get try again";
+
+        return {status: true, message: "Successfully fetched the api", data: apiObject};
     } catch (error) {
         return { status: false, message: error.message };
     }

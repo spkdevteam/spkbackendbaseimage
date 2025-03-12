@@ -4,7 +4,7 @@ const sanitizeBody = require("../../utils/sanitizeBody")
 const togglePage = async (req, res, next) =>{
     try{
         const {userId, pageId, clientId} = await sanitizeBody(req?.body);
-        const result = await togglePagesMasterFn({toggledByUserId:userId, pageId, clientId});
+        const result = await togglePagesMasterFn({toggledByUserId:userId, pageId, clientId});//pageId is being pushed from middleware, later will be handled by middleware
         return res.status(200).json({status:result?.status, message: result?.message
             // , data: result?.data
         });

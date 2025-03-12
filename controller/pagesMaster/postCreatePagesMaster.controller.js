@@ -4,10 +4,11 @@ const sanitizeBody = require("../../utils/sanitizeBody")
 
 const createPage = async (req, res, next) => {
     try{
-        const {menuName, pathName, reporting, userId, oldId, clientId} = await sanitizeBody(req.body);
-        const result = await createPagesMasterFn({menuName, pathName, reporting, createdByUserId:userId, oldId, clientId});
-        return res.status(201).json({status:result?.status, message: result?.message
-            // , data: result?.data
+        const {_id= null, menuName, pathName, reporting, userId, clientId, companyId} = await sanitizeBody(req.body);
+        const result = await createPagesMasterFn({_id, menuName, pathName, reporting, createdByUserId:userId, clientId, companyId});
+        console.log("result?.dataresult?.data=>>>",result?.data);
+        
+        return res.status(201).json({status:result?.status, message: result?.message, data: result?.data
         });
     }
     catch(error){

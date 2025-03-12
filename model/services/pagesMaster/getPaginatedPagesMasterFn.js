@@ -32,10 +32,10 @@ const getPaginatedPagesMasterFn = async ({page = 1, perPage = 10, searchKey = ""
 
             if (isNaN(searchKey)) {
                 searchQuery = {
-                    $or: [
-                        { menuName: { $regex: `^${escapedSearchKey}`, $options: "i" }},
-                        { pathName: { $regex: `^${escapedSearchKey}`, $options: "i" }},
-                        { reporting: { $regex: `^${escapedSearchKey}`, $options: "i" }},
+                    $or: [//case insensitive searching and searching from anywhere of the target field
+                        { menuName: { $regex: escapedSearchKey, $options: "i" }},
+                        { pathName: { $regex: escapedSearchKey, $options: "i" }},
+                        { reporting: { $regex: escapedSearchKey, $options: "i" }},
                     ]
                 }
             }
@@ -49,7 +49,7 @@ const getPaginatedPagesMasterFn = async ({page = 1, perPage = 10, searchKey = ""
 
 
         if (PageMasterDocs.length === 0) {
-            return { status: false, message: "No designations found", totalDocs: 0, totalPages: 0, data: [] };
+            return { status: false, message: "No Pages found", totalDocs: 0, totalPages: 0, data: [] };
         }
 
         //checking number of total pages

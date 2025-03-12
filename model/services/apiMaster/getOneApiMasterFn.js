@@ -27,7 +27,7 @@ const getOneApiMasterFn = async ({ apiId, clientId }) => {
         const menuName = await menu.findOne({ _id: api.menuId, deletedAt: null });
 
         //giving result as per the menuName
-        apiObject.menuName = menuName ? menuName.name : "Failed to get try again";
+        apiObject.menuName = menuName ? menuName.name : "";
 
         return {status: true, message: "Successfully fetched the api", data: apiObject};
     } catch (error) {

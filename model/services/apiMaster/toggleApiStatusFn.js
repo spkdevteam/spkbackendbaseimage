@@ -26,7 +26,7 @@ const toggleApiStatusFn = async ({ userId, apiId, clientId }) => {
 
         if (!toggledApiResponse.status) return { status: false, message: "Failed to toggle the apis status" };
 
-        return { status: true, message: "Successfully toggled the api status" };
+        return { status: true, message: `${toggledApiResponse.message.isActive === true ? "Now the api is active" : "Now the api is not active"}`};
     } catch (error) {
         return { status: false, message: error.message };
     }

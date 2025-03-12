@@ -72,7 +72,7 @@ const getPaginatedApiFn = async ({ page = 1, perPage = 10, searchKey = "", clien
         //append menuName to each API object
         const apiMastersWithMenu = apiMasters.map(api => ({
             ...api,
-            menuName: menuMap[api.menuId] || "Failed to get, try again"
+            menuName: menuMap[api.menuId] || ""
         }));
 
 

@@ -21,7 +21,7 @@
  *               apiId:
  *                 type: string
  *                 description: The ID of the API to toggle.
- *                 example: "67ca8d14ef39c45b8d9f47b2"
+ *                 example: "67d1292252601aeee193e2c8"
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the API.
@@ -33,7 +33,7 @@
  *           application/json:
  *             example:
  *               status: true
- *               message: "Successfully toggled the api status"
+ *               message: "Now the api is active"
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

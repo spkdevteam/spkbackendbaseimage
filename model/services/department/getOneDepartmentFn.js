@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
-const departmentSchema = require("../../department");
+const {departmentSchema} = require("../../department");
 const { clientIdValidation } = require("../validation/validation");
 
 const getOneDepartmentFn = async ({ id, clientId }) => {

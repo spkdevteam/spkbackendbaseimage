@@ -3,7 +3,7 @@
  * /department/getPaginated/{clientId}:
  *   get:
  *     summary: Get paginated list of departments
- *     description: Fetches a paginated list of departments based on the provided client ID, page number, and per page limit. It also supports a search key for filtering.
+ *     description: Fetches a paginated list of departments based on the provided client ID, page number, per page limit, and optional search key for filtering.
  *     tags:
  *       - Department Management
  *     security:
@@ -36,7 +36,7 @@
  *         description: The search key to filter departments.
  *         schema:
  *           type: string
- *           example: "IT"
+ *           example: ""
  *     responses:
  *       200:
  *         description: Successfully fetched departments.
@@ -46,72 +46,27 @@
  *               status: true
  *               message: "Successfully fetched departments"
  *               data:
- *                 - _id: "67b700d7befc9b41d31eefa1"
- *                   deptName: "IT"
- *                   displayId: "1000013"
- *                   companyId: null
- *                   description: "Changing for the testing"
+ *                 - _id: "67d05dbbf80b6ff94ed5f31e"
+ *                   deptName: "Admins"
+ *                   displayId: "0"
+ *                   companyId: "67b037ae038ce3ffbb097924"
+ *                   description: "Demo admin department."
  *                   deletedAt: null
  *                   isActive: true
  *                   old_Id: null
- *                   createdBy: null
- *                   createdAt: "2025-02-20T10:15:51.415Z"
- *                   updatedAt: "2025-02-22T11:59:35.079Z"
- *                   __v: 0
- *                 - _id: "67b71d9662b72aaca6cbf009"
- *                   deptName: "IT"
- *                   displayId: "1000015"
- *                   companyId: null
- *                   description: "Information Technology"
- *                   deletedAt: null
- *                   isActive: true
- *                   old_Id: null
- *                   createdBy: null
- *                   createdAt: "2025-02-20T12:18:30.962Z"
- *                   updatedAt: "2025-02-20T12:18:30.962Z"
- *                   __v: 0
- *                 - _id: "67b71d9962b72aaca6cbf00c"
- *                   deptName: "IT"
- *                   displayId: "1000016"
- *                   companyId: null
- *                   description: "Information Technology"
- *                   deletedAt: null
- *                   isActive: true
- *                   old_Id: null
- *                   createdBy: null
- *                   createdAt: "2025-02-20T12:18:33.392Z"
- *                   updatedAt: "2025-02-20T12:18:33.392Z"
- *                   __v: 0
- *                 - _id: "67b71d9a62b72aaca6cbf00f"
- *                   deptName: "IT"
- *                   displayId: "1000017"
- *                   companyId: null
- *                   description: "Information Technology"
- *                   deletedAt: null
- *                   isActive: true
- *                   old_Id: null
- *                   createdBy: null
- *                   createdAt: "2025-02-20T12:18:34.003Z"
- *                   updatedAt: "2025-02-20T12:18:34.003Z"
- *                   __v: 0
- *                 - _id: "67b71d9a62b72aaca6cbf012"
- *                   deptName: "IT"
- *                   displayId: "1000018"
- *                   companyId: null
- *                   description: "Information Technology"
- *                   deletedAt: null
- *                   isActive: true
- *                   old_Id: null
- *                   createdBy: null
- *                   createdAt: "2025-02-20T12:18:34.522Z"
- *                   updatedAt: "2025-02-20T12:18:34.522Z"
+ *                   shift:
+ *                     - "60b8d295fbd85c6e3b4f95f8"
+ *                     - "60b8d295fbd85c6e3b4f95f8"
+ *                   createdBy: "67c944517f8fcf7d12e92f1d"
+ *                   createdAt: "2025-03-11T07:17:26.204Z"
+ *                   updatedAt: "2025-03-11T09:49:47.660Z"
  *                   __v: 0
  *               metaData:
  *                 currentPage: 1
- *                 perPage: 5
- *                 searchKey: "IT"
- *                 totalDocs: 17
- *                 totalPages: 4
+ *                 perPage: 10
+ *                 searchKey: ""
+ *                 totalDocs: 1
+ *                 totalPages: 1
  *       400:
  *         description: Validation error or missing required parameters.
  *         content:

@@ -3,8 +3,8 @@ const editOneDepartmentFn = require("../../model/services/department/editOneDepa
 
 const editOneDepartment = async (req, res, next) => {
     try {
-        const { id, deptName, description, clientId } = await sanitizeBody(req.body);
-        const result = await editOneDepartmentFn({ id, deptName, description, clientId });
+        const { id, deptName, editedBy, shift, description, clientId, userId } = await sanitizeBody(req.body);
+        const result = await editOneDepartmentFn({ id, deptName, description, shift, editedBy, clientId, userId });
         return res.status(200).json({ status: result?.status, message: result?.message, data: result?.data});
     } catch (error) {
         next(error);

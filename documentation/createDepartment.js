@@ -3,7 +3,7 @@
  * /department/createDept:
  *   post:
  *     summary: Create a new department
- *     description: Creates a new department entry with the provided details. Ensures that all required fields are provided and stores the department under the given client ID.
+ *     description: Creates a new department entry with the provided details, such as department name, company ID, description, and shift IDs where shift Id will be an array of shift ids.
  *     tags:
  *       - Department Management
  *     security:
@@ -16,28 +16,46 @@
  *             type: object
  *             required:
  *               - deptName
+ *               - displayId
+ *               - companyId
+ *               - description
  *               - clientId
  *             properties:
  *               deptName:
  *                 type: string
  *                 description: The name of the department to be created.
- *                 example: "IT"
+ *                 example: "Admin"
+ *               displayId:
+ *                 type: string
+ *                 description: The unique display ID for the department.
+ *                 example: "10000"
  *               companyId:
  *                 type: string
  *                 description: The company ID associated with the department.
- *                 example: "6788abe40db7c3b61ed93c70"
- *               reportingDept:
- *                 type: string
- *                 description: The department to which the new department reports.
- *                 example: "admin"
+ *                 example: "67b037ae038ce3ffbb097924"
  *               description:
  *                 type: string
  *                 description: A brief description of the department.
- *                 example: "Information Technology"
+ *                 example: "Demo admin department."
  *               isActive:
- *                 type: string
+ *                 type: boolean
  *                 description: Whether the department is active or not.
- *                 example: "true"
+ *                 example: true
+ *               old_Id:
+ *                 type: string
+ *                 description: A legacy identifier for the department, if applicable.
+ *                 example: null
+ *               shift:
+ *                 type: array
+ *                 description: The IDs of the shifts associated with the department.
+ *                 items:
+ *                   type: string
+ *                   description: The ID of a shift associated with the department.
+ *                   example: "60b8d295fbd85c6e3b4f95f8"
+ *               deletedAt:
+ *                 type: string
+ *                 description: Timestamp indicating when the department was deleted, if applicable.
+ *                 example: null
  *               clientId:
  *                 type: string
  *                 description: The client ID associated with the department.
@@ -51,18 +69,7 @@
  *               status: true
  *               message: "New department is created"
  *               data:
- *                 deptName: "IT"
- *                 displayId: "1000010"
- *                 companyId: null
- *                 description: "Information Technology"
- *                 deletedAt: null
- *                 isActive: true
- *                 old_Id: null
- *                 createdBy: null
- *                 _id: "67b6f6fa8f963fae8ff8d165"
- *                 createdAt: "2025-02-20T09:33:46.385Z"
- *                 updatedAt: "2025-02-20T09:33:46.385Z"
- *                 __v: 0
+ *                 _id: "67d022771b42cb00789b98a9"
  *       400:
  *         description: Validation error or missing required fields.
  *         content:

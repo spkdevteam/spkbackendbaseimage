@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
 const { departmentSchema } = require("../../department");
-const { clientIdValidation } = require("../validation/validation");
+const { clientIdValidation, mongoIdValidation } = require("../validation/validation");
 
 const deleteDepartmentFn = async ({ userId, departmentId, clientId }) => {
     try {
@@ -11,7 +11,8 @@ const deleteDepartmentFn = async ({ userId, departmentId, clientId }) => {
         };
 
         const validation = [
-            clientIdValidation({ clientId })
+            clientIdValidation({ clientId }),
+            // mongoIdValidation({_id: id})
         ];
 
         const error = validation.filter((e) => e && e.status === false);
@@ -20,9 +21,9 @@ const deleteDepartmentFn = async ({ userId, departmentId, clientId }) => {
         const db = await getClientDatabaseConnection(clientId);
         const Department = await db.model("Department", departmentSchema);
 
-        const department = await Department.softDeleteDespartment({ userId, departmentId });
+        const department = await Department.softDeleteDespartment({ userId, departmentId: departmentId });
 
-        if (!department.status) return { status: false, message: "Operation failed, try again." };
+        if (!department?.status) return { status: false, message: "Operation failed, try again." };
 
         return { status: true, message: "Department is deleted" };
     } catch (error) {

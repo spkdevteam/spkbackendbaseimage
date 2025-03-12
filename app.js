@@ -2,6 +2,7 @@ const express = require('express');
 const { mainRouter } = require('./routes/main.routes.js');
 const dotenv = require("dotenv");
 const cors = require("cors");
+const cookieParser = require("cookie-parser")
 const errorHandler = require('./errorHandler/globalErrorHandler.js');
 
 dotenv.config();
@@ -20,6 +21,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser())
 
 // Logging middleware (after CORS)
 app.use((req, res, next) => {

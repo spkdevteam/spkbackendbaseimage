@@ -3,7 +3,7 @@
  * /department/deleteDepartment/{id}/{clientId}:
  *   delete:
  *     summary: Delete a department
- *     description: Deletes a department based on the provided department ID and client ID.
+ *     description: Deletes a department based on the provided department ID and client ID once deleted you cannot delete it again.
  *     tags:
  *       - Department Management
  *     security:
@@ -15,7 +15,7 @@
  *         description: The ID of the department to be deleted.
  *         schema:
  *           type: string
- *           example: "67b6f6fa8f963fae8ff8d165"
+ *           example: "67d05dbbf80b6ff94ed5f31e"
  *       - name: clientId
  *         in: path
  *         required: true

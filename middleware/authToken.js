@@ -14,11 +14,13 @@ const authentication = async (req, res, next) =>{
 
         //verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+        console.log("decoded:",decoded);
+        
 
         if(!decoded?.userId){
             return res.status(401).json({message: "Invalid token"})
         }
-        req.user = decoded.userId
+        req.user = {id: decoded.userId} //store userId in req.user
         next()
 
     } catch (error) {
@@ -28,4 +30,5 @@ const authentication = async (req, res, next) =>{
     }
 }
 
-module.exports = authentication
+
+module.exports = {authentication}

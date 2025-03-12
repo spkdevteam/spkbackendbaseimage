@@ -1,57 +1,156 @@
 const { getClientDatabaseConnection } = require("../../connection")
-const userSchema = require("../../userSchema")
-const { firstNameValidation, lastNameValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation } = require("../validation/validation")
+const { userSchema } = require("../../userSchema")
+const { emailValidation, phoneNumberValidation, genderValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions } = require("../validation/validation")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
+const bcrypt = require("bcryptjs")
+const mongoose = require("mongoose")
+require("dotenv").config()
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
-const createUser = async ({ firstName, lastName, profileImage="https://demo.jpg", email, phone, gender, age, bloodGroup, city, state, country, ZipCode, address="address",clientId })=>{
+const createUser = async ({ firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, loginOptions, maritalStatus, state, city, country, ZipCode, clientId }) => {
     try {
-        if(!clientId) return {status:false,message:'Some network credential are missing '}
+        const validations = [
+            stringValidation({ string: firstName, name: "firstName: " }),
+            stringValidation({ string: lastName, name: "lastName: " }),
+            emailValidation({ email }),
+            phoneNumberValidation({ phone }),
+            // passwordValidation({ password: String(password) }),
+            genderValidation({ gender }),
+            // ageValidation({age}),
+            bloodGroupValidation({ bloodGroup }),
+            // cityValidation({city}),
+            // stringValidationWithSpace({string: state, name: "state: "}),
+            // countryValidation({country}),
+            // zipCodeValidation({ZipCode}), 
+            validateAddress({ address }),
+            validateLoginOptions({ loginOptions }),
+            clientIdValidation({ clientId })
+        ]
+        //check the validation error        
+        const error = validations.filter((e) => e && e.status === false);
+        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
+        console.log(error, '->error');
 
-        //all validations
-        firstNameValidation(firstName);
-        lastNameValidation(lastName);
-        emailValidation(email);
-        phoneNumberValidation(phone);
-        genderValidation(gender);
-        ageValidation(age);
-        bloodGroupValidation(bloodGroup);
-        cityValidation(city);
-        stateValidation(state);
-        countryValidation(country);
-        zipCodeValidation(ZipCode);
+        // const companyIdObjectId = mongoose.Schema.Types.ObjectId(companyId);
+        // const designationObjectId = mongoose.Schema.Types.ObjectId(designation);
+        // const departmentObjectId = mongoose.Schema.Types.ObjectId(department);
 
-        //establishing connection to database
-        const db =await getClientDatabaseConnection(clientId);
-        const User =await db.model('user',userSchema);
+        const db = await getClientDatabaseConnection(clientId)
+        const User = await db.model('user', userSchema)
 
-        //generating diplay id
-        const displayId = await getserialNumber("User", clientId, "");
 
-        //creating a new object to save
-        const user = new User({
+
+        console.log(Object.keys(loginOptions)?.map((option) => ({ [option]: loginOptions[option] })), 'login-------------------OptionsloginOptions')
+
+        //     const queryConditions = Object.keys(loginOptions)
+        // .filter(option => loginOptions[option] !== null && loginOptions[option] !== undefined) // Ensure non-null/undefined values
+        // .map(option => ({ [`loginOptions.${option}`]: loginOptions[option] })); 
+
+        //     if (!Object.keys(loginOptions)?.length) return { status: false, message: 'minimum one login infoo is reqiered ' }
+        //     const outResult = await User.findOne({
+        //         deletedAt: null,
+        //         loginOptions:queryConditions
+        //     }).lean()
+
+        //     console.log(outResult, 'ooooooooooooo')
+        //     if(outResult){
+        //         return {status: false, message: `${loginOptions}`}
+        //     }
+        for (key in loginOptions) {
+            if (loginOptions[key]) {
+                const query = {
+                    [`loginOptions.${key}`]: loginOptions[key],
+                    deletedAt: null
+                };
+                const alreadyExists = await User.findOne(query).lean();
+                if (alreadyExists) {
+                    return { status: false, message: `${key} already is in use!!` }
+                }
+            }
+        }
+        console.log(loginOptions[key], "loginOptions");
+        //remove this block later and replace pass by password inside verify(mimicing frontend):
+        const pass = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY);
+        console.log("pass=>>>>", pass);
+
+        //remove
+
+
+
+
+        ///jwt Signed password is getting jwt verified first then getting hashed:
+        const unsignedRawPassword = jwt.verify(pass, process.env.PASSWORD_SECRET_KEY);
+        if (!unsignedRawPassword) {
+            return { status: false, message: "Problem in JWT verification" }
+        }
+        //const passwordtoken = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY)
+        console.log(unsignedRawPassword, "==>>unsigned password");
+        //hash the password 
+        const salt = await bcrypt.genSalt(10)
+        const newPassword = await bcrypt.hash(unsignedRawPassword?.password, salt)
+        if (!newPassword) {
+            return { status: false, message: "Problem in bcrypt hashing" }
+
+        }
+
+        //remove this later:mimicing frontend as testSigned will be sent form frontend during signin
+        
+        const testSigned = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY);
+        console.log("testSignedtestSignedtestSigned----->>>>>>>>>>>>", testSigned);
+
+        //
+
+
+        // switch(true){
+        //     case !mongoose.Types.ObjectId.isValid(companyId):
+        //         return { status: false, message: "Invalid company reference"};
+        //     case !mongoose.Types.ObjectId.isValid(department):
+        //         return { status: false, message: "Invalid department reference"};
+        //     case !mongoose.Types.ObjectId.isValid(designation):
+        //         return { status: false, message: "Invalid designation reference"};
+        // }
+        if (!mongoose.Types.ObjectId.isValid(companyId) || !mongoose.Types.ObjectId.isValid(department) || !mongoose.Types.ObjectId.isValid(designation)) {
+            return { status: false, message: "Inavlid reference" }
+        }
+
+        const displayId = Math.abs(await getserialNumber("user", clientId, ""))
+        const result = await User.insertUser({
             displayId,
+            companyId,
             firstName,
             lastName,
             profileImage,
             email,
             phone,
+            password: newPassword,
             gender,
-            age,
             bloodGroup,
+            address,
             city,
             state,
-            country,
             ZipCode,
-            address
+            country,
+            loginOptions,
+            documents,
+            leaveDetails,
+            dateOfBirth,
+            department,
+            designation,
+            maritalStatus,
+            family
         })
 
-        //saving the object
-        // await user.save();
-        const result = await user.save();
-        return {status:true,message:'User created successFully',data:{_id:result?._id}};
+
+        // console.log("user logged:",user);
+
+        console.log("user save result:", result);
+        if (!result.status) return { status: false, message: 'User cant be created', data: result }
+
+        return { status: true, message: 'User created successfully' }
     } catch (error) {
         return { status: false, message: error.message };
     }
 }
 
-module.exports = createUser;
+module.exports = createUser

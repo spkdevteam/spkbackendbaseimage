@@ -3,35 +3,31 @@ const { Types } = mongoose;
 const ObjectId = Types.ObjectId;
 
 const departmentSchema = mongoose.Schema({
-    deptName: { type: String },
+    deptName: { type: String, required: true },
     displayId: { type: String, unique: true },
-    description: { type: String },
-    shift: [{ type: mongoose.Types.ObjectId, ref: "shift", index: true }],
     companyId: { type: ObjectId, ref: "company", index: true },
-    createdBy: { type: ObjectId, ref: "users", index: true },
-    editedBy: { type: ObjectId, ref: "users", indeX: true },
-    deletedBy: { type: ObjectId, ref: "users", index: true },
+    description: { type: String },
     deletedAt: { type: Date, default: null },
+    isActive: { type: Boolean, default: true },
     old_Id: { type: String, default: null },
-    isActive: { type: Boolean, default: true }
+    deletedBy: { type: ObjectId, ref: "user", index: true },
+    editedBy: { type: ObjectId, ref: "user", index: true },
+    shift: [{ type: mongoose.Types.ObjectId, ref: "shift", index: true }],
+    createdBy: { type: ObjectId, ref: "users", default: null, index: true }
 },
     {
         timestamps: true
     });
 
 //to save the department
-departmentSchema.statics.insertDepartment = async function ({ _id = null, displayId, userId, deptName, companyId, description, shift }) {
+departmentSchema.statics.insertDepartment = async function ({ userId, deptName, displayId, companyId, description, shift }) {
     try {
         const department = new this({
-            createdBy: userId, displayId, deptName, companyId, description, shift
+            createdBy: userId, deptName, companyId, description, shift, displayId
         });
 
-        if (_id) {
-            department.oldId = _id;
-        }
-
         const savedDepartment = await department.save();
-        return { status: true, message: savedDepartment };
+        return { status: true, department: savedDepartment };
     } catch (error) {
         return { status: false, message: error.message };
     }
@@ -52,7 +48,7 @@ departmentSchema.statics.updateDepartment = async function ({ userId, department
 
         const savedDepartment = await department.save();
 
-        return { status: true, message: savedDepartment };
+        return { status: true, department: savedDepartment };
     } catch (error) {
         return { status: false, message: error.message };
     }
@@ -68,7 +64,7 @@ departmentSchema.statics.softDeleteDespartment = async function ({ userId, depar
         department.deletedBy = userId;
 
         const savedDepartment = await department.save();
-        return { status: true, message: savedDepartment };
+        return { status: true, designation: savedDepartment };
     } catch (error) {
         return { status: false, message: error.message };
     }
@@ -84,7 +80,7 @@ departmentSchema.statics.toggleDepartment = async function ({ userId, department
         department.isActive = !department.isActive;
 
         const savedDepartment = await department.save();
-        return { status: true, message: savedDepartment };
+        return { status: true, designation: savedDepartment };
     } catch (error) {
         return { status: false, message: error.message };
     }

@@ -10,15 +10,15 @@ const createCompany = async ({name, incorporationName, cinNumber, gstNumber, pre
     try {
         const validations = [
             stringValidationWithSpace({string: name, name: "name: "}),
-            incorporationNameValidation({incorporationName}),
-            cinNumberValidation({cinNumber}),
+            // incorporationNameValidation({incorporationName}),
+            // cinNumberValidation({cinNumber}),
             emailValidation({email}),
             gstNumberValidation({gstNumber}),
-            countryValidation({country}),
+            // countryValidation({country}),
             phoneNumberValidation({phone: contactNumber}),
             stateValidation({state}),
-            cityValidation({city}),
-            zipCodeValidation({ZipCode}),
+            // cityValidation({city}),
+            // zipCodeValidation({ZipCode}),
             stringValidationWithSpace({string: address, address: "address: "}),
             clientIdValidation({clientId})
         ]
@@ -48,17 +48,17 @@ const createCompany = async ({name, incorporationName, cinNumber, gstNumber, pre
         const company = new Company({
             displayId,
             name, 
-            incorporationName, 
-            cinNumber, 
-            gstNumber, 
+            // incorporationName, 
+            // cinNumber, 
+            // gstNumber, 
             prefix, 
             Logo, 
             email, 
             contactNumber, 
-            city, 
-            state, 
-            country, 
-            ZipCode, 
+            // city, 
+            // state, 
+            // country, 
+            // ZipCode, 
             address,
             clientId
         })

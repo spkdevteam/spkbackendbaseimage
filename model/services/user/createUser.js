@@ -7,16 +7,17 @@ const mongoose = require("mongoose")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
 const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
-require("dotenv").config()
 
-const createUser = async ({_id = null, userId, firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, loginOptions, maritalStatus, state, city, country, ZipCode, clientId }) => {
+const { generatejwtToken, verifyjwtToken } = require("../../../middleware/token/createToken")
+
+const createUser = async ({ _id = null, userId, firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, loginOptions, maritalStatus, state, city, country, ZipCode, clientId }) => {
     try {
 
-        if(_id && !mongoose.Types.ObjectId.isValid(_id)){
-            return {status: false, message: "Invalid Id"}
+        if (_id && !mongoose.Types.ObjectId.isValid(_id)) {
+            return { status: false, message: "Invalid Id" }
         }
-        if(!mongoose.Types.ObjectId.isValid(userId)){
-            return {status: false, message: "Invalid userId"}
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return { status: false, message: "Invalid userId" }
         }
         const validations = [
             stringValidation({ string: firstName, name: "firstName: " }),
@@ -81,24 +82,30 @@ const createUser = async ({_id = null, userId, firstName, lastName, profileImage
         }
         console.log(loginOptions[key], "loginOptions");
         // //remove this block later and replace pass by password inside verify(mimicing frontend):
-        const pass = jwt.sign({ password }, companyId);
-        console.log("pass=>>>>", pass);
+        // const pass = generatejwtToken({ data: password, secretKey: companyId });
+        // // const pass = jwt.sign({ password }, companyId);
+        // console.log("pass=>>>>", pass);
 
-        // //remove
+        // // //remove
 
 
 
 
-        ///jwt Signed password is getting jwt verified first then getting hashed:
-        const unsignedRawPassword = jwt.verify(pass, companyId); //use password instead pass in prod
-        if (!unsignedRawPassword) {
-            return { status: false, message: "Problem in JWT verification" }
-        }
-        //const passwordtoken = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY)
-        console.log(unsignedRawPassword, "==>>unsigned password");
+        // ///jwt Signed password is getting jwt verified first then getting hashed:
+        // const unsignedRawPassword = verifyjwtToken({ data: pass, secretKey: companyId });
+        // console.log("unsinedRawObj==>>", unsignedRawPassword);
+
+        // // const unsignedRawPassword = jwt.verify(pass, companyId); //use password instead pass in prod
+        // if (!unsignedRawPassword) {
+        //     return { status: false, message: "Problem in JWT verification" }
+        // }
+        // //const passwordtoken = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY)
+        // console.log(unsignedRawPassword, "==>>unsigned password");
         //hash the password 
         const salt = await bcrypt.genSalt(10)
-        const newPassword = await bcrypt.hash(unsignedRawPassword?.password, salt)
+        // const newPassword = await bcrypt.hash(unsignedRawPassword?.data, salt)
+        const newPassword = await bcrypt.hash(password, salt)
+
         if (!newPassword) {
             return { status: false, message: "Problem in bcrypt hashing" }
 
@@ -106,8 +113,8 @@ const createUser = async ({_id = null, userId, firstName, lastName, profileImage
 
         //remove this later:mimicing frontend as testSigned will be sent form frontend during signin
 
-        const testSigned = jwt.sign({ password }, companyId);
-        console.log("testSignedtestSignedtestSigned----->>>>>>>>>>>>", testSigned);
+        // const testSigned = jwt.sign({ password }, companyId);
+        // console.log("testSignedtestSignedtestSigned----->>>>>>>>>>>>", testSigned);
 
         //
 

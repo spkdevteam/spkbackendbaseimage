@@ -39,15 +39,6 @@ const companySchema = new Schema(
                 },
             }
         ],
-        documents: {
-            type: [String],
-            required: true,
-            default: []
-        },
-        leaveDetails: {
-            type: [String],
-            default: []
-        },
         designation: {
             type: ObjectId,
             ref: "designation",

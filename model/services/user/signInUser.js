@@ -2,7 +2,7 @@ const generatejwtToken = require("../../../middleware/token/createToken");
 const setTokenCookie = require("../../../utils/generateToken");
 const { companySchema } = require("../../company");
 const { menuMasterSchema } = require("../../menuMasterSchema")
-const {pageMasterSchema} = require("../../pageMaster") 
+const { pageMasterSchema } = require("../../pageMaster")
 const { getClientDatabaseConnection } = require("../../connection");
 const { emailValidation, passwordValidation, clientIdValidation, stringValidation, stringValidationWithSpace, mongoIdValidation, stringValidationWithNumber } = require("../validation/validation")
 const { userSchema } = require("../../userSchema");
@@ -26,7 +26,7 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
         const validations = [
             // emailValidation({email: userId}),
             // stringValidationWithSpace({string: email, name: "Email"}),
-            // passwordValidation({password: String(password)}), 
+            passwordValidation({password: String(password)}), 
             clientIdValidation({ clientId }),
 
             stringValidationWithNumber({ string: userId, name: "userId" })
@@ -77,7 +77,7 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
                 deletedAt: null,
             })
             .populate('companyId')
-            
+
             .select("password _id firstName lastName email phone address companyId");
         console.log(user, "<<============User data retrieved");
 
@@ -89,17 +89,22 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
 
         const roleFetch = await Role.find()
         //Decode JWT password
-        console.log("password:====>>>>>", password);
+        // console.log("password:====>>>>>", password);
 
-        const designedPass = jwt.verify(password, companyId);
-        // const decodedPassword = decoded?.password;
-        // console.log("Stored Hashed Password:=>>>>>", user?.password);
-        console.log("designed Password obj:====>>>", designedPass);
+        // const designedPass = jwt.verify(password, companyId);
+        // // const decodedPassword = decoded?.password;
+        // // console.log("Stored Hashed Password:=>>>>>", user?.password);
+        // console.log("designed Password obj:====>>>", designedPass);
 
-        console.log("designed Password:====>>>", designedPass?.password);
+        // console.log("designed Password:====>>>", designedPass?.password);
 
         // Compare password
-        const isPasswordValid = await bcrypt.compare(designedPass?.password, user?.password);
+        // const isPasswordValid = await bcrypt.compare(designedPass?.password, user?.password);
+        console.log("first", password);
+        
+        const isPasswordValid = await bcrypt.compare(password, user?.password);
+        
+
         console.log(isPasswordValid, "==>>Password comparison result");
 
         if (!isPasswordValid) {
@@ -110,31 +115,31 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
         // Generate JWT token
 
         // Ensure 'res' is available before setting token cookie
-        const payload = {
-            userId: user?._id,
-            firstName: user?.firstName,
-            lastName: user?.lastName,
-            email: user?.email,
-            phone: user?.phone,
-            state: user?.address?.state,
-            company : [{
-                companyId : user?.companyId,
-                companyName: user?.companyId?.name,
-                contact: user?.companyId?.contactNumber,
-                email: user?.companyId?.email
-            }],
-            menuList: {
-                homePage:{
-                    
-                }
-            }
-        }
-        const token = jwt.sign(payload, companyId, { expiresIn: "30d" }); //replace secret key with dynamic companyId in prod
+        // const payload = {
+        //     userId: user?._id,
+        //     firstName: user?.firstName,
+        //     lastName: user?.lastName,
+        //     email: user?.email,
+        //     phone: user?.phone,
+        //     state: user?.address?.state,
+        //     company: [{
+        //         companyId: user?.companyId,
+        //         companyName: user?.companyId?.name,
+        //         contact: user?.companyId?.contactNumber,
+        //         email: user?.companyId?.email
+        //     }],
+        //     menuList: {
+        //         homePage: {
+
+        //         }
+        //     }
+        // }
+        // const token = jwt.sign(payload, companyId, { expiresIn: "30d" }); //replace secret key with dynamic companyId in prod
 
         return {
             status: true,
             message: "User signed in successfully",
-            token
+            // token
         };
     } catch (error) {
         console.error("Error in sign-in function:", error);

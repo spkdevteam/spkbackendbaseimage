@@ -1,21 +1,32 @@
 const { getClientDatabaseConnection } = require("../../connection")
 const { userSchema } = require("../../userSchema")
-const { emailValidation, phoneNumberValidation, genderValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions } = require("../validation/validation")
-const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
+const { emailValidation, phoneNumberValidation, genderValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, clientIdValidation, stringValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions, documentsValidation, dateValidation } = require("../validation/validation")
+// const getserialNumber = require("../../serialNumber.js/getSerialNumber")
 const bcrypt = require("bcryptjs")
 const mongoose = require("mongoose")
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
-require("dotenv").config()
+const getserialNumber = require("../../serialNumber.jss/getSerialNumber")
 
-const createUser = async ({ firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, loginOptions, maritalStatus, state, city, country, ZipCode, clientId }) => {
+const { generatejwtToken, verifyjwtToken } = require("../../../middleware/token/createToken")
+
+const createUser = async ({ _id = null, userId, firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, loginOptions, maritalStatus, state, city, country, ZipCode, clientId }) => {
     try {
+
+        if (_id && !mongoose.Types.ObjectId.isValid(_id)) {
+            return { status: false, message: "Invalid Id" }
+        }
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return { status: false, message: "Invalid userId" }
+        }
         const validations = [
             stringValidation({ string: firstName, name: "firstName: " }),
             stringValidation({ string: lastName, name: "lastName: " }),
             emailValidation({ email }),
             phoneNumberValidation({ phone }),
-            // passwordValidation({ password: String(password) }),
+            documentsValidation({ documents }),
+            stringValidation({ string: maritalStatus, name: "maritalStatus: " }),
+            passwordValidation({ password: String(password) }),
             genderValidation({ gender }),
             // ageValidation({age}),
             bloodGroupValidation({ bloodGroup }),
@@ -25,6 +36,7 @@ const createUser = async ({ firstName, lastName, profileImage, companyId, email,
             // zipCodeValidation({ZipCode}), 
             validateAddress({ address }),
             validateLoginOptions({ loginOptions }),
+            dateValidation({ date: dateOfBirth }),
             clientIdValidation({ clientId })
         ]
         //check the validation error        
@@ -38,7 +50,6 @@ const createUser = async ({ firstName, lastName, profileImage, companyId, email,
 
         const db = await getClientDatabaseConnection(clientId)
         const User = await db.model('user', userSchema)
-
 
 
         console.log(Object.keys(loginOptions)?.map((option) => ({ [option]: loginOptions[option] })), 'login-------------------OptionsloginOptions')
@@ -70,34 +81,40 @@ const createUser = async ({ firstName, lastName, profileImage, companyId, email,
             }
         }
         console.log(loginOptions[key], "loginOptions");
-        //remove this block later and replace pass by password inside verify(mimicing frontend):
-        const pass = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY);
-        console.log("pass=>>>>", pass);
+        // //remove this block later and replace pass by password inside verify(mimicing frontend):
+        // const pass = generatejwtToken({ data: password, secretKey: companyId });
+        // // const pass = jwt.sign({ password }, companyId);
+        // console.log("pass=>>>>", pass);
 
-        //remove
+        // // //remove
 
 
 
 
-        ///jwt Signed password is getting jwt verified first then getting hashed:
-        const unsignedRawPassword = jwt.verify(pass, process.env.PASSWORD_SECRET_KEY);
-        if (!unsignedRawPassword) {
-            return { status: false, message: "Problem in JWT verification" }
-        }
-        //const passwordtoken = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY)
-        console.log(unsignedRawPassword, "==>>unsigned password");
+        // ///jwt Signed password is getting jwt verified first then getting hashed:
+        // const unsignedRawPassword = verifyjwtToken({ data: pass, secretKey: companyId });
+        // console.log("unsinedRawObj==>>", unsignedRawPassword);
+
+        // // const unsignedRawPassword = jwt.verify(pass, companyId); //use password instead pass in prod
+        // if (!unsignedRawPassword) {
+        //     return { status: false, message: "Problem in JWT verification" }
+        // }
+        // //const passwordtoken = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY)
+        // console.log(unsignedRawPassword, "==>>unsigned password");
         //hash the password 
         const salt = await bcrypt.genSalt(10)
-        const newPassword = await bcrypt.hash(unsignedRawPassword?.password, salt)
+        // const newPassword = await bcrypt.hash(unsignedRawPassword?.data, salt)
+        const newPassword = await bcrypt.hash(password, salt)
+
         if (!newPassword) {
             return { status: false, message: "Problem in bcrypt hashing" }
 
         }
 
         //remove this later:mimicing frontend as testSigned will be sent form frontend during signin
-        
-        const testSigned = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY);
-        console.log("testSignedtestSignedtestSigned----->>>>>>>>>>>>", testSigned);
+
+        // const testSigned = jwt.sign({ password }, companyId);
+        // console.log("testSignedtestSignedtestSigned----->>>>>>>>>>>>", testSigned);
 
         //
 
@@ -114,8 +131,13 @@ const createUser = async ({ firstName, lastName, profileImage, companyId, email,
             return { status: false, message: "Inavlid reference" }
         }
 
-        const displayId = Math.abs(await getserialNumber("user", clientId, ""))
+        const displayId = await getserialNumber("user", clientId, "users")
+        console.log("randommmmmmm=>>>>>", displayId)
+        // const displayId = Math.floor(Date.now() / 1000);//for testing
+        console.log(displayId, "=================================");
         const result = await User.insertUser({
+            _id,
+            userId,
             displayId,
             companyId,
             firstName,
@@ -145,9 +167,9 @@ const createUser = async ({ firstName, lastName, profileImage, companyId, email,
         // console.log("user logged:",user);
 
         console.log("user save result:", result);
-        if (!result.status) return { status: false, message: 'User cant be created', data: result }
+        if (!result?.status) return { status: false, message: 'User cant be created' }
 
-        return { status: true, message: 'User created successfully' }
+        return { status: true, message: 'User created successfully', data: { _id: result.user._id } }
     } catch (error) {
         return { status: false, message: error.message };
     }

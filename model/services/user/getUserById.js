@@ -1,5 +1,5 @@
 const { getClientDatabaseConnection } = require("../../connection")
-const userSchema = require("../../userSchema")
+const {userSchema} = require("../../userSchema")
 const { clientIdValidation } = require("../validation/validation")
 require("dotenv").config()
 
@@ -15,10 +15,10 @@ const getUserId = async ({clientId, id}) =>{
         const User = db.model("User", userSchema)
         const fetchUserById = await User.findOne({_id: id, $or: [{deletedAt: null}]});
 
-        if(fetchUserById){
-            return {status: true, message: "Fetch the user by id", data: fetchUserById}
-        }else{
+        if(!fetchUserById?.status){
             return {status: false, message: "User not found or may have been deleted", data: []}
+        }else{
+            return {status: true, message: "Fetch the user by id", data: fetchUserById}
         }
 
     } catch (error) {

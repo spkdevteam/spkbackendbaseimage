@@ -1,4 +1,4 @@
-const getByCompanyIdUser = async () =>{
+const getByCompanyIdUser = async ({clientId, companyId, }) =>{
     try {
         return {status: true, message: "User fetched by the companyId", data:[
             // {

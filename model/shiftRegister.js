@@ -17,14 +17,19 @@ const shiftRegisterSchema = new mongoose.Schema({
 });
 
 //to save the shift register
-shiftRegisterSchema.methods.insertRole = async function ({ userId, shiftName, shiftDetails, startTime, endTime, companyId }) {
+shiftRegisterSchema.statics.insertRole = async function ({ _id = null, userId, shiftName, shiftDetails, startTime, endTime, companyId }) {
     try {
         const shiftRegister = new this({
             createdBy: userId, shiftName, shiftDetails, startTime, endTime, companyId
         });
 
-        const savedShiftRegister = await shiftRegister.save();
+        if(_id){
+            shiftRegister.oldId = _id;
+        }
 
+        const savedShiftRegister = await shiftRegister.save();
+        console.log(savedShiftRegister);
+        
         return { status: true, shiftRegister: savedShiftRegister };
     } catch (error) {
         return { status: false, message: error.message };
@@ -32,9 +37,9 @@ shiftRegisterSchema.methods.insertRole = async function ({ userId, shiftName, sh
 };
 
 //to update the shift register
-shiftRegisterSchema.methods.updateRole = async function ({ userId, shiftRegisterId, shiftName, shiftDetails, startTime, endTime }) {
+shiftRegisterSchema.statics.updateRole = async function ({ userId, shiftRegisterId, shiftName, shiftDetails, startTime, endTime }) {
     try {
-        const shiftRegister = await this.constructor.findOne({ _id: shiftRegisterId, deletedAt: null });
+        const shiftRegister = await this.findOne({ _id: shiftRegisterId, deletedAt: null });
 
         if (!shiftRegister) return { status: false, message: "Network problem, try again" };
 
@@ -56,9 +61,9 @@ shiftRegisterSchema.methods.updateRole = async function ({ userId, shiftRegister
 };
 
 //to soft delete the shift register
-shiftRegisterSchema.methods.softDeleteRole = async function ({ userId, shiftRegisterId }) {
+shiftRegisterSchema.statics.softDeleteRole = async function ({ userId, shiftRegisterId }) {
     try {
-        const shiftRegister = await this.constructor.findOne({ _id: shiftRegisterId, deletedAt: null });
+        const shiftRegister = await this.findOne({ _id: shiftRegisterId, deletedAt: null });
         if (!shiftRegister) return { status: false, message: "Network problem, Try again" };
 
         shiftRegister.deletedAt = new Date();
@@ -72,9 +77,9 @@ shiftRegisterSchema.methods.softDeleteRole = async function ({ userId, shiftRegi
 };
 
 //to toggle the activeness of the shift register
-shiftRegisterSchema.methods.toggleRole = async function ({ userId, shiftRegisterId }) {
+shiftRegisterSchema.statics.toggleRole = async function ({ userId, shiftRegisterId }) {
     try {
-        const shiftRegister = await this.constructor.findOne({ _id: shiftRegisterId, deletedAt: null });
+        const shiftRegister = await this.findOne({ _id: shiftRegisterId, deletedAt: null });
         if (!shiftRegister) return { status: false, message: "Network problem, Try again" };
 
         shiftRegister.editedBy = userId;

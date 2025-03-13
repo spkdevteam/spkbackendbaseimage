@@ -55,8 +55,8 @@ const userSchema = new Schema(
                 },
             }
         ],
-        documents: { type: [String], required: true },
-        leaveDetails: { type: [String], default: [] },
+        documents: { type: [{}] },
+        leaveDetails: { type: [] },
         designation: {
             type: ObjectId,
             ref: "designation",
@@ -69,14 +69,28 @@ const userSchema = new Schema(
             default: null,
             index: true,
         },
-        family: { type: [String], default: [] },
+        family: { type: [String] },
         maritalStatus: {
             type: String,
-            required: true
+
         },
         dateOfBirth: {
             type: Date,
-            required: true,
+
+        },
+        loginOptions: {
+            email: {
+                type: String,
+                default: null,
+            },
+            phone: {
+                type: String,
+                default: null,
+            },
+            userId: {
+                type: String,
+                default: null,
+            }
         },
         otp: {
             type: String,
@@ -98,12 +112,15 @@ const userSchema = new Schema(
 );
 
 // Instance method for soft delete : [One with access soft deleting an non-deletd user and the id of the deletor(deletedById) is being stored also]
-userSchema.statics.softDeleteUser = async function ({ userId, deletedByUser }) {
+userSchema.statics.softDeleteUser = async function ({ userId, deletedById, clientId }) {
     try {
+        console.log("---------------------------------------", userId, deletedById);
         const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
+        console.log("Usssssssssssssssssssssssseeeeeeeeeeeeerrrrrrrrrrrrrr", user);
         if (!user) return { status: false, message: "User doesn't exist" };
         user.deletedAt = new Date();
-        user.deletedBy = deletedByUser;
+        user.deletedBy = deletedById;
+
         const softDeletedUser = await user.save();
         return { status: true, user: softDeletedUser };
 
@@ -120,7 +137,7 @@ userSchema.statics.softDeleteUser = async function ({ userId, deletedByUser }) {
 };
 
 //instance method for insert : [New user is being created and id of the creator (createdById) is being stored also]
-userSchema.statics.insertUser = async function ({ displayId, companyId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, family, maritalStatus, dateOfBirth, createdById, deletedAt, oldId = null }) {
+userSchema.statics.insertUser = async function ({ _id = null, userId, displayId, companyId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, loginOptions, designation, department, family, maritalStatus, dateOfBirth, createdById, deletedAt }) {
     try {
         const newUser = new this({
             displayId,
@@ -141,15 +158,17 @@ userSchema.statics.insertUser = async function ({ displayId, companyId, firstNam
             family,
             maritalStatus,
             dateOfBirth,
+            loginOptions,
             // otp,
             // isVerified : false,
             // isActive : true,
-            createdBy: createdById,
-            deletedAt,
+            createdBy: userId,
             // deletedBy: deletedBy ? new ObjectId(deletedBy) : null,
             // editedBy: editedBy ? new ObjectId(editedBy) : null,
-            oldId
         });
+        if (_id) {
+            newUser.oldId = _id
+        }
         const savedUser = await newUser.save();
         return { status: true, user: savedUser };
     }
@@ -159,39 +178,48 @@ userSchema.statics.insertUser = async function ({ displayId, companyId, firstNam
     }
 }
 //instance method for update: [One is updating details of the user and id of the updator (editedByUser) is also being stored at editedBy]
-userSchema.statics.updateUser = async function ({ userId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, family, maritalStatus, dateOfBirth, editedByUser }) {
+userSchema.statics.updateUser = async function ({ userId, firstName, lastName, profileImage, email, phone, password, gender, bloodGroup, address, documents, designation, department, leaveDetails, family, loginOptions, maritalStatus, isVerified, isActive, dateOfBirth, editedBy }) {
     try {
-        const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
-        if (!user) return { status: false, message: "User doesn't exist" };
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.profileImage = profileImage;
-        user.email = email;
-        user.phone = phone;
-        user.password = password;
-        user.gender = gender;
-        user.bloodGroup = bloodGroup;
-        user.address = address;
-        user.documents = documents;
-        user.leaveDetails = leaveDetails;
-        user.family = family;
-        user.maritalStatus = maritalStatus;
-        user.dateOfBirth = dateOfBirth;
-        user.editedBy = editedByUser;
-        const updatedUser = await user.save();
+        const updateUser = {
+            firstName,
+            lastName,
+            profileImage,
+            email,
+            phone,
+            password,
+            gender,
+            bloodGroup,
+            address,
+            documents,
+            leaveDetails,
+            family,
+            designation,
+            department,
+            maritalStatus,
+            dateOfBirth,
+            isVerified,
+            isActive,
+            loginOptions,
+            editedBy
+        }
+        const updatedUser = await this.findOneAndUpdate({ _id: userId, deletedAt: null }, { $set: updateUser }, { new: true }); //ensuring user is non-deletd
+        console.log("updatedUserupdatedUserupdatedUser==>>>", updatedUser);
+
+        if (!updatedUser) return { status: false, message: "User doesn't exist" };
         return { status: true, user: updatedUser };
     }
     catch (error) {
         console.error("Error updating user is:", error);
-        return { status: false, message: error.message };
+        return { status: false, message: "Failed to update user" };
 
     }
 }
 
 //instance for toggle: [One with access is toggling i.e changing the isActive status of the user and the editors id (toggledByUser) is also being stored]
-userSchema.statics.toggleUser = async function ({ userId, toggledByUser }) {
+userSchema.statics.toggleUser = async function ({ userId, toggledByUser, companyId, clientId }) {
     try {
-        const user = await this.findOne({ _id: userId, deletedAt: null }); //ensuring user is non-deletd
+        console.log("hittttttttttttttt");
+        const user = await this.findOne({ _id: userId, deletedAt: null, companyId }); //ensuring user is non-deletd
         if (!user) return { status: false, message: "User doesn't exist" };
         user.isActive = !user.isActive;
         user.editedBy = toggledByUser;

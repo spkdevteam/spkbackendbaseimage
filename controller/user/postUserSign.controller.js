@@ -17,9 +17,9 @@ const signup = async (req, res, next) => {
 
 
 
-        const { firstName, lastName, profileImage, email, companyId, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, dateOfBirth, family, maritalStatus, city, state, country, ZipCode, loginOptions, clientId } = data
+        const { _id = null, userId, firstName, lastName, profileImage, email, companyId, phone, password, gender, bloodGroup, address, documents, leaveDetails, designation, department, dateOfBirth, family, maritalStatus, city, state, country, ZipCode, loginOptions, clientId } = data
         console.log(data, loginOptions, '--------');
-        const result = await createUser({ firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, maritalStatus, city, state, country, ZipCode, loginOptions, clientId })
+        const result = await createUser({_id, userId, firstName, lastName, profileImage, companyId, email, phone, password, gender, bloodGroup, address, documents, leaveDetails, dateOfBirth, designation, department, family, maritalStatus, city, state, country, ZipCode, loginOptions, clientId })
         console.log("the result:", result);
         return res.status(201).json({ status: result?.status, message: result?.message, data: result?.data })
 

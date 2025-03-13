@@ -8,12 +8,12 @@ const pageMasterSchema = mongoose.Schema({
             menuName: {
                 type: String,
                 required: true,
-                unique: true
+                // unique: true
             },
             pathName: {
                 type: String,
                 required: true,
-                unique: true
+                // unique: true
             },
             reporting: {
                 type: String,

@@ -22,7 +22,7 @@
  *               id:
  *                 type: string
  *                 description: The ID of the department to be updated.
- *                 example: "67d05dbbf80b6ff94ed5f31e"
+ *                 example: "67d11719ae90d6f35ef3ea04"
  *               deptName:
  *                 type: string
  *                 description: The name of the department to be updated.
@@ -63,6 +63,18 @@
  *                 type: string
  *                 description: The client ID associated with the department.
  *                 example: "6788abe40db7c3b61ed93c70"
+ *           example:
+ *             id: "67d11719ae90d6f35ef3ea04"
+ *             deptName: "Adminssssss"
+ *             displayId: "10000"
+ *             companyId: "67b037ae038ce3ffbb097924"
+ *             description: "Demo admin department."
+ *             deletedAt: null
+ *             isActive: true
+ *             shift:
+ *               - "60b8d295fbd85c6e3b4f95f8"
+ *               - "60b8d295fbd85c6e3b4f95f8"
+ *             clientId: "6788abe40db7c3b61ed93c70"
  *     responses:
  *       200:
  *         description: Department updated successfully.

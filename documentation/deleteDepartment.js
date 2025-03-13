@@ -15,7 +15,7 @@
  *         description: The ID of the department to be deleted.
  *         schema:
  *           type: string
- *           example: "67d05dbbf80b6ff94ed5f31e"
+ *           example: "67d11719ae90d6f35ef3ea04"
  *       - name: clientId
  *         in: path
  *         required: true

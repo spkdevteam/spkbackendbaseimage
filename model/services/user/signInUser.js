@@ -1,6 +1,8 @@
 const generatejwtToken = require("../../../middleware/token/createToken");
 const setTokenCookie = require("../../../utils/generateToken");
 const { companySchema } = require("../../company");
+const { menuMasterSchema } = require("../../menuMasterSchema")
+const {pageMasterSchema} = require("../../pageMaster") 
 const { getClientDatabaseConnection } = require("../../connection");
 const { emailValidation, passwordValidation, clientIdValidation, stringValidation, stringValidationWithSpace, mongoIdValidation, stringValidationWithNumber } = require("../validation/validation")
 const { userSchema } = require("../../userSchema");
@@ -75,6 +77,7 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
                 deletedAt: null,
             })
             .populate('companyId')
+            
             .select("password _id firstName lastName email phone address companyId");
         console.log(user, "<<============User data retrieved");
 
@@ -88,7 +91,7 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
         //Decode JWT password
         console.log("password:====>>>>>", password);
 
-        const designedPass = jwt.verify(password, process.env.PASSWORD_SECRET_KEY);
+        const designedPass = jwt.verify(password, companyId);
         // const decodedPassword = decoded?.password;
         // console.log("Stored Hashed Password:=>>>>>", user?.password);
         console.log("designed Password obj:====>>>", designedPass);
@@ -119,9 +122,14 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
                 companyName: user?.companyId?.name,
                 contact: user?.companyId?.contactNumber,
                 email: user?.companyId?.email
-            }]
+            }],
+            menuList: {
+                homePage:{
+                    
+                }
+            }
         }
-        const token = jwt.sign(payload, process.env.PASSWORD_SECRET_KEY, { expiresIn: "30d" }); //replace secret key with dynamic companyId in prod
+        const token = jwt.sign(payload, companyId, { expiresIn: "30d" }); //replace secret key with dynamic companyId in prod
 
         return {
             status: true,

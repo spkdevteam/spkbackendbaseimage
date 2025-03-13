@@ -142,6 +142,7 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
         return {
             status: true,
             message: "User signed in successfully",
+            data:{ ...user._doc, companyId: undefined }
             // token
         };
     } catch (error) {

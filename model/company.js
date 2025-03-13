@@ -23,6 +23,7 @@ const companySchema = new Schema(
         phone: {
             type: String,
             trim: true,
+            required: true
             required: true,
             unique: true
         },
@@ -33,7 +34,6 @@ const companySchema = new Schema(
             default: "Prefer not to say",
             trim: true
         },
-        bloodGroup: { type: String, trim: true, default: null },
         address: [
             {
                 city: { type: String, trim: true },

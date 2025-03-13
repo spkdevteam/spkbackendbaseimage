@@ -20,11 +20,15 @@ const departmentSchema = mongoose.Schema({
     });
 
 //to save the department
-departmentSchema.statics.insertDepartment = async function ({ userId, deptName, displayId, companyId, description, shift }) {
+departmentSchema.statics.insertDepartment = async function ({_id = null, userId, deptName, displayId, companyId, description, shift }) {
     try {
         const department = new this({
             createdBy: userId, deptName, companyId, description, shift, displayId
         });
+
+        if(_id){
+            department.old_Id = _id
+        }
 
         const savedDepartment = await department.save();
         return { status: true, department: savedDepartment };

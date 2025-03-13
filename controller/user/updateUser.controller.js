@@ -14,12 +14,16 @@ const updateUser = async (req, res, next) =>{
             phone,
             password,
             gender,
-            age,
+            dateOfBirth,
+            department, 
+            designation,
             bloodGroup,
-            city,
-            state,
-            country,
-            ZipCode,
+            family,
+            maritalStatus,
+            leaveDetails,
+            documents,
+            editedBy,
+            loginOptions,
             address,
             isVerified,
             isActive} = data
@@ -34,16 +38,20 @@ const updateUser = async (req, res, next) =>{
             phone,
             password,
             gender,
-            age,
+            dateOfBirth,
+            department,
+            designation,
             bloodGroup,
-            city,
-            state,
-            country,
-            ZipCode,
+            maritalStatus,
+            family,
+            leaveDetails,
+            documents,
+            editedBy,
+            loginOptions,
             address,
             isVerified,
             isActive})
-        return res.status(200).json({status: result.status, message: result.message, data: result.data})
+        return res.status(200).json({status: result.status, message: result.message})
     } catch (error) {
        next(error) 
     }

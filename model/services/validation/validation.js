@@ -186,6 +186,7 @@ const stringValidationWithAll = ({string, name = ""}) =>{
     return { status: true, message: "Success" }
 }
 
+
 const validateAddress = ({ address }) => {
     if (!Array.isArray(address) || address.length === 0) {
         return { status: false, message: "Address is invalid or missing" }

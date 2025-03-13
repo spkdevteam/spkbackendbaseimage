@@ -13,7 +13,8 @@ const getUserByRoleId = require("../controller/user/getUserByRoleId.controller")
 const getEmployeeByPermission = require("../controller/user/getEmployeeByPermission.controller")
 const updateUserDesignation = require("../controller/user/updateUserDesignation.controller")
 const pendingDocumentSubmissionByUser = require("../controller/user/pendingDocumentSubmissionByUser.controller")
-const verifyUser = require("../controller/user/verifyUser.controller")
+const toggleUser = require("../controller/user/toggleUser.controller")
+const addUser = require("../middleware/user/addUser")
 
 router
 
@@ -24,14 +25,14 @@ router
     .post("/reset-password", reset_password)
     .get("/get-all/:clientId", getAllUser)
     .get("/getId/:clientId/:id", getUserById)
-    .post("/create", signup)
+    // .post("/create", signup)
     .post("/signin", signInUser)
     .post("/logout", logOutUser)
-    .get("/get-all/:clientId", getAllUser)
+    // .get("/get-all/:clientId", getAllUser)
     .get("/getId/:clientId/:id", getUserById)
-    .post("/create", signup)
+    .post("/create", addUser, signup)
     .post("/signin", signInUser)
-    .patch("/edit", updateUser)
+    .put("/edit", updateUser)
     .delete("/delete/:clientId/:id", deleteUser)
     .post("/logout", logOutUser)
     .get("/getByDept/:clientId", getUserByDepartment)
@@ -41,6 +42,6 @@ router
     .get("/getByPermission/:clientId/:roleId/:permissionId", getEmployeeByPermission)
     .put("/updateByDesignation", updateUserDesignation)
     .get("/pendingDocument/:clientId/:role", pendingDocumentSubmissionByUser)
-    .patch("/isVerify", verifyUser)
+    .patch("/toggleUser", toggleUser)
 
 module.exports = router

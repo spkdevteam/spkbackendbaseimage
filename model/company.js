@@ -6,42 +6,18 @@ const companySchema = new Schema(
     {
         displayId: { type: String, unique: true },
         companyId: { type: ObjectId, ref: "company", default: null, index: true },
-        firstName: { type: String, required: true },
-        lastName: { type: String },
-        profileImage: { type: String, default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
-        displayId: { type: String, unique: true },
-        companyId: { type: ObjectId, ref: "company", default: null, index: true },
         name: { type: String, required: true },
         profileImage: { type: String, default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' },
         email: {
             type: String,
             lowercase: true,
             trim: true,
-            unique: true,
 
         },
         phone: {
-        },
-        phone: {
             type: String,
             trim: true,
-            required: true,
-            unique: true
-        },
-        password: {
-            type: String,
-            required: true,
-        },
-        gender: {
-            type: String,
-            enum: ['Male', 'Female', 'Other', 'Prefer not to say'],
-            default: 'Prefer not to say',
-            trim: true,
-        },
-        bloodGroup: {
-            type: String,
-            trim: true,
-            default: null
+            required: true
         },
         address: [
             {
@@ -83,14 +59,6 @@ const companySchema = new Schema(
             ref: "department",
             default: null,
             index: true,
-        },
-        family: {
-            type: [String],
-            default: []
-        },
-        maritalStatus: {
-            type: String,
-            required: true
         },
         dateOfBirth: {
             type: Date,
@@ -99,7 +67,7 @@ const companySchema = new Schema(
         otp: {
             type: String,
             trim: true,
-            default: null
+            default: null,
             required: true,
         },
         address: [
@@ -137,125 +105,100 @@ const companySchema = new Schema(
         editedBy: { type: ObjectId, ref: "user", index: true },
         oldId: { type: String, default: null }
     },
-        leaveDetails: {
-            type: [String],
-            default: []
-        },
-        designation: {
-            type: ObjectId,
-            ref: "designation",
-            default: null,
-            index: true
-        },
-        department: {
-            type: ObjectId,
-            ref: "department",
-            default: null,
-            index: true,
-        },
-        isVerified: {
-            type: Boolean,
-            default: false
-        },
-        isActive: { type: Boolean, default: true },
-        createdBy: { type: ObjectId, ref: "user", index: true },
-        deletedAt: { type: Date, default: null, index: true },
-        editedBy: { type: ObjectId, ref: "user", index: true },
-        oldId: { type: String, default: null }
-    },
+
     { timestamps: true }
 );
 
-//instance for soft delete
-companySchema.methods.softDelete = async function ({userId}) {
-    try {
-        if (this.deletedAt !== null) {
-            return { status: false, message: "Company already deleted" };
-        }
-        this.deletedAt = new Date();
-        this.deletedBy = userId;
-        await this.save();
+// //instance for soft delete
+// companySchema.methods.softDelete = async function ({userId}) {
+//     try {
+//         if (this.deletedAt !== null) {
+//             return { status: false, message: "Company already deleted" };
+//         }
+//         this.deletedAt = new Date();
+//         this.deletedBy = userId;
+//         await this.save();
 
-        return { status: true, message: "Company deleted successfully", data: this };
-    } catch (error) {
-        return { status: false, message: "Failed to delete company", error: error.message };
-    }
-};
+//         return { status: true, message: "Company deleted successfully", data: this };
+//     } catch (error) {
+//         return { status: false, message: "Failed to delete company", error: error.message };
+//     }
+// };
 
-//instance for edit
-companySchema.methods.edit = async function ({userId, updatedData}) {
-    try {
-        const updatedCompany = await this.constructor.findOneAndUpdate(
-            { _id: this._id },  
-            { ...updatedData, editedBy: userId },
-            { new: true} 
-        );
+// //instance for edit
+// companySchema.methods.edit = async function ({userId, updatedData}) {
+//     try {
+//         const updatedCompany = await this.constructor.findOneAndUpdate(
+//             { _id: this._id },  
+//             { ...updatedData, editedBy: userId },
+//             { new: true} 
+//         );
 
-        if (!updatedCompany) {
-            return { status: false, message: "Company not found" };
-        }
+//         if (!updatedCompany) {
+//             return { status: false, message: "Company not found" };
+//         }
 
-        return { status: true, message: "Company edited successfully", data: updatedCompany };
-    } catch (error) {
-        return { status: false, message: "Failed to edit company", error: error.message };
-    }
-};
+//         return { status: true, message: "Company edited successfully", data: updatedCompany };
+//     } catch (error) {
+//         return { status: false, message: "Failed to edit company", error: error.message };
+//     }
+// };
 
-//instance for insert
-companySchema.methods.insert = async function ({ newCompany, userId }) {
-    try {
-        // Check for duplicate 
-        const existingCompany = await this.constructor.findOne({ email: newCompany.email });
+// //instance for insert
+// companySchema.methods.insert = async function ({ newCompany, userId }) {
+//     try {
+//         // Check for duplicate 
+//         const existingCompany = await this.constructor.findOne({ email: newCompany.email });
 
-        if (existingCompany) {
-            return { status: false, message: "Compnay with email already exists" }
-        }
+//         if (existingCompany) {
+//             return { status: false, message: "Compnay with email already exists" }
+//         }
 
-        // Create new company instance
-        const newCompanyData = new this.constructor({
-            firstName: newCompany.firstName,
-            lastName: newCompany.lastName,
-            profileImage: newCompany.profileImage,
-            email: newCompany.email,
-            phone: newCompany. phone,
-            gender: newCompany.gender,
-            bloodGroup: newCompany.bloodGroup,
-            address: newCompany.address,
-            documents: newCompany. documents,
-            leaveDetails: newCompany. leaveDetails,
-            designation: newCompany.designation,
-            department: newCompany.department,
-            family: newCompany.family,
-            maritalStatus: newCompany.maritalStatus,
-            dateOfBirth: newCompany.dateOfBirth,
-            createdBy: userId,
-            oldId
-        });
+//         // Create new company instance
+//         const newCompanyData = new this.constructor({
+//             firstName: newCompany.firstName,
+//             lastName: newCompany.lastName,
+//             profileImage: newCompany.profileImage,
+//             email: newCompany.email,
+//             phone: newCompany. phone,
+//             gender: newCompany.gender,
+//             bloodGroup: newCompany.bloodGroup,
+//             address: newCompany.address,
+//             documents: newCompany. documents,
+//             leaveDetails: newCompany. leaveDetails,
+//             designation: newCompany.designation,
+//             department: newCompany.department,
+//             family: newCompany.family,
+//             maritalStatus: newCompany.maritalStatus,
+//             dateOfBirth: newCompany.dateOfBirth,
+//             createdBy: userId,
+//             oldId
+//         });
 
-        const result = await newCompanyData.save();
-        return { status: true, message: "Company created successfully", data: result }
-    } catch (error) {
-        return { status: false, message: "Failed to create company", error: error.message }
-    }
-};
+//         const result = await newCompanyData.save();
+//         return { status: true, message: "Company created successfully", data: result }
+//     } catch (error) {
+//         return { status: false, message: "Failed to create company", error: error.message }
+//     }
+// };
 
-//instance for toggle
-companySchema.methods.toggle = async function ({userId}) {
-    try {
-        this.isActive = !this.isActive
-        this.editedBy = userId
+// //instance for toggle
+// companySchema.methods.toggle = async function ({userId}) {
+//     try {
+//         this.isActive = !this.isActive
+//         this.editedBy = userId
 
-        await this.save();
-        return { status: true, message: "Company status toggled", data: this }
-    } catch (error) {
-        return { status: false, message: "Failed to toggle company status", error: error.message }
-    }
-};
+//         await this.save();
+//         return { status: true, message: "Company status toggled", data: this }
+//     } catch (error) {
+//         return { status: false, message: "Failed to toggle company status", error: error.message }
+//     }
+// };
 
 
 
-const companyModel = mongoose.model("Company", companySchema);
-module.exports = { companyModel,companySchema };
+// const companyModel = mongoose.model("Company", companySchema);
+// module.exports = { companyModel,companySchema };
 //instance for soft delete
 companySchema.methods.softDelete = async function ({userId}) {
     try {

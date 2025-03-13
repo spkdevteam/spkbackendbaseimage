@@ -1,9 +1,10 @@
 const { getClientDatabaseConnection } = require("../../connection")
-const userSchema = require("../../userSchema")
-const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, zipCodeValidation, passwordValidation } = require("../validation/validation")
+const { userSchema } = require("../../userSchema")
+const { clientIdValidation, stringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, countryValidation, stringValidationWithSpace, loginOptions, zipCodeValidation, passwordValidation, validateAddress, validateLoginOptions, mongoIdValidation, documentsValidation, dateOfBirthValidation, dateValidation } = require("../validation/validation")
 const bcrypt = require("bcryptjs")
-const editUser = async ({id,
-    clientId, 
+const jwt = require("jsonwebtoken")
+const editUser = async ({ id,
+    clientId,
     firstName,
     lastName,
     profileImage,
@@ -11,36 +12,44 @@ const editUser = async ({id,
     phone,
     password,
     gender,
-    age,
+    dateOfBirth,
+    loginOptions,
+    documents,
+    department,
+    designation,
+    leaveDetails,
+    family,
+    maritalStatus,
     bloodGroup,
-    city,
-    state,
-    country,
-    ZipCode,
     address,
+    editedBy,
     isVerified,
-    isActive}) =>{
+    isActive }) => {
     try {
 
         const validations = [
-            clientIdValidation({clientId}),
-            stringValidation({string: firstName, name: "firstName: "}),
-            stringValidation({string: lastName, name: "lastName: "}),
-            emailValidation({email}),
-            phoneNumberValidation({phone}),
+            clientIdValidation({ clientId }),
+            stringValidation({ string: firstName, name: "firstName: " }),
+            stringValidation({ string: lastName, name: "lastName: " }),
+            emailValidation({ email }),
+            phoneNumberValidation({ phone }),
             passwordValidation({password: String(password)}),
-            genderValidation({gender}),
-            ageValidation({age}),
-            bloodGroupValidation({bloodGroup}),
-            cityValidation({city}),
-            stringValidationWithSpace({string: state, name: "state: "}),
-            countryValidation({country}),
-            zipCodeValidation({ZipCode})
-
+            genderValidation({ gender }),
+            documentsValidation({documents}),
+            // mongoIdValidation({clientId}),
+            mongoIdValidation({ _id: designation }),
+            mongoIdValidation({ _id: department }),
+            mongoIdValidation({_id: editedBy}),
+            stringValidation({string: maritalStatus, name: "maritalStatus: " }),
+            validateAddress({ address }),
+            validateLoginOptions({ loginOptions }),
+            bloodGroupValidation({ bloodGroup }),
+            dateValidation({date: dateOfBirth})
+            // stringValidationWithSpace({string: state, name: "state: "})
         ]
 
         const error = validations.filter((e) => e && e.status === false);
-        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ")};
+        if (error.length > 0) return { status: false, message: error.map(e => e.message).join(", ") };
         console.log(error, "error ===========");
 
         const db = await getClientDatabaseConnection(clientId)
@@ -61,40 +70,75 @@ const editUser = async ({id,
         }
         console.log("Existing User Found:", existingUser);
 
-        let updatedPassword = existingUser.password
-        if (password) {
-            const salt = await bcrypt.genSalt(10)
-            updatedPassword = await bcrypt.hash(password, salt)
+        // let updatedPassword = existingUser.password
+        // if (password) {
+        //     const salt = await bcrypt.genSalt(10)
+        //     updatedPassword = await bcrypt.hash(password, salt)
+        // }
+
+        //password handling:
+        //remove this block later and replace pass by password inside verify(mimicing frontend):
+        const pass = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY);
+        console.log("pass=>>>>", pass);
+
+        //remove
+
+
+
+
+        ///jwt Signed password is getting jwt verified first then getting hashed:
+        const unsignedRawPassword = jwt.verify(pass, process.env.PASSWORD_SECRET_KEY);//use password instead pass in prod
+        if (!unsignedRawPassword) {
+            return { status: false, message: "Problem in JWT verification" }
         }
-        const updateUser = await User.findOneAndUpdate({ _id: id, deletedAt: null}, {$set: { 
+        console.log(unsignedRawPassword, "==>>unsigned password");
+        //hash the password 
+        const salt = await bcrypt.genSalt(10)
+        const newPassword = await bcrypt.hash(unsignedRawPassword?.password, salt)
+        if (!newPassword) {
+            return { status: false, message: "Problem in bcrypt hashing" }
+
+        }
+
+
+
+
+
+        const updateUser = await User.updateUser({
+            userId: id,
             firstName,
             lastName,
             profileImage,
             email,
             phone,
-            password: updatedPassword,
+            password: newPassword,
             gender,
-            age,
             bloodGroup,
-            city,
-            state,
-            country,
-            ZipCode,
+            dateOfBirth,
+            loginOptions,
             address,
+            documents,
+            leaveDetails,
+            designation,
+            department,
+            maritalStatus,
+            family,
+            editedBy,
             isVerified,
-            isActive}},
-            {new: true}
+            isActive
+        }
         )
-        if (!updateUser) {
-            return { status: false, message: "Oops, try again" }
-          }
-      
-          return { status: true, message: "User updated successfully" }
-        
+        // console.log("checking==>>>>>>>", updateUser?.status)
+        if (!updateUser?.status) {
+            return { status: false, message: updateUser?.message }
+        }
+
+        return { status: true, message: "User updated successfully" }
+
     } catch (error) {
         console.log("Error in updating user", error);
-        return {status: false, message: "Fail to update the user", error: error.message}
-        
+        return { status: false, message: "Fail to update the user", error: error.message }
+
     }
 }
 

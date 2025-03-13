@@ -38,7 +38,7 @@ mainRouter
     .use('/demoLeaves', leaveApplicationRouter)
     .use('/demoPayroll', payrollRouter)
     .use('/demoHoliday', holidayRouter)
-    .use('/demoshiftRegister', shiftRegisterRouter)
+    .use('/shift-register', shiftRegisterRouter)
     .use("/api-master", apiMasterRouter)
     .use("/users", userRouter)
     .use("/company", companyRouter)

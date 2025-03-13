@@ -49,10 +49,10 @@ const documentsValidation = ({ documents }) => {
     return { status: true, message: "Success" }
 }
 
-const dateOfBirthValidation = ({dateOfBirth}) =>{
-    const dob = new Date(dateOfBirth.trim());
-    if (isNaN(dob.getTime())) {
-        return { status: false, message: "Invalid Date of Birth" };
+const dateValidation = ({date}) =>{
+    const dates = new Date(date.trim());
+    if (isNaN(dates.getTime())) {
+        return { status: false, message: "Invalid Date" };
     }
     return {status: true, message: "Success"}
 }
@@ -179,6 +179,12 @@ const stringValidationWithSpace = ({ string, name = "" }) => {
     }
     return { status: true, message: "Success" }
 }
+const stringValidationWithAll = ({string, name = ""}) =>{
+    if (!string || typeof string !== "string" || string.length <= 1 || string.length > 40 || !/^[^\/\\]*$/.test(string)) {
+        return { status: false, message: `Invalid ${name}${string}` }
+    }
+    return { status: true, message: "Success" }
+}
 
 const validateAddress = ({ address }) => {
     if (!Array.isArray(address) || address.length === 0) {
@@ -249,6 +255,6 @@ const validateLoginOptions = ({ loginOptions }) => {
 }
 
 
-module.exports = { clientIdValidation, mongoIdValidation, emptyStringValidation, dateOfBirthValidation, stringValidationWithNumber, documentsValidation, stringValidationWithEmptyString, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, booleanValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions };
+module.exports = { clientIdValidation, stringValidationWithAll, mongoIdValidation, emptyStringValidation, dateValidation, stringValidationWithNumber, documentsValidation, stringValidationWithEmptyString, stringValidation, EmptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, booleanValidation, stringValidationWithSpace, passwordValidation, validateAddress, validateLoginOptions };
 
 // module.exports = { clientIdValidation, stringValidation, emptyStringValidation, emailValidation, phoneNumberValidation, genderValidation, ageValidation, bloodGroupValidation, cityValidation, stateValidation, countryValidation, zipCodeValidation, booleanValidation, passwordValidation, isValidDate };

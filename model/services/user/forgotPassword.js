@@ -29,6 +29,8 @@ const fotgotPassword = async ({ emailId, clientId }) => {
         // user.otp = otp;
         // user.isVerified = false;
 
+        console.log("otp", otp, "email", emailId);
+
         //saving the user
         const savedResult = await User.updateOne({ email: emailId, deletedAt: null }, {$set: { otp }});
 

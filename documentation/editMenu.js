@@ -16,7 +16,7 @@
  *             type: object
  *             required:
  *               - menuId
- *               - menuIdForSaving
+ *               - pageId
  *               - name
  *               - clientId
  *             properties:
@@ -24,9 +24,9 @@
  *                 type: string
  *                 description: The ID of the menu to be updated.
  *                 example: "67cac50b39d4bd37a6395e44"
- *               menuIdForSaving:
+ *               pageId:
  *                 type: string
- *                 description: The new menu ID to save the changes under.
+ *                 description: The new page ID to save the changes under.
  *                 example: "67b037ae038ce3ffbb097924"
  *               name:
  *                 type: string

@@ -1,5 +1,6 @@
 const { apiSchema } = require("../../apiMaster");
 const { getClientDatabaseConnection } = require("../../connection");
+const { menuMasterSchema } = require("../../menuMasterSchema");
 const { clientIdValidation, emptyStringValidation } = require("../validation/validation");
 
 const getPaginatedApiFn = async ({ page = 1, perPage = 10, searchKey = "", clientId }) => {
@@ -56,7 +57,24 @@ const getPaginatedApiFn = async ({ page = 1, perPage = 10, searchKey = "", clien
 
         if (apiMasters.length === 0) {
             return { status: false, message: "No apis found", totalDocs: 0, totalPages: 0, data: [] };
-        }
+        };
+
+        const menuMaster = await db.model("menu", menuMasterSchema)
+
+        //fetch menu names in parallel
+        const menuIds = apiMasters.map(api => api.menuId).filter(Boolean);
+        const menus = await menuMaster.find({ _id: { $in: menuIds }, deletedAt: null }).lean();
+        const menuMap = menus.reduce((acc, menu) => {
+            acc[menu._id] = menu.name;
+            return acc;
+        }, {});
+
+        //append menuName to each API object
+        const apiMastersWithMenu = apiMasters.map(api => ({
+            ...api,
+            menuName: menuMap[api.menuId] || ""
+        }));
+
 
         //checking number of total pages
         const totalPages = Math.ceil(totalDocs / perPageNumber);
@@ -64,7 +82,7 @@ const getPaginatedApiFn = async ({ page = 1, perPage = 10, searchKey = "", clien
         return {
             status: true,
             message: "Successfully fetched apis",
-            data: apiMasters,
+            data: apiMastersWithMenu,
             metaData: {
                 currentPage: pageNumber,
                 perPage: perPageNumber,

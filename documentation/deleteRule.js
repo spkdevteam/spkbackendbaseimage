@@ -15,7 +15,7 @@
  *         schema:
  *           type: string
  *         description: The unique identifier of the rule to be deleted.
- *         example: "rule98765"
+ *         example: "67ceb170be2d734f525fcdfb"
  *       - in: path
  *         name: clientId
  *         required: true

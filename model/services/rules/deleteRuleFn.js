@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
 const { rulesSchema } = require("../../rules");
 const { clientIdValidation } = require("../validation/validation");

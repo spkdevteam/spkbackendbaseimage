@@ -36,7 +36,7 @@
  *         description: The search keyword to filter APIs by their name or path.
  *         schema:
  *           type: string
- *           example: "create"
+ *           example: ""
  *     responses:
  *       200:
  *         description: Successfully fetched the paginated list of APIs.
@@ -46,33 +46,47 @@
  *               status: true
  *               message: "Successfully fetched apis"
  *               data:
- *                 - _id: "67cab890e32b094449195679"
+ *                 - _id: "67ce7615d9dba6638beefb52"
  *                   apiName: "createApi"
  *                   apiPath: "/api/createApi"
- *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   menuId: "67cadf71dca46ced36a2f058"
  *                   companyId: "67b037ae038ce3ffbb097924"
  *                   isActive: true
  *                   createdBy: "67c944517f8fcf7d12e92f1d"
  *                   deletedAt: null
- *                   createdAt: "2025-03-07T09:12:48.213Z"
- *                   updatedAt: "2025-03-07T09:12:48.213Z"
+ *                   createdAt: "2025-03-10T05:18:13.318Z"
+ *                   updatedAt: "2025-03-10T05:18:13.318Z"
  *                   __v: 0
- *                 - _id: "67cab9d3f24d611e8152b5e8"
+ *                   menuName: "fourth"
+ *                 - _id: "67d0075d934ce430aa7e0ca3"
  *                   apiName: "editApi"
  *                   apiPath: "/api/editApi"
- *                   menuId: "67b6f6da8f963fae8ff8d15f"
+ *                   menuId: "67cadf61dca46ced36a2f052"
  *                   companyId: "67b037ae038ce3ffbb097924"
  *                   isActive: true
  *                   createdBy: "67c944517f8fcf7d12e92f1d"
  *                   deletedAt: null
- *                   createdAt: "2025-03-07T09:18:11.141Z"
- *                   updatedAt: "2025-03-07T09:18:11.141Z"
+ *                   createdAt: "2025-03-11T09:50:21.344Z"
+ *                   updatedAt: "2025-03-11T09:50:21.344Z"
  *                   __v: 0
+ *                   menuName: "second"
+ *                 - _id: "67d00778934ce430aa7e0ca7"
+ *                   apiName: "deleteApi"
+ *                   apiPath: "/api/deleteApi"
+ *                   menuId: "67cadf78dca46ced36a2f05b"
+ *                   companyId: "67b037ae038ce3ffbb097924"
+ *                   isActive: true
+ *                   createdBy: "67c944517f8fcf7d12e92f1d"
+ *                   deletedAt: null
+ *                   createdAt: "2025-03-11T09:50:48.765Z"
+ *                   updatedAt: "2025-03-11T09:50:48.765Z"
+ *                   __v: 0
+ *                   menuName: "fifth"
  *               metaData:
  *                 currentPage: 1
  *                 perPage: 10
  *                 searchKey: ""
- *                 totalDocs: 2
+ *                 totalDocs: 3
  *                 totalPages: 1
  *       400:
  *         description: Validation error or missing required fields.

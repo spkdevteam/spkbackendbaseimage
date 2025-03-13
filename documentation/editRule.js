@@ -15,15 +15,10 @@
  *           schema:
  *             type: object
  *             required:
- *               - userId
  *               - ruleId
  *               - ruleName
  *               - clientId
  *             properties:
- *               userId:
- *                 type: string
- *                 description: The unique identifier of the user.
- *                 example: "67c821d02d587653996ba828"
  *               ruleId:
  *                 type: string
  *                 description: The unique identifier of the rule being updated.

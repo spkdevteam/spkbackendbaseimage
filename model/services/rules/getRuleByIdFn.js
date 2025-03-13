@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const { getClientDatabaseConnection } = require("../../connection");
 const { rulesSchema } = require("../../rules");
 const { clientIdValidation } = require("../validation/validation");
@@ -15,8 +16,8 @@ const getRuleByIdFn = async ({ ruleId, clientId }) => {
         const Rule = await db.model("Rule", rulesSchema);
 
         switch (true) {
-            case !mongoose.Types.ObjectId.isValid(userId):
-                return { status: false, message: "Invalid user id" };
+            case !mongoose.Types.ObjectId.isValid(ruleId):
+                return { status: false, message: "Invalid rule id" };
         };
 
         const rule = await Rule.findOne({ _id: ruleId, deletedAt: null });

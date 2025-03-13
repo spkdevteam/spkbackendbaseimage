@@ -102,9 +102,9 @@ const createUser = async ({ _id = null, userId, firstName, lastName, profileImag
         // //const passwordtoken = jwt.sign({ password }, process.env.PASSWORD_SECRET_KEY)
         // console.log(unsignedRawPassword, "==>>unsigned password");
         //hash the password 
-        const salt = await bcrypt.genSalt(10)
+        const salt = await bcrypt.genSalt(10);
+        const newPassword = await bcrypt.hash(password, salt);
         // const newPassword = await bcrypt.hash(unsignedRawPassword?.data, salt)
-        const newPassword = await bcrypt.hash(password, salt)
 
         if (!newPassword) {
             return { status: false, message: "Problem in bcrypt hashing" }

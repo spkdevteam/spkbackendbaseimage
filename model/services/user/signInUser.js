@@ -98,9 +98,12 @@ const signin = async ({ userId, companyId, clientId, password }) => {  // Added 
 
         // console.log("designed Password:====>>>", designedPass?.password);
 
+        
+
         // Compare password
         // const isPasswordValid = await bcrypt.compare(designedPass?.password, user?.password);
         console.log("first", password);
+
         
         const isPasswordValid = await bcrypt.compare(password, user?.password);
         
